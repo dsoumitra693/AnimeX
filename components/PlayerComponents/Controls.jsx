@@ -10,6 +10,11 @@ let timeoutTime = 3000
 let timerId
 
 const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosition, setCurrentPosition }) => {
+
+    const playFrom = async (ms) => {
+        videoRef?.current.playFromPositionAsync(ms)
+        await videoRef?.current.playAsync()
+    }
     //hnadling showing controls btns
     const [isShowingControls, setIsShowingControls] = useState(true)
 
@@ -56,10 +61,11 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
         let _silderValue = currentPostion / duration
         setSliderValue(_silderValue)
     }, [status])
-    const seekTo = async (value) => {
-        videoRef?.current.playFromPositionAsync(value * status.durationMillis)
-        await videoRef?.current.playAsync()
-    }
+    const seekTo = async (value) => await playFrom(value * status.durationMillis)
+
+    //skip forward of backward
+
+    const skipTo = async (ms) => await playFrom(status.positionMillis + ms)
 
     //landscape full screen logic
     const [isFullscreen, setIsFullscreen] = useState(false)
@@ -94,13 +100,24 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
                 opacity: isShowingControls ? 1 : 0,
                 ...styles.fullscreen(isFullscreen),
             }}>
-                <CTRLButton
-                    iconName={status.isPlaying ? 'md-pause' : 'md-play'}
-                    size={60}
-                    onPress={togglePlayPause}
-                    style={{
-                        left: !status.isPlaying ? 2 : 0
-                    }} />
+                <View style={styles.playPauseWrapper}>
+                    <CTRLButton
+                        iconName={'ios-play-back-outline'}
+                        size={30}
+                        onPress={()=> skipTo(-10000)}/>
+                    <CTRLButton
+                        iconName={status.isPlaying ? 'md-pause' : 'md-play'}
+                        size={60}
+                        onPress={togglePlayPause}
+                        style={{
+                            left: !status.isPlaying ? 2 : 0
+                        }} />
+                    <CTRLButton
+                        iconName={'ios-play-forward-outline'}
+                        size={30}
+                        onPress={()=> skipTo(10000)}/>
+                </View>
+
                 <View style={styles.timeStampWrapper}>
                     <Text style={styles.timeStampText}>{msToTime(status.positionMillis)}</Text>
                     <Text style={styles.timeStampText}>{msToTime(status.durationMillis)}</Text>
@@ -196,6 +213,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     }),
+    playPauseWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '100%'
+    },
     timeStampText: {
         color: '#fff',
         fontSize: normalize(14),
@@ -243,11 +266,9 @@ const styles = StyleSheet.create({
     },
     settings: {
         position: 'absolute',
-        width: 80,
-        height: 120,
         backgroundColor: '#222',
         bottom: 25,
-        padding: 5,
+        padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
@@ -257,7 +278,7 @@ const styles = StyleSheet.create({
     },
     qualityText: {
         color: '#fff',
-        fontSize: normalize(16),
-        // fontFamily: 'CooperHewitt'
+        fontSize: normalize(14),
+        fontFamily: 'CooperHewitt'
     }
 })
