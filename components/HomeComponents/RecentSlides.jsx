@@ -42,9 +42,9 @@ const RecentSlides = () => {
     }
 
     useEffect(() => {
-        startAutoPlay()
+        if(topAiringAinme) startAutoPlay()
         return () => stopAutoPlay()
-    }, [])
+    }, [topAiringAinme])
 
 
     return (

@@ -7,8 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "eas build",
-    "build:apk":"bundletool --bundle=/build/app-release.aab --output=/MyApp/app_release.apk --mode=universal"
+    "build": "eas build"
   },
   "dependencies": {
     "@miblanchard/react-native-slider": "^2.3.1",
@@ -17,6 +16,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "axios": "^1.4.0",
+    "crypto": "^1.0.1",
     "eas-cli": "^3.14.0",
     "expo": "~48.0.17",
     "expo-av": "^13.2.1",

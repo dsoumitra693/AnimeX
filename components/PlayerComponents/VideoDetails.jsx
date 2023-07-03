@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithout
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { normalize } from '../../fontsNormalisation'
-
+import { randomIntFromInterval } from '../../utils'
 
 
 const getEngName = (namesStr) => {
@@ -12,28 +12,21 @@ const getEngName = (namesStr) => {
 
 
 const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) => {
-    const { title, description, releaseDate, otherName: name, episodes, type } = videoDetails
-    const [descTextLen, setDescTextLen] = useState(420)
-    const [showFullDesc, setShowFullDesc] = useState(false)
-
-    useEffect(() => {
-        let _descLen = showFullDesc ? description.length : 420
-        setDescTextLen(_descLen)
-    }, [showFullDesc])
-
-
+    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub } = videoDetails
     return (
         <ScrollView style={styles.container}>
-            <Text style={styles.title}>{getEngName(name) || title} {episodes && `Episodes ${currentEpisode?.number}`}</Text>
-            <Text style={styles.stats}>
+            <Text style={styles.title}>
+                {getEngName(name) || title}
+                {episodes?.length > 1 && `Episodes ${currentEpisode?.number}`}
+            </Text>
+            {/* <Text style={styles.stats}>
                 <Text style={styles.statsHighlight}>68.6K </Text>reviwes {' •  '}
                 <Text style={styles.statsHighlight}>379 </Text>comments
-            </Text>
+            </Text> */}
             <View style={styles.tagsContainer}>
                 <Tag text={`Produced: ${releaseDate}`} bgColor={'lightpink'} />
-                <Tag text={'13+'} bgColor={'skyblue'} />
-                <Tag text={type} bgColor={'lightgreen'} />
-                <Tag text={'Ultra HD'} />
+                <Tag text={type} bgColor={'skyblue'} />
+                <Tag text={subOrDub?.toUpperCase()} />
             </View>
             <View style={styles.btnWrapper}>
                 <Btn iconName={'md-heart-outline'} onPress={() => { }} isActive={false} />
@@ -43,15 +36,9 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) =
             </View>
             <View style={styles.descWrapper}>
                 <Text style={styles.title}> Description</Text>
-
-                <Text style={styles.descText}>
-                    {description?.slice(0, descTextLen)}
-                    <TouchableWithoutFeedback onPress={() => setShowFullDesc(prev => !prev)}>
-                        <Text style={{ fontWeight: 800 }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
-                    </TouchableWithoutFeedback>
-                </Text>
+                <FormatedDesc description={description} />
             </View>
-            {!!episodes?.length && <View style={styles.episodeWrapper}>
+            {episodes?.length > 1 && <View style={styles.episodeWrapper}>
                 <Text style={styles.title}> Episodes</Text>
                 {episodes?.map((episode, id) => {
                     return <EpisodeCard thumbnail={thumbnail} name={name} title={title} currentEpisode={currentEpisode} episode={episode} setEpisode={setEpisode} key={id} />
@@ -69,7 +56,7 @@ const Tag = ({ text, bgColor }) => (
 
 const Btn = ({ iconName, onPress, isActive }) => (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-        <Icon name={iconName} size={25} color={'#777'} />
+        <Icon name={iconName} size={normalize(20)} color={'#777'} />
     </TouchableOpacity>
 )
 const EpisodeCard = ({ name, title, thumbnail, episode: {
@@ -84,16 +71,35 @@ const EpisodeCard = ({ name, title, thumbnail, episode: {
         <TouchableOpacity style={styles.episodeCard} onPress={playEpisode}>
             <View style={styles.thumbnail}>
                 <Image source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
-                <Icon name={'ios-play-circle-outline'} size={25} color={'#eee'} style={{ position: 'absolute', }} />
+                <Icon name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute', }} />
             </View>
             <View style={styles.episodedetails}>
                 <Text style={{ ...styles.title, fontSize: normalize(15) }}>{episodeNumber}. Episode ({getEngName(name) || title})</Text>
             </View>
             <View>
-                <Icon name={'ios-download-outline'} size={25} color={'#eee'} style={{ position: 'absolute', }} />
+                <Icon name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute', }} />
             </View>
         </TouchableOpacity>
     )
+}
+
+const FormatedDesc = ({ description }) => {
+    const [descTextLen, setDescTextLen] = useState(420)
+    const [showFullDesc, setShowFullDesc] = useState(false)
+
+    useEffect(() => {
+        let _descLen = showFullDesc ? description.length : 420
+        setDescTextLen(_descLen)
+    }, [showFullDesc])
+
+    return (<Text>
+        {description?.slice(0, descTextLen)}
+        {description?.length > 420 &&
+            (<TouchableWithoutFeedback
+                onPress={() => setShowFullDesc(prev => !prev)}>
+                <Text style={{ fontWeight: 800 }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
+            </TouchableWithoutFeedback>)}
+    </Text>)
 }
 
 export default VideoDetails
@@ -106,13 +112,15 @@ const styles = StyleSheet.create({
     tagsContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 10,
     },
     title: {
         fontSize: normalize(20),
         fontFamily: 'CooperHewitt',
         letterSpacing: 0.75,
-        color: '#fff'
+        color: '#fff',
+        lineHeight: 20
     },
     details: {
         fontSize: normalize(17),
@@ -175,7 +183,7 @@ const styles = StyleSheet.create({
         width: '95%',
         height: 100,
         padding: 5,
-        marginBottom:15,
+        marginBottom: 15,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'

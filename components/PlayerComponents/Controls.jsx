@@ -20,12 +20,12 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
 
     const triggerShowHide = () => {
         setIsShowingControls(true)
-        setShowSettings(false)
     }
 
     useEffect(() => {
-        if (status.isPlaying && isShowingControls) {
+        if (status.isPlaying) {
             timerId = setTimeout(() => {
+                setShowSettings(false)
                 setIsShowingControls(false)
             }
                 , timeoutTime)
@@ -104,7 +104,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
                     <CTRLButton
                         iconName={'ios-play-back-outline'}
                         size={30}
-                        onPress={()=> skipTo(-10000)}/>
+                        onPress={() => skipTo(-10000)} />
                     <CTRLButton
                         iconName={status.isPlaying ? 'md-pause' : 'md-play'}
                         size={60}
@@ -115,7 +115,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
                     <CTRLButton
                         iconName={'ios-play-forward-outline'}
                         size={30}
-                        onPress={()=> skipTo(10000)}/>
+                        onPress={() => skipTo(10000)} />
                 </View>
 
                 <View style={styles.timeStampWrapper}>
@@ -184,7 +184,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
 
 const CTRLButton = ({ iconName, size, onPress, style }) => (
     <TouchableOpacity onPress={onPress}>
-        <Icon name={iconName} size={size} color={'#fff'} style={style} />
+        <Icon name={iconName} size={normalize(size)} color={'#fff'} style={style} />
     </TouchableOpacity>
 )
 
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
         height: 30,
         width: '90%',
         position: 'absolute',
-        bottom: 20,
+        bottom: 30,
         justifyContent: 'space-between',
         flexDirection: 'row'
     },

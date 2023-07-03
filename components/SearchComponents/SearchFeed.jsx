@@ -8,7 +8,6 @@ import { normalize } from '../../fontsNormalisation';
 
 const SearchFeed = ({ data, searchText }) => {
     const dismissKeyboard = () => Keyboard.dismiss()
-    // data = []
 
     if (!!data?.length && searchText) return (
         <View style={styles.searchFeed}>
@@ -18,12 +17,11 @@ const SearchFeed = ({ data, searchText }) => {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) =>
-                    <MovieCard src={item.image} title={item.title} size={160} animeId={item.id}/>}
+                    <MovieCard src={item.image} title={item.title} size={160} animeId={item.id} />}
                 onScroll={dismissKeyboard}
                 numColumns={2}
                 key={2}
-                keyExtractor={item => {
-                    return item.id}}
+                keyExtractor={item => item.id}
             />
         </View>
     )
@@ -91,6 +89,6 @@ const styles = StyleSheet.create({
         padding: 15,
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingBottom: 350
+        paddingBottom: 50
     }
 })

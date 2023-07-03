@@ -19,3 +19,7 @@ export const msToTime = (s) => {
   }
   return pad(hrs) + ':' + pad(mins) + ':' + pad(secs)
 }
+
+export const randomIntFromInterval = (max, min=0)=> { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}

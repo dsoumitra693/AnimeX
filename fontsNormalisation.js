@@ -5,8 +5,7 @@ const {
     height: SCREEN_HEIGHT,
 } = Dimensions.get('window');
 
-// based on iphone 5s's scale
-const scale = SCREEN_WIDTH / 360;
+const scale = Math.sqrt(SCREEN_WIDTH**2 + SCREEN_HEIGHT**2) / 800;
 
 export const normalize = (size) => {
     const newSize = size * scale
