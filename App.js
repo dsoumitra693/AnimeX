@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Navigation from './navigation';
+import { LoginStack, LogoutStack } from './navigation';
 import * as Font from 'expo-font'
 
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const user = undefined
   useEffect(()=>{
     (async function(){
       await Font.loadAsync({
@@ -17,7 +18,7 @@ export default function App() {
 
   if (isLoaded)return (
       <NavigationContainer>
-        <Navigation />
+        {user ?<LoginStack/> : <LogoutStack />}
       </NavigationContainer>
   );
 }

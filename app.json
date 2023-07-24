@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.animx.app"
+      "package": "com.animx.app",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +32,8 @@
       "eas": {
         "projectId": "0b9ada16-d2bd-4cb9-a45a-fed2af8cff33"
       }
-    }
+    },
+    "plugins": ["@react-native-google-signin/google-signin"],
+    "scheme":"animx"
   }
 }
