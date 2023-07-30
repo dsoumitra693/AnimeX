@@ -19,7 +19,7 @@ export default LoginScreen
 const AuthBtn = ({ config }) => {
 
     return (
-        <TouchableOpacity style={styles.authBtn} onPress={() => {}}>
+        <TouchableOpacity style={styles.authBtn} onPress={() => { }}>
             <Image source={{ uri: config.logo }} style={[StyleSheet.absoluteFill, styles.authBtnLogo]} />
             <Text style={styles.authBtnTitle}>{config.title}</Text>
         </TouchableOpacity>

@@ -1,6 +1,11 @@
 {
   "expo": {
     "name": "AnimeX",
+    "plugins": [
+      [
+        "@react-native-google-signin/google-signin"
+      ]
+    ],
     "slug": "Frontend",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,8 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.animx.app",
-      "googleServicesFile": "./google-services.json"
+      "package": "com.animx.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,7 +37,6 @@
         "projectId": "0b9ada16-d2bd-4cb9-a45a-fed2af8cff33"
       }
     },
-    "plugins": ["@react-native-google-signin/google-signin"],
-    "scheme":"animx"
+    "scheme": "animx"
   }
 }
