@@ -1,28 +1,11 @@
-import axios from "axios";
-import { ToastAndroid } from "react-native";
+import { apiCall,createHeadersList, getReqOptionsFactoty } from "./apiConfig"
 
-let headersList = {
-    "Accept": "*/*",
-}
-
-let getReqOptions = ({ url }) => ({
-    url: `https://api.consumet.org/anime/gogoanime/${url}`,
-    method: "GET",
-    headers: headersList,
-})
-
-const apiCall = async (reqOptions) => {
-    try {
-        let response = await axios.request(reqOptions);
-        return response
-    } catch (error) {
-        return error
-    }
-}
+let headersList = createHeadersList()
+let getReqOptions = getReqOptionsFactoty({baseUrl: 'https://consumet-api-qzt1.onrender.com/anime/gogoanime', headersList})
 
 export const getStreamUrls = async (episodeId) => {
     if (episodeId) {
-        let reqOptions = getReqOptions({ url: `watch/${episodeId}` })
+        let reqOptions = getReqOptions({ url: `watch/${episodeId}`, method:'GET' })
         let response = await apiCall(reqOptions)
         return response.data
     }
@@ -30,7 +13,7 @@ export const getStreamUrls = async (episodeId) => {
 
 export const searchAnime = async (searchQuery) => {
     if (searchQuery) {
-        let reqOptions = getReqOptions({ url: searchQuery })
+        let reqOptions = getReqOptions({ url: searchQuery, method:'GET' })
         let response = await apiCall(reqOptions)
         return response.data.results
     }
@@ -39,7 +22,7 @@ export const searchAnime = async (searchQuery) => {
 export const getTopAiringAimne = async () => await searchAnime('top-airing')
 
 export const getAnimeInfo = async (animeId) => {
-    let reqOptions = getReqOptions({ url: `info/${animeId}` })
+    let reqOptions = getReqOptions({ url: `info/${animeId}`, method:'GET' })
     let response = await apiCall(reqOptions)
     return response.data
 }

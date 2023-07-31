@@ -52,11 +52,3 @@ export const screenOptions = {
   tabBarButton: () => null,
   headerShown: false,
 }
-
-export const AuthConfig = {
-  GOOGLE: {
-    logo: "https://o.remove.bg/downloads/cab8ca77-d2d2-4a05-a425-2be7f9bd4520/image-removebg-preview.png",
-    title: "Sign In With Google"
-  },
-
-}

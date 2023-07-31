@@ -1,31 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { LoginStack, LogoutStack } from './navigation';
+import React, { useEffect, useState, Context } from 'react';
+import { Navigation } from './navigation';
 import * as Font from 'expo-font'
-import { getCurrentUserInfo } from './auth/google';
+import { AuthProvider } from './context/auth';
 
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [user, setUser] = useState(undefined)
-  useEffect(()=>{
-    (async function(){
+  useEffect(() => {
+    (async function () {
       await Font.loadAsync({
-            CooperHewitt: require('./assets/fonts/CooperHewitt.ttf')
-          })
-          setIsLoaded(true)
+        CooperHewitt: require('./assets/fonts/CooperHewitt.ttf')
+      })
+      setIsLoaded(true)
     })()
   }, [])
 
-  useEffect(() => {
-    const currentUser = getCurrentUserInfo()
-    setUser(currentUser)
-  }, [])
-  
 
-  if (isLoaded)return (
-      <NavigationContainer>
-        {user ?<LoginStack/> : <LogoutStack />}
-      </NavigationContainer>
+
+  if (isLoaded) return (
+    <AuthProvider>
+      <Navigation />
+    </ AuthProvider>
   );
 }

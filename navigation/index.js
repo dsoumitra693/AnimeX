@@ -2,6 +2,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { Home, Player, Search, LoginScreen } from "../Screens"
 import { screenOptions } from "../constants"
 import { Header } from "../components"
+import { AuthContext } from "../context/auth"
+import { useContext } from "react"
+import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator()
 export const LoginStack = () => {
@@ -33,5 +36,15 @@ export const LogoutStack = () => {
                 component={LoginScreen}
             />
         </Stack.Navigator>
+    )
+
+}
+
+export const Navigation = () => {
+    const [data, _] = useContext(AuthContext)
+    return (
+        <NavigationContainer>
+            {data.user ? <LoginStack /> : <LogoutStack />}
+        </NavigationContainer>
     )
 }

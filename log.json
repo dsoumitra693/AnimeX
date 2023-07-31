@@ -1,0 +1,77 @@
+{
+    "DONE": 4,
+    "HEADERS_RECEIVED": 2,
+    "LOADING": 3,
+    "OPENED": 1,
+    "UNSENT": 0,
+    "_aborted": false,
+    "_cachedResponse": undefined,
+    "_hasError": false,
+    "_headers": {
+        "accept": "*/*"
+    },
+    "_incrementalEvents": false,
+    "_lowerCaseResponseHeaders": {
+        "access-control-allow-origin": "*",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "7ef41d96ad2ea923-MAA",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 31 Jul 2023 07:26:52 GMT",
+        "etag": "W/\"76-kY03xsSwW+jZspLEax73Dh4+PPg\"",
+        "server": "cloudflare",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "Express",
+        "x-render-origin-server": "Render"
+    },
+    "_method": "POST",
+    "_perfKey": "network_XMLHttpRequest_https://animex-server.onrender.com/auth/otp/verify?phone=7479152188&otp=273331",
+    "_performanceLogger": {
+        "_closed": false,
+        "_extras": {},
+        "_pointExtras": {},
+        "_points": {
+            "initializeCore_end": 317722753.240474,
+            "initializeCore_start": 317721427.984243
+        },
+        "_timespans": {
+            "network_XMLHttpRequest_http://192.168.204.206:19000/logs": [Object
+            ],
+            "network_XMLHttpRequest_http://192.168.204.206:19000/symbolicate": [Object
+            ],
+            "network_XMLHttpRequest_https://animex-server.onrender.com/auth/otp/generate?phone=7479152188": [Object
+            ],
+            "network_XMLHttpRequest_https://animex-server.onrender.com/auth/otp/verify?phone=7479152188&otp=273331": [Object
+            ],
+            "network_XMLHttpRequest_https://animex-server.onrender.com/auth/otp/verify?phone=7479152188otp=273331": [Object
+            ]
+        }
+    },
+    "_requestId": null,
+    "_response": "{\"msg\":\"user verified\",\"data\":{\"userObj\":{\"id\":\"64c75a7b4cbe61c185215ca2\",\"phone\":\"7479152188\",\"isSubscribed\":false}}}",
+    "_responseType": "",
+    "_sent": true,
+    "_subscriptions": [],
+    "_timedOut": false,
+    "_trackingName": "unknown",
+    "_url": "https://animex-server.onrender.com/auth/otp/verify?phone=7479152188&otp=273331",
+    "readyState": 4,
+    "responseHeaders": {
+        "access-control-allow-origin": "*",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "7ef41d96ad2ea923-MAA",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Mon, 31 Jul 2023 07:26:52 GMT",
+        "etag": "W/\"76-kY03xsSwW+jZspLEax73Dh4+PPg\"",
+        "server": "cloudflare",
+        "vary": "Accept-Encoding",
+        "x-powered-by": "Express",
+        "x-render-origin-server": "Render"
+    },
+    "responseURL": "https://animex-server.onrender.com/auth/otp/verify?phone=7479152188&otp=273331",
+    "status": 200,
+    "timeout": 0,
+    "upload": {},
+    "withCredentials": true
+}
