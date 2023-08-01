@@ -49,6 +49,5 @@ export const screenOptions = {
   tabBarStyle: {
     display: "none",
   },
-  tabBarButton: () => null,
   headerShown: false,
 }

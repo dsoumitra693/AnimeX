@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         (async ()=>{
             let data = await loadFromAsyncStorage()
-            setState({ ...state, user: data?.user, token: data?.token })
+            setState({ ...state, user: data?.userObj, token: data?.token })
         })()
     }, [])
 

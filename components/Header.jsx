@@ -1,12 +1,20 @@
 import { StyleSheet, View, StatusBar, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Icon from 'react-native-vector-icons/Feather'
 import { COLORS, FONT, defaultProfileImg } from '../constants'
 import Avatar from './Avatar'
 import { useNavigation } from '@react-navigation/native'
+import { deleteFromAsyncStorage } from '../asyncStorage'
+import { AuthContext } from '../context/auth'
 
 const Header = ({ route }) => {
   const navigation = useNavigation()
+  let [_, setState] = useContext(AuthContext)
+
+  const logOut = async () => {
+    await deleteFromAsyncStorage()
+    setState({ user: null, token: '' })
+  }
   return (
     <View style={styles.container}>
       {route.name == 'Search' ? (
@@ -24,7 +32,7 @@ const Header = ({ route }) => {
         </TouchableOpacity>
         )}
       <View style={styles.leftContainer}>
-        <Icon name='cast' size={FONT.base} color={COLORS.white} />
+        <Icon name='cast' size={FONT.base} color={COLORS.white} onPress={logOut} />
         <Avatar source={{ uri: defaultProfileImg }} size={25} />
       </View>
     </View>

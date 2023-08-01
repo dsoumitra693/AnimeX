@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { normalize } from '../fontsNormalisation'
 import { getOtp, verifyOtp } from '../auth'
-import {AuthContext} from '../context/auth'
+import { AuthContext } from '../context/auth'
 import { saveToAsyncStorage } from '../asyncStorage'
 
 
@@ -12,11 +12,11 @@ const LoginScreen = () => {
     const [number, setNumber] = useState('')
     const [otp, setOtp] = useState('')
 
-    const handleOtpSubmit = async() => {
-        let res = await verifyOtp(number, otp).catch(err=>console.log(err))
+    const handleOtpSubmit = async () => {
+        let res = await verifyOtp(number, otp).catch(err => console.log(err))
         if (res.status == 200) {
             const data = JSON.parse(res.request._response).data
-            setState(prev=> ({...prev, user:data.userObj, token: data.token}))
+            setState(prev => ({ ...prev, user: data.userObj, token: data.token }))
             saveToAsyncStorage(data)
         }
     }
@@ -30,6 +30,8 @@ const LoginScreen = () => {
 
     return (
         <View style={styles.container}>
+            <Image source={{ uri: 'https://i.pinimg.com/1200x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg' }}
+            style={StyleSheet.absoluteFillObject}/>
             <View style={styles.authWrapper}>
                 {!isOtpSent ? <PhoneNumberInput
                     number={number}
@@ -57,7 +59,7 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit }) => {
                 placeholder='Enter OTP here'
                 placeholderTextColor={"#aaaaaa"}
                 keyboardAppearance='dark'
-                maxLength={10}
+                maxLength={6}
                 value={otp}
                 onChangeText={(text) => setOtp(text)}
             />
@@ -107,7 +109,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: 250,
         position: 'absolute',
-        backgroundColor: '#111111',
+        backgroundColor: '#222222',
         bottom: 0,
         borderTopLeftRadius: 250 / 20,
         borderTopRightRadius: 250 / 20,
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: '15%',
         marginTop: 30,
-        opacity: isDisabled ? 0.3 : 1,
+        opacity: isDisabled ? 0.5 : 1,
     }),
     authBtnTitle: {
         fontFamily: 'CooperHewitt',
