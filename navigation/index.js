@@ -4,10 +4,16 @@ import { screenOptions } from "../constants"
 import { Header } from "../components"
 import { AuthContext } from "../context/auth"
 import { useContext, useEffect } from "react"
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator()
 export const LoginStack = () => {
+    const navigator = useNavigation()
+    const [data, _] = useContext(AuthContext)
+    useEffect(() => {
+        if (!!data) navigator.navigate('Home')
+    }, [data])
+
     return (
         <Stack.Navigator screenOptions={{
             header: (props) => <Header {...props} />,
@@ -42,10 +48,11 @@ export const LogoutStack = () => {
 
 export const Navigation = () => {
     const [data, _] = useContext(AuthContext)
-    
+
+
     return (
         <NavigationContainer>
-            {data.token? <LoginStack /> : <LogoutStack />}
+            {data.token ? <LoginStack /> : <LogoutStack />}
         </NavigationContainer>
     )
 }
