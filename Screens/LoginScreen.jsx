@@ -6,6 +6,7 @@ import { getOtp, verifyOtp } from '../auth'
 import { AuthContext } from '../context/auth'
 import { saveToAsyncStorage } from '../asyncStorage'
 import * as WebBrowser from 'expo-web-browser'
+import { countdown } from '../utils'
 
 const LoginScreen = () => {
     const [_, setState] = useContext(AuthContext)
@@ -41,17 +42,31 @@ const LoginScreen = () => {
                         otp={otp}
                         setOtp={setOtp}
                         handleOtpSubmit={handleOtpSubmit}
+                        handlePhoneSubmit={handlePhoneSubmit}
+                        number={number}
                     />}
             </View>
         </View>
     )
 }
 
-const OtpInput = ({ otp, setOtp, handleOtpSubmit }) => {
+let timerId
+
+const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit }) => {
     const [isDisabled, setIsDisabled] = useState(true)
     useEffect(() => {
         setIsDisabled(otp.length !== 6)
     }, [otp])
+
+    const [canReqNewOTP, setCanReqNewOTP] = useState(false)
+    const [timer, setTimer] = useState(59)
+    useEffect(() => {
+        countdown(timerId, setCanReqNewOTP, setTimer)
+        return () => clearTimeout(timerId)
+    }, [])
+
+
+
     return (<>
         <View style={styles.inputWrapper}>
             <TextInput style={styles.inputField}
@@ -64,8 +79,19 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit }) => {
                 onChangeText={(text) => setOtp(text)}
             />
         </View>
+        <View style={styles.msg}>
+            <Text style={styles.msgtext}>
+                Enter OTP sent to <Text style={styles.msgHighlight}>{number}</Text> via <Text style={styles.msgHighlight}>SMS</Text>
+            </Text>
+        </View>
         <TouchableOpacity style={styles.authBtn(isDisabled)} onPress={handleOtpSubmit} disabled={isDisabled}>
             <Text style={styles.authBtnTitle}>Verify Otp</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ ...styles.authBtn(!canReqNewOTP), backgroundColor: '#cccccc' }} onPress={handlePhoneSubmit} disabled={!canReqNewOTP}>
+            {canReqNewOTP ? (<Text style={{ ...styles.authBtnTitle, fontSize: 14, }}>
+                Request a new OTP
+            </Text>) : (<Text style={{ ...styles.authBtnTitle, fontSize: 12, }}
+            >Request a new OTP in 00:{timer} seconds</Text>)}
         </TouchableOpacity>
     </>
     )
@@ -95,7 +121,7 @@ const PhoneNumberInput = ({ number, setNumber, handlePhoneSubmit }) => {
             <Text style={styles.footertext}>By clicking on login, I accept all the{' '}
                 <Text style={styles.footerLink} onPress={() => {
                     console.log('opening in in-app browser')
-                    WebBrowser.openBrowserAsync('https://expo.dev')
+                    WebBrowser.openBrowserAsync('https://anime-x-terms-and-conditions.vercel.app/')
                 }}>
                     term and conditions
                 </Text>
@@ -153,7 +179,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'row',
         paddingHorizontal: '15%',
-        marginTop: 30,
+        marginTop: 10,
         opacity: isDisabled ? 0.5 : 1,
     }),
     authBtnTitle: {
@@ -171,5 +197,16 @@ const styles = StyleSheet.create({
     },
     footerLink: {
         textDecorationLine: 'underline'
+    },
+    msg: {
+        padding: 5,
+    },
+    msgtext: {
+        fontSize: 14,
+        fontFamily: 'CooperHewitt'
+    },
+    msgHighlight: {
+        fontFamily: 'CooperHewitt',
+        fontWeight: 900
     }
 })

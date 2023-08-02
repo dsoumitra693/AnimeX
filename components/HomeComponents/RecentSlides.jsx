@@ -10,7 +10,7 @@ let IntervalTime = 4000
 let timerId
 
 const RecentSlides = () => {
-    //get top airing anime
+    // get top airing anime
     const [topAiringAinme, setTopAiringAinme] = useState({})
 
     useEffect(() => {
@@ -19,8 +19,6 @@ const RecentSlides = () => {
             setTopAiringAinme(_topAiringAinme)
         })()
     }, [])
-
-
     const flatList = useRef(null)
 
     goToNextPage = () => {
@@ -42,7 +40,7 @@ const RecentSlides = () => {
     }
 
     useEffect(() => {
-        if(topAiringAinme) startAutoPlay()
+        if (topAiringAinme) startAutoPlay()
         return () => stopAutoPlay()
     }, [topAiringAinme])
 
@@ -50,7 +48,7 @@ const RecentSlides = () => {
     return (
         <FlatList
             horizontal
-            data={topAiringAinme}
+            data={topAiringAinme ? topAiringAinme : [{}]}
             ref={flatList}
             showsHorizontalScrollIndicator={false}
             snapToAlignment="start"
@@ -58,7 +56,7 @@ const RecentSlides = () => {
             snapToInterval={WINDOW_WIDTH}
             renderItem={({ item }) => {
 
-                return <Slide src={item.image} title={item.title} genres={item.genres} animeId={item.id}/>
+                return <Slide src={item.image} title={item.title} genres={item.genres} animeId={item.id} />
             }}
             keyExtractor={item => item.id}
         />
