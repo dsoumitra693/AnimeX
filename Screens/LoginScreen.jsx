@@ -5,7 +5,7 @@ import { normalize } from '../fontsNormalisation'
 import { getOtp, verifyOtp } from '../auth'
 import { AuthContext } from '../context/auth'
 import { saveToAsyncStorage } from '../asyncStorage'
-
+import * as WebBrowser from 'expo-web-browser'
 
 const LoginScreen = () => {
     const [_, setState] = useContext(AuthContext)
@@ -31,7 +31,7 @@ const LoginScreen = () => {
     return (
         <View style={styles.container}>
             <Image source={{ uri: 'https://i.pinimg.com/1200x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg' }}
-            style={StyleSheet.absoluteFillObject}/>
+                style={StyleSheet.absoluteFillObject} />
             <View style={styles.authWrapper}>
                 {!isOtpSent ? <PhoneNumberInput
                     number={number}
@@ -81,7 +81,7 @@ const PhoneNumberInput = ({ number, setNumber, handlePhoneSubmit }) => {
         <View style={styles.inputWrapper}>
             <TextInput style={styles.inputField}
                 keyboardType='numeric'
-                placeholder='Enter your phone number here'
+                placeholder='enter your phone number'
                 placeholderTextColor={"#aaaaaa"}
                 keyboardAppearance='dark'
                 maxLength={10}
@@ -91,6 +91,16 @@ const PhoneNumberInput = ({ number, setNumber, handlePhoneSubmit }) => {
         <TouchableOpacity style={styles.authBtn(isDisabled)} onPress={handlePhoneSubmit} disabled={isDisabled}>
             <Text style={styles.authBtnTitle}>Get OTP</Text>
         </TouchableOpacity>
+        <View style={styles.footer}>
+            <Text style={styles.footertext}>By clicking on login, I accept all the{' '}
+                <Text style={styles.footerLink} onPress={() => {
+                    console.log('opening in in-app browser')
+                    WebBrowser.openBrowserAsync('https://expo.dev')
+                }}>
+                    term and conditions
+                </Text>
+            </Text>
+        </View>
     </>)
 }
 
@@ -150,5 +160,16 @@ const styles = StyleSheet.create({
         fontFamily: 'CooperHewitt',
         fontSize: normalize(20),
         color: "#fff"
+    },
+    footer: {
+        padding: 15
+    },
+    footertext: {
+        fontSize: 14,
+        fontFamily: 'CooperHewitt',
+        color: '#666666'
+    },
+    footerLink: {
+        textDecorationLine: 'underline'
     }
 })
