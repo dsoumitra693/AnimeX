@@ -44,7 +44,6 @@ const RecentSlides = () => {
         return () => stopAutoPlay()
     }, [topAiringAinme])
 
-
     return (
         <FlatList
             horizontal
