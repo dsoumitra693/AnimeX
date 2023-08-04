@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
-import { normalize } from '../fontsNormalisation'
+import { normalize } from "../../fontsNormalisation";
+
 
 export const styles = StyleSheet.create({
     container: {
@@ -29,13 +30,14 @@ export const styles = StyleSheet.create({
         overflow: 'hidden',
         borderRadius: 5,
         paddingHorizontal: 10,
+        flexDirection:'row',
+        justifyContent: 'space-around'
     },
     inputField: {
-        width: '100%',
-        height: '100%',
+        width:'100%',
         fontSize: normalize(18),
         fontFamily: 'CooperHewitt',
-        color: "#ffffff"
+        color: "#ffffff",
     },
     authBtn: (isDisabled) => ({
         width: '80%',

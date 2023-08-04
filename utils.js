@@ -25,6 +25,7 @@ export const randomIntFromInterval = (max, min = 0) => { // min and max included
 }
 
 export const countdown = ( timerId, setCanReqNewOTP, setTimer ) => {
+  clearTimeout(timerId)
   let seconds = 59;
   
   function tick() {

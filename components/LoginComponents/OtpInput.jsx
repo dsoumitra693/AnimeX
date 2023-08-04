@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import { styles } from "./styles"
+import { countdown } from '../../utils'
 
 let timerId
 
@@ -49,7 +50,7 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit }) =
             <Text style={styles.authBtnTitle}>{isLoading ? "Verifing Otp" : "Verify Otp"}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.resendBtn(!canReqNewOTP)} onPress={handlePhoneSubmit} disabled={!canReqNewOTP}>
-            {canReqNewOTP ? (<Text style={{ ...styles.authBtnTitle, fontSize: 14}}>
+            {canReqNewOTP ? (<Text style={{ ...styles.authBtnTitle, fontSize: 14 }}>
                 Request a new OTP
             </Text>) : (<Text style={{ ...styles.authBtnTitle, fontSize: 12, }}
             >Request a new OTP in 00:{timer} seconds</Text>)}

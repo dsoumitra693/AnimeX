@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { getOtp, verifyOtp } from '../auth'
 import { AuthContext } from '../context/auth'
@@ -12,11 +12,14 @@ const LoginScreen = () => {
     const [otp, setOtp] = useState('')
 
     const handleOtpSubmit = async () => {
-        let res = await verifyOtp(number, otp).catch(err => console.log(err))
+        let res = await verifyOtp(number, otp)
         if (res.status == 200) {
             const data = JSON.parse(res.request._response).data
             setState(prev => ({ ...prev, user: data.userObj, token: data.token }))
             saveToAsyncStorage(data)
+        }
+        else if(res.status == 400){
+            console.log('there was an error while verifing otp ')
         }
     }
     const [isOtpSent, setIsOtpSent] = useState(false)
