@@ -42,9 +42,10 @@ export const LogoutStack = () => {
 
 export const Navigation = () => {
     const [data, _] = useContext(AuthContext)
+    console.log(data)
     return (
         <NavigationContainer>
-            {data.token ? <LoginStack /> : <LogoutStack />}
+            {data ? <LoginStack /> : <LogoutStack />}
         </NavigationContainer>
     )
 }

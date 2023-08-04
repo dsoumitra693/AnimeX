@@ -4,15 +4,22 @@ import { loadFromAsyncStorage } from "../asyncStorage";
 const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-    const [state, setState] = useState({
-        user: null,
-        token: ''
-    })
+    const [state, setState] = (() => {
+        let [_state, _setState] = useState({
+            user: null,
+            token: ''
+        })
+        asyncSetState = async (props) => {
+            console.log(props)
+            _setState(props)
+        }
+        return [_state, asyncSetState]
+    })()
 
     useEffect(() => {
-        (async ()=>{
+        (async () => {
             let data = await loadFromAsyncStorage()
-            setState({ ...state, user: data?.userObj, token: data?.token })
+            await setState({ ...state, user: data?.userObj, token: data?.token })
         })()
     }, [])
 

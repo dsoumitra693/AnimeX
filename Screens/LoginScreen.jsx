@@ -7,7 +7,7 @@ import { styles } from '../components/LoginComponents/styles'
 import { PhoneInput, OtpInput } from '../components'
 
 const LoginScreen = () => {
-    const [_, setState] = useContext(AuthContext)
+    const [state, setState] = useContext(AuthContext)
     const [number, setNumber] = useState('')
     const [otp, setOtp] = useState('')
 
@@ -15,7 +15,7 @@ const LoginScreen = () => {
         let res = await verifyOtp(number, otp)
         if (res.status == 200) {
             const data = JSON.parse(res.request._response).data
-            setState(prev => ({ ...prev, user: data.userObj, token: data.token }))
+            await setState({ ...state, user: data.userObj, token: data.token })
             saveToAsyncStorage(data)
         }
         else if(res.status == 400){
