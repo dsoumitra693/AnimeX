@@ -22,10 +22,10 @@ const RecentSlides = () => {
     const flatList = useRef(null)
 
     goToNextPage = () => {
-        if (CurrentSlide >= 9) CurrentSlide = -1;
-        if (flatList !== null) {
+        if (CurrentSlide >= 9) CurrentSlide = 0;
+        if (flatList != null) {
             flatList.current.scrollToIndex({
-                index: ++CurrentSlide,
+                index: CurrentSlide++,
                 animated: true,
             })
         }
@@ -40,7 +40,7 @@ const RecentSlides = () => {
     }
 
     useEffect(() => {
-        if (topAiringAinme) startAutoPlay()
+        if (topAiringAinme.length != 0) startAutoPlay()
         return () => stopAutoPlay()
     }, [topAiringAinme])
 
