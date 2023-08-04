@@ -10,7 +10,6 @@ const AuthProvider = ({ children }) => {
             token: ''
         })
         asyncSetState = async (props) => {
-            console.log(props)
             _setState(props)
         }
         return [_state, asyncSetState]

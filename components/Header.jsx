@@ -12,7 +12,6 @@ const Header = ({ route }) => {
   let [_, setState] = useContext(AuthContext)
 
   const logOut = async () => {
-    console.log('loggin out')
     await deleteFromAsyncStorage()
     await setState(undefined)
   }
