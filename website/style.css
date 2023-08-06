@@ -36,6 +36,8 @@
 
         main {
             padding: 1rem;
+            background: #000;
+            color: #ccc;
         }
 
         section {
@@ -43,7 +45,7 @@
         }
 
         section h2 {
-            color: #333;
+            color: #fff;
             font-size: 2rem;
             margin-bottom: 1rem;
         }
