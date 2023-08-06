@@ -24,7 +24,7 @@ const RecentSlides = () => {
     goToNextPage = () => {
         if (CurrentSlide >= 9) CurrentSlide = 0;
         if (flatList != null) {
-            flatList.current.scrollToIndex({
+            flatList?.current?.scrollToIndex({
                 index: CurrentSlide++,
                 animated: true,
             })
