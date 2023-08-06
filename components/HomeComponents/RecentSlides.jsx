@@ -23,11 +23,17 @@ const RecentSlides = () => {
 
     goToNextPage = () => {
         if (CurrentSlide >= 9) CurrentSlide = 0;
-        if (flatList != null) {
-            flatList?.current?.scrollToIndex({
-                index: CurrentSlide++,
-                animated: true,
-            })
+        if ((flatList !== null) && (flatList.current !== null)) {
+            if (typeof flatList.current.scrollToIndex === "function") {
+                try {
+                    flatList?.current?.scrollToIndex({
+                        index: CurrentSlide++,
+                        animated: true,
+                    })
+                } catch (error) {
+                    console.warn("Something went wrong", error);
+                }
+            }
         }
     }
     startAutoPlay = () => {
