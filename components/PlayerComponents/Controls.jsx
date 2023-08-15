@@ -2,7 +2,7 @@ import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ActivityI
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Slider } from '@miblanchard/react-native-slider'
-import { msToTime } from '../../utils'
+import { msToTime, showToast } from '../../utils'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import { normalize } from '../../fontsNormalisation'
 
@@ -43,13 +43,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
                 await videoRef?.current.pauseAsync()
             }
         } catch (error) {
-            ToastAndroid.showWithGravityAndOffset(
-                error,
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-            );
+            showToast(error)
         }
     }
 

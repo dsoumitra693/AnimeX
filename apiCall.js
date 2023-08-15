@@ -1,7 +1,7 @@
 import { apiCall,createHeadersList, getReqOptionsFactoty } from "./apiConfig"
 
 let headersList = createHeadersList()
-let getReqOptions = getReqOptionsFactoty({baseUrl: 'https://consumet-api-qzt1.onrender.com/anime/gogoanime', headersList})
+let getReqOptions = getReqOptionsFactoty({baseUrl: 'https://consumet-mauve.vercel.app/anime/gogoanime', headersList})
 
 export const getStreamUrls = async (episodeId) => {
     if (episodeId) {

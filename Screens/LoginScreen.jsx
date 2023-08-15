@@ -5,6 +5,7 @@ import { AuthContext } from '../context/auth'
 import { saveToAsyncStorage } from '../asyncStorage'
 import { styles } from '../components/LoginComponents/styles'
 import { PhoneInput, OtpInput } from '../components'
+import { showToast } from '../utils'
 
 const LoginScreen = () => {
     const [state, setState] = useContext(AuthContext)
@@ -18,8 +19,8 @@ const LoginScreen = () => {
             await setState({ ...state, user: data.userObj, token: data.token })
             saveToAsyncStorage(data)
         }
-        else if(res.status == 400){
-            console.log('there was an error while verifing otp ')
+        else if (res.status == 400) {
+            showToast('There was an error while verifing otp')
         }
     }
     const [isOtpSent, setIsOtpSent] = useState(false)

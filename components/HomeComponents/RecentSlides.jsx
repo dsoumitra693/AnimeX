@@ -2,6 +2,7 @@ import { Dimensions, FlatList } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Slide from './Slide'
 import { getTopAiringAimne } from '../../apiCall'
+import { showToast } from '../../utils'
 
 
 const WINDOW_WIDTH = Dimensions.get("window").width
@@ -31,7 +32,7 @@ const RecentSlides = () => {
                         animated: true,
                     })
                 } catch (error) {
-                    console.warn("Something went wrong", error);
+                    showToast("Something went wrong" + error);
                 }
             }
         }

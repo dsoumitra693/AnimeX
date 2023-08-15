@@ -24,10 +24,10 @@ export const randomIntFromInterval = (max, min = 0) => { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export const countdown = ( timerId, setCanReqNewOTP, setTimer ) => {
+export const countdown = (timerId, setCanReqNewOTP, setTimer) => {
   clearTimeout(timerId)
   let seconds = 59;
-  
+
   function tick() {
     seconds--;
     setTimer(pad(seconds))
@@ -39,3 +39,13 @@ export const countdown = ( timerId, setCanReqNewOTP, setTimer ) => {
   }
   tick();
 }
+
+import { ToastAndroid } from "react-native";
+
+export const showToast = (msg) => {
+  ToastAndroid.showWithGravity(
+    msg,
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER,
+  );
+};

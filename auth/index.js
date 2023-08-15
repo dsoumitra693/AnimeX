@@ -1,7 +1,7 @@
 import { apiCall, createHeadersList, getReqOptionsFactoty } from "../apiConfig"
 
 let headersList = createHeadersList()
-let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://animex-server.onrender.com', headersList })
+let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://anime-x-backend.vercel.app', headersList })
 
 export const getOtp = async (number) => {
     if (number) {

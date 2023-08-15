@@ -58,7 +58,6 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit }) =
         <View style={styles.footer}>
             <Text style={styles.footertext}>By clicking on login, I accept all the{' '}
                 <Text style={styles.footerLink} onPress={() => {
-                    console.log('opening in in-app browser')
                     WebBrowser.openBrowserAsync('https://anime-x-terms-and-conditions.vercel.app/')
                 }}>
                     term and conditions
