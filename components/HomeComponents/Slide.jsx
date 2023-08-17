@@ -1,17 +1,32 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import React, { memo, useState } from 'react'
+import React, { memo, useContext, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import Icon from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native';
 import { normalize } from '../../fontsNormalisation';
+import { updateWatchList } from '../../Api/users';
+import { AuthContext } from '../../context/auth'
 
 
 const { width, height } = Dimensions.get("window")
 
-const Slide = ({ src, title, genres, animeId}) => {
+const Slide = ({ src, title, genres, animeId }) => {
   const navigator = useNavigation()
   const playNow = () => {
-    navigator.navigate( 'Player', {animeId: animeId, thumbnail: src})
+    navigator.navigate('Player', { animeId: animeId, thumbnail: src })
+  }
+
+  const [data, setData] = useContext(AuthContext)
+  const addToWatchList = async () => {
+    let res = await updateWatchList({
+      headers: { authorization: data?.token },
+      data: JSON.stringify({
+        "animeId": animeId,
+        "name": title,
+        "imgUrl": src
+      })
+    })
+    console.log(res.data)
   }
   return (
     <View
@@ -39,9 +54,9 @@ const Slide = ({ src, title, genres, animeId}) => {
             <Text style={styles.title}> {title.slice(0, 15)} </Text>
           </View>
           <View style={styles.btnWrapper}>
-            <Button iconName={'plus'} title={'My List'}/>
+            <Button iconName={'plus'} title={'My List'} onPress={addToWatchList} />
             <Button iconName={'play'} title={'Watch Now'}
-              style={{ width: 160, backgroundColor: '#FE9F01' }} onPress={playNow}/>
+              style={{ width: 160, backgroundColor: '#FE9F01' }} onPress={playNow} />
           </View>
         </LinearGradient>
       </View>
@@ -53,13 +68,13 @@ export default memo(Slide)
 
 const Button = ({ iconName, title, style, onPress }) => (
   <TouchableOpacity style={{ ...styles.btn, ...style }} onPress={onPress}>
-        <Icon name={iconName} size={30} color={'#222'}  />
-        <Text style={{
-          fontSize: normalize(16),
-          padding: 4,
-          fontFamily: 'CooperHewitt',
-          color: '#222'
-        }}>{title}</Text>
+    <Icon name={iconName} size={30} color={'#222'} />
+    <Text style={{
+      fontSize: normalize(16),
+      padding: 4,
+      fontFamily: 'CooperHewitt',
+      color: '#222'
+    }}>{title}</Text>
   </TouchableOpacity>
 )
 

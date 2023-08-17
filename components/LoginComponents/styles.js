@@ -68,17 +68,23 @@ export const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     msg: {
-        padding: 7,
+        paddingVertical: 7,
         paddingBottom:3,
+        justifyContent: 'center',
+        flexDirection: 'row'
     },
     msgtext: {
         fontSize: 14,
-        fontFamily: 'CooperHewitt'
+        fontFamily: 'CooperHewitt',
     },
     msgHighlight: {
         fontFamily: 'CooperHewitt',
         fontWeight: 900
     }, 
+    msgTextBtn: {
+        marginLeft: 10,
+        color: '#0271f7'
+    },
     resendBtn: (isDisabled) => ({
         width: '80%',
         justifyContent: 'center',

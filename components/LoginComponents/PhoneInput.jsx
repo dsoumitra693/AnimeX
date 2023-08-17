@@ -19,7 +19,8 @@ const PhoneInput = ({ number, setNumber, handlePhoneSubmit }) => {
                 keyboardAppearance='dark'
                 maxLength={10}
                 value={number}
-                onChangeText={(text) => setNumber(text)} />
+                onChangeText={(text) => setNumber(text)} 
+                focusable={true}/>
         </View>
         <TouchableOpacity style={styles.authBtn(isDisabled)}
             onPress={() => {

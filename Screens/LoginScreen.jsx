@@ -31,6 +31,10 @@ const LoginScreen = () => {
         }
     }
 
+    const changeNumber = ()=> {
+        setIsOtpSent(false)
+    }
+
     return (
         <View style={styles.container}>
             <Image source={{ uri: 'https://i.pinimg.com/1200x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg' }}
@@ -45,7 +49,8 @@ const LoginScreen = () => {
                         setOtp={setOtp}
                         handleOtpSubmit={handleOtpSubmit}
                         handlePhoneSubmit={handlePhoneSubmit}
-                        number={number} />}
+                        number={number} 
+                        changeNumber={changeNumber}/>}
             </View>
         </View>
     )

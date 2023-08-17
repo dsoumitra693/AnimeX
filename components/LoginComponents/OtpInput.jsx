@@ -6,7 +6,7 @@ import { countdown } from '../../utils'
 
 let timerId
 
-const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit }) => {
+const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit, changeNumber }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     useEffect(() => {
@@ -38,6 +38,9 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit }) =
             <Text style={styles.msgtext}>
                 OTP sent to <Text style={styles.msgHighlight}>{number}</Text> via <Text style={styles.msgHighlight}>SMS</Text>
             </Text>
+            <TouchableOpacity onPress={changeNumber}>
+                <Text style={styles.msgTextBtn}>Change</Text>
+            </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.authBtn(isDisabled)}
             onPress={() => {
