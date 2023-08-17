@@ -2,7 +2,8 @@
 A powerfull react native app for watching popular japanese animation.
 
 
-#To Do
+# To Do
+
 • Adding Movies to WatchList and Favourite List
 
 • Implementing Cast to Device
