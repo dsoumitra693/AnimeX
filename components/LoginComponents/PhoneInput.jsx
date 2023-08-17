@@ -19,8 +19,8 @@ const PhoneInput = ({ number, setNumber, handlePhoneSubmit }) => {
                 keyboardAppearance='dark'
                 maxLength={10}
                 value={number}
-                onChangeText={(text) => setNumber(text)} 
-                focusable={true}/>
+                onChangeText={(text) => setNumber(text)}
+                focusable={true} />
         </View>
         <TouchableOpacity style={styles.authBtn(isDisabled)}
             onPress={() => {
@@ -34,9 +34,10 @@ const PhoneInput = ({ number, setNumber, handlePhoneSubmit }) => {
         </TouchableOpacity>
         <View style={styles.footer}>
             <Text style={styles.footertext}>By clicking on login, I accept all the{' '}
-                <Text style={styles.footerLink} onPress={() => {
-                    WebBrowser.openBrowserAsync('https://anime-x-terms-and-conditions.vercel.app/')
-                }}>
+                <Text style={styles.footerLink}
+                    onPress={() => {
+                        WebBrowser.openBrowserAsync('https://anime-x-terms-and-conditions.vercel.app/')
+                    }}>
                     term and conditions
                 </Text>
             </Text>
