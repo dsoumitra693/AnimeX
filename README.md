@@ -1,6 +1,10 @@
 # AnimeX
 A powerfull react native app for watching popular japanese animation.
 
+Made with React Native 
+
+Backend Repo Link:https://github.com/dsoumitra693/AnimeX-Backend
+
 
 # To Do
 
