@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert, Image, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { normalize } from '../../fontsNormalisation'
@@ -12,7 +12,15 @@ const getEngName = (namesStr) => {
 
 
 const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) => {
-    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub } = videoDetails
+    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url } = videoDetails
+    const onShare = () => {
+        const message = `Hey, I'm watching ${getEngName(name) || title}, you would like it too! Watch it on AnimeX app. \n ${url}`
+    try {
+      Share.share({message})
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
@@ -31,7 +39,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) =
             <View style={styles.btnWrapper}>
                 <Btn iconName={'md-heart-outline'} onPress={() => { }} isActive={false} />
                 <Btn iconName={'md-heart-dislike-outline'} onPress={() => { }} isActive={false} />
-                <Btn iconName={'ios-share-social-outline'} onPress={() => { }} isActive={false} />
+                <Btn iconName={'ios-share-social-outline'} onPress={onShare} isActive={false} />
                 <Btn iconName={'ios-download-outline'} onPress={() => { }} isActive={false} />
             </View>
             <View style={styles.descWrapper}>
