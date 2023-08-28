@@ -1,5 +1,5 @@
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Text, Dimensions } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Animated, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Text, Dimensions } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Slider } from '@miblanchard/react-native-slider'
 import { msToTime, showToast } from '../../utils'
@@ -15,31 +15,60 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
         videoRef?.current.playFromPositionAsync(ms)
         await videoRef?.current.playAsync()
     }
-    //hnadling showing controls btns
+    //handling showing controls btns
+    const fadeAnim = useRef(new Animated.Value(1)).current;
     const [isShowingControls, setIsShowingControls] = useState(true)
 
     const triggerShowHide = () => {
-        setIsShowingControls(true)
-    }
+        setIsShowingControls(true);
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
 
-    useEffect(() => {
+        // Reset the auto-hide timer
+        clearTimeout(timerId);
+        startAutoHideTimer();
+    };
+
+
+    // Auto-hide controls after a timeout
+    let timerId;
+    const timeoutTime = 3000;
+
+    const startAutoHideTimer = () => {
         if (status.isPlaying) {
             timerId = setTimeout(() => {
-                setShowSettings(false)
-                setIsShowingControls(false)
-            }
-                , timeoutTime)
+                hideControls();
+            }, timeoutTime);
         }
-        return () => clearTimeout(timerId)
-    }, [isShowingControls, status.isPlaying])
+    };
+
+    const hideControls = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start(() => {
+            setIsShowingControls(false);
+        });
+    };
+
+    useEffect(() => {
+        startAutoHideTimer();
+        return () => clearTimeout(timerId);
+    }, [isShowingControls, status.isPlaying]);
+
 
     //handling play pause
     const togglePlayPause = async () => {
-        triggerShowHide()
         try {
             if (!status.isPlaying) {
+                triggerShowHide()
                 await videoRef?.current.playAsync()
             } else {
+                setIsShowingControls(true)
                 await videoRef?.current.pauseAsync()
             }
         } catch (error) {
@@ -88,91 +117,94 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
 
 
     return (
-        <TouchableWithoutFeedback onPress={triggerShowHide}>
-            <View style={{
+        <TouchableOpacity
+            onPress={triggerShowHide}
+            activeOpacity={1} // Disable touchable feedback to prevent interference with auto-hide
+            style={{
                 ...styles.Controls(isFullscreen),
                 opacity: isShowingControls ? 1 : 0,
                 ...styles.fullscreen(isFullscreen),
-            }}>
-                <View style={styles.playPauseWrapper}>
-                    <CTRLButton
-                        iconName={'ios-play-back-outline'}
-                        size={30}
-                        onPress={() => skipTo(-10000)} />
-                    <CTRLButton
-                        iconName={status.isPlaying ? 'md-pause' : 'md-play'}
-                        size={60}
-                        onPress={togglePlayPause}
-                        style={{
-                            left: !status.isPlaying ? 2 : 0
-                        }} />
-                    <CTRLButton
-                        iconName={'ios-play-forward-outline'}
-                        size={30}
-                        onPress={() => skipTo(10000)} />
-                </View>
+            }}
+        >
 
-                <View style={styles.timeStampWrapper}>
-                    <Text style={styles.timeStampText}>{msToTime(status.positionMillis)}</Text>
-                    <Text style={styles.timeStampText}>{msToTime(status.durationMillis)}</Text>
-                </View>
-                <Slider
-                    animateTransitions
-                    containerStyle={styles.sliderContainer}
-                    minimumTrackTintColor="#FE9F01"
-                    maximumTrackTintColor="#FFF"
-                    thumbStyle={styles.thumb}
-                    thumbTouchSize={{
-                        width: 50,
-                        height: 40,
-                    }}
-                    trackStyle={styles.track}
-                    value={sliderValue}
-                    onValueChange={value => setSliderValue(value)}
-                    onSlidingComplete={seekTo}
+            <View style={styles.playPauseWrapper}>
+                <CTRLButton
+                    iconName={'ios-play-back-outline'}
+                    size={30}
+                    onPress={() => skipTo(-10000)} />
+                <CTRLButton
+                    iconName={status.isPlaying ? 'md-pause' : 'md-play'}
+                    size={60}
+                    onPress={togglePlayPause}
+                    style={{
+                        left: !status.isPlaying ? 2 : 0
+                    }} />
+                <CTRLButton
+                    iconName={'ios-play-forward-outline'}
+                    size={30}
+                    onPress={() => skipTo(10000)} />
+            </View>
+
+            <View style={styles.timeStampWrapper}>
+                <Text style={styles.timeStampText}>{msToTime(status.positionMillis)}</Text>
+                <Text style={styles.timeStampText}>{msToTime(status.durationMillis)}</Text>
+            </View>
+            <Slider
+                animateTransitions
+                containerStyle={styles.sliderContainer}
+                minimumTrackTintColor="#FE9F01"
+                maximumTrackTintColor="#FFF"
+                thumbStyle={styles.thumb}
+                thumbTouchSize={{
+                    width: 50,
+                    height: 40,
+                }}
+                trackStyle={styles.track}
+                value={sliderValue}
+                onValueChange={value => setSliderValue(value)}
+                onSlidingComplete={seekTo}
+            />
+            <View style={styles.bottomCtrls}>
+                <CTRLButton
+                    iconName={!status.isMuted ? 'ios-volume-high' : 'ios-volume-mute'}
+                    size={20}
+                    onPress={toggleMute}
                 />
-                <View style={styles.bottomCtrls}>
+                <View style={{
+                    position: 'absolute',
+                    justifyContent: 'space-between',
+                    flexDirection: 'row-reverse',
+                    position: 'relative',
+                    width: '20%'
+                }}>
                     <CTRLButton
-                        iconName={!status.isMuted ? 'ios-volume-high' : 'ios-volume-mute'}
+                        iconName={isFullscreen ? 'ios-contract-outline' : 'ios-expand-outline'}
                         size={20}
-                        onPress={toggleMute}
+                        onPress={toggleFullscreen}
                     />
-                    <View style={{
-                        position: 'absolute',
-                        justifyContent: 'space-between',
-                        flexDirection: 'row-reverse',
-                        position: 'relative',
-                        width: '20%'
-                    }}>
-                        <CTRLButton
-                            iconName={isFullscreen ? 'ios-contract-outline' : 'ios-expand-outline'}
-                            size={20}
-                            onPress={toggleFullscreen}
-                        />
 
-                        <CTRLButton
-                            iconName='ios-settings-outline'
-                            size={20}
-                            onPress={toggleShowingSettings}
-                        />
-                        {showSettings && (
-                            <View style={styles.settings}>
-                                {['360p', '480p', '720p', '1080p'].map((quality, id) => {
-                                    return <TouchableOpacity key={id} style={styles.videoQualityWrapper} onPress={() => {
-                                        setVideoQuality(quality)
-                                        setCurrentPosition(status.positionMillis)
-                                    }}>
-                                        <Text style={styles.qualityText}>
-                                            {videoQuality == quality ? '•' : ''} {quality}
-                                        </Text>
-                                    </TouchableOpacity>
-                                })}
-                            </View>
-                        )}
-                    </View>
+                    <CTRLButton
+                        iconName='ios-settings-outline'
+                        size={20}
+                        onPress={toggleShowingSettings}
+                    />
+                    {showSettings && (
+                        <View style={styles.settings}>
+                            {['360p', '480p', '720p', '1080p'].map((quality, id) => {
+                                return <TouchableOpacity key={id} style={styles.videoQualityWrapper} onPress={() => {
+                                    setVideoQuality(quality)
+                                    setCurrentPosition(status.positionMillis)
+                                }}>
+                                    <Text style={styles.qualityText}>
+                                        {videoQuality == quality ? '•' : ''} {quality}
+                                    </Text>
+                                </TouchableOpacity>
+                            })}
+                        </View>
+                    )}
                 </View>
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     )
 }
 
