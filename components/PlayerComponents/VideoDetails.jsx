@@ -37,10 +37,10 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) =
                 <Tag text={subOrDub?.toUpperCase()} />
             </View>
             <View style={styles.btnWrapper}>
-                <Btn iconName={'md-heart-outline'} onPress={() => { }} isActive={false} />
-                <Btn iconName={'md-heart-dislike-outline'} onPress={() => { }} isActive={false} />
-                <Btn iconName={'ios-share-social-outline'} onPress={onShare} isActive={false} />
-                <Btn iconName={'ios-download-outline'} onPress={() => { }} isActive={false} />
+                <Btn title="Like" iconName={'md-heart-outline'} onPress={() => { }} isActive={false} />
+                <Btn title="Dislike" iconName={'md-heart-dislike-outline'} onPress={() => { }} isActive={false} />
+                <Btn title="Share" iconName={'ios-share-social-outline'} onPress={onShare} isActive={false} />
+                <Btn title="Download" iconName={'ios-download-outline'} onPress={() => { }} isActive={false} />
             </View>
             <View style={styles.descWrapper}>
                 <Text style={styles.title}> Description</Text>
@@ -62,9 +62,10 @@ const Tag = ({ text, bgColor }) => (
     </View>
 )
 
-const Btn = ({ iconName, onPress, isActive }) => (
+const Btn = ({ title, iconName, onPress, isActive }) => (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-        <Icon name={iconName} size={normalize(20)} color={'#777'} />
+        <Icon name={iconName} size={normalize(25)} color={'#777'} />
+        <Text style={[styles.tagText, {color: '#ffffff'}]}>{title}</Text>
     </TouchableOpacity>
 )
 const EpisodeCard = ({ name, title, thumbnail, episode: {
@@ -155,11 +156,9 @@ const styles = StyleSheet.create({
         paddingVertical: 15
     },
     btn: {
-        paddingVertical: 7,
         paddingHorizontal: 24,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#777'
+        justifyContent: "center",
+        alignItems: "center"
     },
     stats: {
         fontSize: normalize(15),
