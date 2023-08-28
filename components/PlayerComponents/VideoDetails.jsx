@@ -100,12 +100,12 @@ const FormatedDesc = ({ description }) => {
         setDescTextLen(_descLen)
     }, [showFullDesc])
 
-    return (<Text>
+    return (<Text style={{color: "#ffffff"}}>
         {description?.slice(0, descTextLen)}
         {description?.length > 420 &&
             (<TouchableWithoutFeedback
                 onPress={() => setShowFullDesc(prev => !prev)}>
-                <Text style={{ fontWeight: 800 }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
+                <Text style={{ fontWeight: 800, color: '#ffffff' }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
             </TouchableWithoutFeedback>)}
     </Text>)
 }
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         fontFamily: 'CooperHewitt',
         letterSpacing: 0.75,
         color: '#fff',
-        lineHeight: 20
+        lineHeight: 25
     },
     details: {
         fontSize: normalize(17),
