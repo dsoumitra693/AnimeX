@@ -82,7 +82,10 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
         let { positionMillis: currentPostion,
             durationMillis: duration } = status
         let _silderValue = currentPostion / duration
-        setSliderValue(_silderValue)
+        if (isShowingControls) {
+            setSliderValue(_silderValue)
+            console.log(isShowingControls)
+        }
     }, [status])
     const seekTo = async (value) => await playFrom(value * status.durationMillis)
 
@@ -105,7 +108,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
 
     //toggle mute
     const toggleMute = () => {
-        videoRef.current.setIsMutedAsync(!status.isMuted)
+        if (isShowingControls) videoRef.current.setIsMutedAsync(!status.isMuted)
     }
 
     //video settings controls
