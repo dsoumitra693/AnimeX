@@ -71,10 +71,12 @@ export const styles = StyleSheet.create({
         paddingVertical: 7,
         paddingBottom:3,
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        color: '#ffffff'
     },
     msgtext: {
         fontSize: 14,
+        color: '#ffffff',
         fontFamily: 'CooperHewitt',
     },
     msgHighlight: {
