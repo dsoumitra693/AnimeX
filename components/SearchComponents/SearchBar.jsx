@@ -16,6 +16,7 @@ const SearchBar = ({ setSearchText, searchText }) => {
         onChangeText={(txt) => setSearchText(txt)}
         cursorColor={'#FE9F01'}
         keyboardAppearance='dark'
+        returnKeyType='search'
       />
       <TouchableOpacity onPress={() => setSearchText('')}>
         <Icon name='x' size={30} color={searchText == '' ? '#888': '#fff'} />
