@@ -6,9 +6,6 @@ import { msToTime, showToast } from '../../utils'
 import * as ScreenOrientation from 'expo-screen-orientation'
 import { normalize } from '../../fontsNormalisation'
 
-let timeoutTime = 3000
-let timerId
-
 const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosition, setCurrentPosition }) => {
 
     const playFrom = async (ms) => {
