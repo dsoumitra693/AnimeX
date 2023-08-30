@@ -88,7 +88,7 @@ export const styles = StyleSheet.create({
         color: '#0271f7'
     },
     resendBtn: (isDisabled) => ({
-        width: '80%',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
