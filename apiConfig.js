@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export let createHeadersList = (headersOptions = {})=> ({
+export let createHeadersList = (headersOptions = {}) => ({
     "Accept": "*/*",
     ...headersOptions
 })
@@ -19,6 +19,6 @@ export const apiCall = async (reqOptions) => {
         let response = await axios.request(reqOptions);
         return response
     } catch (error) {
-        return error
+        return new Error(error)
     }
 }
