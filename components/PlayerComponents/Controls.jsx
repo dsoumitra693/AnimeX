@@ -81,7 +81,6 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
         let _silderValue = currentPostion / duration
         if (isShowingControls) {
             setSliderValue(_silderValue)
-            console.log(isShowingControls)
         }
     }, [status])
     const seekTo = async (value) => await playFrom(value * status.durationMillis)

@@ -1,52 +1,86 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import React, { memo, useContext, useState } from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
-import Icon from 'react-native-vector-icons/Feather'
+import React, { memo, useContext, useEffect, useState, useCallback } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { normalize } from '../../fontsNormalisation';
-import { updateWatchList } from '../../Api/users';
-import { AuthContext } from '../../context/auth'
+import { deleteWatchList, updateWatchList } from '../../Api/users';
+import { AuthContext } from '../../context/auth';
 
+const { width, height } = Dimensions.get('window');
 
-const { width, height } = Dimensions.get("window")
+const Slide = memo(({ src, title, genres, animeId }) => {
+  const navigator = useNavigation();
 
-const Slide = ({ src, title, genres, animeId }) => {
-  const navigator = useNavigation()
-  const playNow = () => {
-    navigator.navigate('Player', { animeId: animeId, thumbnail: src })
-  }
+  const [isInWatchList, setIsInWatchList] = useState(false);
+  const [data, setData] = useContext(AuthContext);
 
-  const [data, setData] = useContext(AuthContext)
-  const addToWatchList = async () => {
-    let res = await updateWatchList({
-      headers: { authorization: data?.token },
-      data: JSON.stringify({
-        "animeId": animeId,
-        "name": title,
-        "imgUrl": src
-      })
-    })
-    console.log(res.data)
-  }
+  const headersList = {
+    Accept: '*/*',
+    authorization: data.token,
+    'Content-Type': 'application/json',
+  };
+
+  const bodyContent = JSON.stringify({
+    animeId: animeId,
+    name: title,
+    imgUrl: src,
+  });
+
+  const updateLocalUser = useCallback((props) => {
+    setData((prevData) => ({ ...prevData, user: { ...prevData.user, ...props } }));
+  }, [setData]);
+
+  const addToWatchList = useCallback(async () => {
+    setIsInWatchList(true);
+    try {
+      const response = await updateWatchList({
+        headers: headersList,
+        data: bodyContent,
+      });
+      updateLocalUser({ watchList: response.watchList });
+    } catch (error) {
+      // Handle error
+    }
+  }, [headersList, bodyContent, updateLocalUser]);
+
+  const removeFromWatchList = useCallback(async () => {
+    setIsInWatchList(false);
+    try {
+      const response = await deleteWatchList({
+        headers: headersList,
+        data: bodyContent,
+      });
+      updateLocalUser({ watchList: response.watchList });
+    } catch (error) {
+      // Handle error
+    }
+  }, [headersList, bodyContent, updateLocalUser]);
+
+  useEffect(() => {
+    let isFound = data?.user?.watchList?.find((anime) => anime.animeId === animeId) || false;
+    setIsInWatchList(isFound);
+  }, [animeId, data]);
+
+  const playNow = useCallback(() => {
+    navigator.navigate('Player', { animeId: animeId, thumbnail: src });
+  }, [animeId, navigator, src]);
+
   return (
     <View
       style={{
         paddingBottom: 20,
         flexDirection: 'row',
-        justifyContent: 'center'
-      }}>
-      <Image
-        source={{ uri: src }}
-        height={height * .80}
-        width={width}
-        resizeMode='stretch'
-      />
+        justifyContent: 'center',
+      }}
+    >
+      <Image source={{ uri: src }} height={height * 0.8} width={width} resizeMode="stretch" />
       <View style={styles.container}>
         <LinearGradient
           // Background Linear Gradient
           colors={['transparent', '#222']}
           start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: .65 }}
+          end={{ x: 0, y: 0.65 }}
           style={styles.linearGradient}
         >
           <View style={styles.textWrapper}>
@@ -54,29 +88,46 @@ const Slide = ({ src, title, genres, animeId }) => {
             <Text style={styles.title}> {title.slice(0, 15)} </Text>
           </View>
           <View style={styles.btnWrapper}>
-            <Button iconName={'plus'} title={'My List'} onPress={addToWatchList} />
-            <Button iconName={'play'} title={'Watch Now'}
-              style={{ width: 160, backgroundColor: '#FE9F01' }} onPress={playNow} />
+            {!isInWatchList ? (
+              <Button iconName="plus" title="My List" onPress={addToWatchList} />
+            ) : (
+              <Button
+                iconName="check"
+                title="My List"
+                style={{ backgroundColor: 'green' }}
+                onPress={removeFromWatchList}
+              />
+            )}
+            <Button
+              iconName="play"
+              title="Watch Now"
+              style={{ width: 160, backgroundColor: '#FE9F01' }}
+              onPress={playNow}
+            />
           </View>
         </LinearGradient>
       </View>
-    </View >
-  )
-}
+    </View>
+  );
+});
 
-export default memo(Slide)
+export default Slide;
 
-const Button = ({ iconName, title, style, onPress }) => (
+const Button = memo(({ iconName, title, style, onPress }) => (
   <TouchableOpacity style={{ ...styles.btn, ...style }} onPress={onPress}>
     <Icon name={iconName} size={30} color={'#222'} />
-    <Text style={{
-      fontSize: normalize(16),
-      padding: 4,
-      fontFamily: 'CooperHewitt',
-      color: '#222'
-    }}>{title}</Text>
+    <Text
+      style={{
+        fontSize: normalize(16),
+        padding: 4,
+        fontFamily: 'CooperHewitt',
+        color: '#222',
+      }}
+    >
+      {title}
+    </Text>
   </TouchableOpacity>
-)
+));
 
 const styles = StyleSheet.create({
   container: {
@@ -92,27 +143,27 @@ const styles = StyleSheet.create({
   textWrapper: {
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
     fontSize: normalize(35),
     textAlign: 'center',
     fontWeight: '100',
     fontFamily: 'CooperHewitt',
-    color: '#fff'
+    color: '#fff',
   },
   geners: {
     fontSize: normalize(16),
     fontWeight: '400',
     fontFamily: 'CooperHewitt',
     marginBottom: 5,
-    color: '#fff'
+    color: '#fff',
   },
   btnWrapper: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btn: {
     width: 130,
@@ -124,6 +175,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDCDD',
     borderRadius: 5,
     elevation: 3,
-    color: '#222'
-  }
-})
+    color: '#222',
+  },
+});

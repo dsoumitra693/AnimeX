@@ -16,7 +16,7 @@ const LoginScreen = () => {
         let res = await verifyOtp(number, otp)
         if (res.status == 200) {
             const data = JSON.parse(res.request._response).data
-            await setState({ ...state, user: data.userObj, token: data.token })
+            setState({ ...state, user: data.userObj, token: data.token })
             saveToAsyncStorage(data)
         }
         else if (res.status == 400) {
@@ -31,7 +31,7 @@ const LoginScreen = () => {
         }
     }
 
-    const changeNumber = ()=> {
+    const changeNumber = () => {
         setIsOtpSent(false)
     }
 
@@ -49,8 +49,8 @@ const LoginScreen = () => {
                         setOtp={setOtp}
                         handleOtpSubmit={handleOtpSubmit}
                         handlePhoneSubmit={handlePhoneSubmit}
-                        number={number} 
-                        changeNumber={changeNumber}/>}
+                        number={number}
+                        changeNumber={changeNumber} />}
             </View>
         </View>
     )

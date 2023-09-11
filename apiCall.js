@@ -19,7 +19,7 @@ const _apiCall = async (reqOptionsConfig, condition = true) => {
 
 export const getStreamUrls = async (episodeId) => {
     const reqOptionsConfig = { url: `watch/${episodeId}`, method: 'GET' }
-    let res = await_apiCall(reqOptionsConfig, episodeId)
+    let res = await _apiCall(reqOptionsConfig, episodeId)
     return res
 }
 

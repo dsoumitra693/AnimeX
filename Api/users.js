@@ -6,7 +6,7 @@ let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://anime-x-backend.ver
 const universalApiCaller = async ({ url, method, ...props }) => {
     let _reqOptions = getReqOptions({ url, method })
     let response = await apiCall({ ..._reqOptions, ...props })
-    return response
+    return response.data
 }
 
 export const getUserDetails = async (reqOptions) =>
