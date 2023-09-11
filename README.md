@@ -27,4 +27,4 @@ Backend Repo Link: https://github.com/dsoumitra693/AnimeX-Backend
 
 • Adding Fuctionality to Downlaod Video
 
-• Adding Option For Sharing
+• Adding Option For Sharing ✅
