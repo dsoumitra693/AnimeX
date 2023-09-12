@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { useState, useEffect, } from 'react'
 import { MoviePlayer, VideoDetails } from '../components'
-import { demoVideoDetails } from '../constants'
 import { getAnimeInfo, getStreamUrls } from '../apiCall'
 
 const Player = ({ route }) => {
@@ -74,7 +73,12 @@ const Player = ({ route }) => {
           setJustFinished={setJustFinished}
           currentPosition={currentPosition}
           setCurrentPosition={setCurrentPosition} />
-        <VideoDetails videoDetails={videoDetails} setEpisode={setEpisode} currentEpisode={episode} thumbnail={route.params.thumbnail}/>
+        <VideoDetails
+          videoDetails={videoDetails}
+          setEpisode={setEpisode}
+          currentEpisode={episode}
+          animeId={route.params.animeId}
+          thumbnail={route.params.thumbnail} />
       </>}
     </View>
   )

@@ -1,43 +1,87 @@
-import { Alert, Image, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import Icon from 'react-native-vector-icons/Ionicons'
-import { normalize } from '../../fontsNormalisation'
-import { randomIntFromInterval } from '../../utils'
-
+import { Alert, Image, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { normalize } from '../../fontsNormalisation';
+import { deleteFavAnime, updateFavAnime } from '../../Api/users';
+import { AuthContext } from '../../context/auth';
 
 const getEngName = (namesStr) => {
-    let nameArr = namesStr?.split(',')
-    return nameArr?.find(name => (/^[a-zA-Z0-9"': ]+$/.test(name.trim())))
-}
+    let nameArr = namesStr?.split(',');
+    return nameArr?.find(name => (/^[a-zA-Z0-9"': ]+$/.test(name.trim())));
+};
 
+const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, animeId }) => {
+    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url } = videoDetails;
 
-const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) => {
-    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url } = videoDetails
     const onShare = () => {
-        const message = `Hey, I'm watching ${getEngName(name) || title}, you would like it too! Watch it on AnimeX app. \n ${url}`
-    try {
-      Share.share({message})
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  };
+        const message = `Hey, I'm watching ${getEngName(name) || title}, you would like it too! Watch it on AnimeX app. \n ${url}`;
+        try {
+            Share.share({ message });
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+    };
+
+    const [isInFavAnime, setIsInFavAnime] = useState(false);
+    const [data, setData] = useContext(AuthContext);
+
+    const headersList = {
+        Accept: '*/*',
+        authorization: data.token,
+        'Content-Type': 'application/json',
+    };
+
+    const bodyContent = JSON.stringify({
+        animeId: animeId,
+        name: title,
+        imgUrl: thumbnail,
+    });
+
+    const updateLocalUser = useCallback((props) => {
+        setData((prevData) => ({ ...prevData, user: { ...prevData.user, ...props } }));
+    }, [setData]);
+
+    const toggleFavAnime = useCallback(async () => {
+        try {
+            if (isInFavAnime) {
+                setIsInFavAnime(false);
+                const response = await deleteFavAnime({
+                    headers: headersList,
+                    data: bodyContent,
+                });
+                updateLocalUser({ favAnime: response.favouriteAnime });
+            } else {
+                setIsInFavAnime(true);
+                const response = await updateFavAnime({
+                    headers: headersList,
+                    data: bodyContent,
+                });
+                updateLocalUser({ favAnime: response.favouriteAnime });
+
+            }
+        } catch (error) {
+            // Handle error
+        }
+    }, [headersList, bodyContent, updateLocalUser, isInFavAnime]);
+
+    useEffect(() => {
+        let isFound = data?.user?.favAnime?.find((anime) => anime.animeId === animeId) || false;
+        setIsInFavAnime(isFound);
+    }, [animeId, data]);
+
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
                 {getEngName(name) || title}
                 {episodes?.length > 1 && `Episodes ${currentEpisode?.number}`}
             </Text>
-            {/* <Text style={styles.stats}>
-                <Text style={styles.statsHighlight}>68.6K </Text>reviwes {' •  '}
-                <Text style={styles.statsHighlight}>379 </Text>comments
-            </Text> */}
             <View style={styles.tagsContainer}>
                 <Tag text={`Produced: ${releaseDate}`} bgColor={'lightpink'} />
                 <Tag text={type} bgColor={'skyblue'} />
                 <Tag text={subOrDub?.toUpperCase()} />
             </View>
             <View style={styles.btnWrapper}>
-                <Btn title="Like" iconName={'md-heart-outline'} onPress={() => { }} isActive={false} />
+                <Btn title={isInFavAnime ? "Liked" : "Like"} iconName={isInFavAnime ? 'md-heart' : 'md-heart-outline'} onPress={toggleFavAnime} />
                 <Btn title="Dislike" iconName={'md-heart-dislike-outline'} onPress={() => { }} isActive={false} />
                 <Btn title="Share" iconName={'ios-share-social-outline'} onPress={onShare} isActive={false} />
                 <Btn title="Download" iconName={'ios-download-outline'} onPress={() => { }} isActive={false} />
@@ -53,65 +97,68 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail }) =
                 })}
             </View>}
         </ScrollView>
-    )
-}
+    );
+};
 
 const Tag = ({ text, bgColor }) => (
     <View style={styles.tags(bgColor)}>
         <Text style={styles.tagText}>{text}</Text>
     </View>
-)
+);
 
 const Btn = ({ title, iconName, onPress, isActive }) => (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-        <Icon name={iconName} size={normalize(25)} color={'#777'} />
-        <Text style={[styles.tagText, {color: '#ffffff'}]}>{title}</Text>
+        <Icon name={iconName} size={normalize(25)} color={!isActive ? '#777' : '#ffc0cb'} />
+        <Text style={[styles.tagText, { color: !isActive ? '#777' : '#ffc0cb' }]}>{title}</Text>
     </TouchableOpacity>
-)
-const EpisodeCard = ({ name, title, thumbnail, episode: {
+);
+
+const EpisodeCard = React.memo(({ name, title, thumbnail, episode: {
     id: animeId, number: episodeNumber
 }, setEpisode, currentEpisode }) => {
 
-
     const playEpisode = () => {
-        if (currentEpisode.id != animeId) setEpisode({ id: animeId, number: episodeNumber })
-    }
+        if (currentEpisode.id !== animeId) setEpisode({ id: animeId, number: episodeNumber });
+    };
+
     return (
         <TouchableOpacity style={styles.episodeCard} onPress={playEpisode}>
             <View style={styles.thumbnail}>
                 <Image source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
-                <Icon name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute', }} />
+                <Icon name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
             </View>
             <View style={styles.episodedetails}>
                 <Text style={{ ...styles.title, fontSize: normalize(15) }}>{episodeNumber}. Episode ({getEngName(name) || title})</Text>
             </View>
             <View>
-                <Icon name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute', }} />
+                <Icon name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
             </View>
         </TouchableOpacity>
-    )
-}
+    );
+});
 
-const FormatedDesc = ({ description }) => {
-    const [descTextLen, setDescTextLen] = useState(420)
-    const [showFullDesc, setShowFullDesc] = useState(false)
+const FormatedDesc = React.memo(({ description }) => {
+    const [descTextLen, setDescTextLen] = useState(420);
+    const [showFullDesc, setShowFullDesc] = useState(false);
 
     useEffect(() => {
-        let _descLen = showFullDesc ? description.length : 420
-        setDescTextLen(_descLen)
-    }, [showFullDesc])
+        let _descLen = showFullDesc ? description.length : 420;
+        setDescTextLen(_descLen);
+    }, [showFullDesc]);
 
-    return (<Text style={{color: "#ffffff"}}>
-        {description?.slice(0, descTextLen)}
-        {description?.length > 420 &&
-            (<TouchableWithoutFeedback
-                onPress={() => setShowFullDesc(prev => !prev)}>
-                <Text style={{ fontWeight: 800, color: '#ffffff' }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
-            </TouchableWithoutFeedback>)}
-    </Text>)
-}
+    return (
+        <Text style={{ color: "#ffffff" }}>
+            {description?.slice(0, descTextLen)}
+            {description?.length > 420 &&
+                (<TouchableWithoutFeedback
+                    onPress={() => setShowFullDesc(prev => !prev)}>
+                    <Text style={{ fontWeight: 800, color: '#ffffff' }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
+                </TouchableWithoutFeedback>)}
+        </Text>
+    );
+});
 
-export default VideoDetails
+export default VideoDetails;
 
 const styles = StyleSheet.create({
     container: {
@@ -208,4 +255,4 @@ const styles = StyleSheet.create({
     episodedetails: {
         width: '50%'
     }
-})
+});
