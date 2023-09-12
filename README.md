@@ -19,7 +19,7 @@ Backend Repo Link: https://github.com/dsoumitra693/AnimeX-Backend
 
 • Adding Subscription for watching anime.
 
-• Adding Movies to WatchList and Favourite List
+• Adding Movies to WatchList and Favourite List ✅
 
 • Implementing Cast to Device
 
