@@ -8,7 +8,7 @@ export const FONT = {
   base: normalize(20)
 }
 
-export const defaultProfileImg = 'https://randomuser.me/api/portraits/med/men/75.jpg'
+export const defaultProfileImg = 'https://randomuser.me/api/portraits/lego/1.jpg'
 
 export const FEED_GENRES = [
   {

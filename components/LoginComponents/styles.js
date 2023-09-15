@@ -30,11 +30,11 @@ export const styles = StyleSheet.create({
         overflow: 'hidden',
         borderRadius: 5,
         paddingHorizontal: 10,
-        flexDirection:'row',
+        flexDirection: 'row',
         justifyContent: 'space-around'
     },
     inputField: {
-        width:'100%',
+        width: '100%',
         fontSize: normalize(18),
         fontFamily: 'CooperHewitt',
         color: "#ffffff",
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
     },
     msg: {
         paddingVertical: 7,
-        paddingBottom:3,
+        paddingBottom: 3,
         justifyContent: 'center',
         flexDirection: 'row',
         color: '#ffffff'
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     msgHighlight: {
         fontFamily: 'CooperHewitt',
         fontWeight: 900
-    }, 
+    },
     msgTextBtn: {
         marginLeft: 10,
         color: '#0271f7'

@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Home, Player, Search, LoginScreen } from "../Screens"
+import { Home, Player, Search, LoginScreen, Profile } from "../Screens"
 import { screenOptions } from "../constants"
 import { Header } from "../components"
 import { AuthContext } from "../context/auth"
@@ -15,6 +15,9 @@ export const LoginStack = () => {
         }}>
             <Stack.Screen name='Home'
                 component={Home}
+            />
+            <Stack.Screen name='Profile'
+                component={Profile}
             />
             <Stack.Screen name='Player'
                 options={{ ...screenOptions, }}

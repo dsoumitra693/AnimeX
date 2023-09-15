@@ -6,7 +6,6 @@ import Avatar from './Avatar'
 import { useNavigation } from '@react-navigation/native'
 import { deleteFromAsyncStorage } from '../asyncStorage'
 import { AuthContext } from '../context/auth'
-import { getUserDetails } from '../Api/users'
 
 const Header = ({ route }) => {
   const navigation = useNavigation()
@@ -17,14 +16,8 @@ const Header = ({ route }) => {
     setState(undefined)
   }
 
-  const userDetails = async () => {
-    let res = await getUserDetails({
-      headers: {
-        "Accept": "*/*",
-        "authorization": state.token
-      }
-    })
-    console.log(res.user)
+  const goToProfilePage = async () => {
+    navigation.navigate('Profile')
   }
   return (
     <View style={styles.container}>
@@ -44,7 +37,7 @@ const Header = ({ route }) => {
         )}
       <View style={styles.leftContainer}>
         <Icon name='cast' size={FONT.base} color={COLORS.white} onPress={logOut} />
-        <Avatar source={{ uri: defaultProfileImg }} size={25} onPress={userDetails} />
+        <Avatar source={{ uri: defaultProfileImg }} size={25} onPress={goToProfilePage} />
       </View>
     </View>
   )
