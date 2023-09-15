@@ -12,7 +12,15 @@ const getEngName = (namesStr) => {
 
 const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, animeId }) => {
     const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url } = videoDetails;
+    const [isInFavAnime, setIsInFavAnime] = useState(false);
+    const [data, setData] = useContext(AuthContext);
 
+    useEffect(() => {
+        let isFound = data.user.favouriteAnime.find((anime) => {
+            return anime.animeId === animeId
+        }) || false;
+        setIsInFavAnime(isFound);
+    }, [animeId, data.user]);
     const onShare = () => {
         const message = `Hey, I'm watching ${getEngName(name) || title}, you would like it too! Watch it on AnimeX app. \n ${url}`;
         try {
@@ -22,8 +30,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
         }
     };
 
-    const [isInFavAnime, setIsInFavAnime] = useState(false);
-    const [data, setData] = useContext(AuthContext);
+
 
     const headersList = {
         Accept: '*/*',
@@ -41,7 +48,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
         setData((prevData) => ({ ...prevData, user: { ...prevData.user, ...props } }));
     }, [setData]);
 
-    const toggleFavAnime = useCallback(async () => {
+    const toggleFavAnime = async () => {
         try {
             if (isInFavAnime) {
                 setIsInFavAnime(false);
@@ -49,25 +56,23 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
                     headers: headersList,
                     data: bodyContent,
                 });
-                updateLocalUser({ favAnime: response.favouriteAnime });
+                updateLocalUser({ ...response.favouriteAnime });
             } else {
                 setIsInFavAnime(true);
                 const response = await updateFavAnime({
                     headers: headersList,
                     data: bodyContent,
                 });
-                updateLocalUser({ favAnime: response.favouriteAnime });
+                console.log(response)
+                updateLocalUser({ ...response.favouriteAnime });
 
             }
         } catch (error) {
             // Handle error
+            console.log(error)
         }
-    }, [headersList, bodyContent, updateLocalUser, isInFavAnime]);
+    }
 
-    useEffect(() => {
-        let isFound = data?.user?.favAnime?.find((anime) => anime.animeId === animeId) || false;
-        setIsInFavAnime(isFound);
-    }, [animeId, data]);
 
     return (
         <ScrollView style={styles.container}>
