@@ -16,12 +16,14 @@ const EditModal = ({ text, onCompleted, ...props }) => {
             <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
+                    console.info(onCompleted)
+                    onCompleted()?.(value)
                     props.setModalVisible(prev => !prev)
-                    onCompleted?.(value)
-                }}>
+                }
+                }>
                 <Text style={styles.textStyle}>Save</Text>
             </Pressable>
-        </ModalView>
+        </ModalView >
     )
 }
 

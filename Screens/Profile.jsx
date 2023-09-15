@@ -4,28 +4,26 @@ import { AuthContext } from '../context/auth'
 import AvatarSection from '../components/ProfileComponents/AvatarSection'
 import { normalize } from '../fontsNormalisation'
 import Icon from 'react-native-vector-icons/Feather'
-import { EditModal } from '../components'
+import { EditModal, VideosList } from '../components'
 
 let size = normalize(18)
 const Profile = () => {
     let [state, setState] = useContext(AuthContext)
-    let [onCompleted, setOnCompleted] = useState(() => { })
+    let [onCompleted, setOnCompleted] = useState(() => () => { })
     const [modalVisible, setModalVisible] = useState(false)
     const updateLocalUser = useCallback((props) => {
         setState((prevData) => ({ ...prevData, user: { ...prevData.user, ...props } }));
     }, [setState]);
 
     const editName = (value) => {
-        setModalVisible(true)
         updateLocalUser({ name: value })
+        console.log({ name: value })
     }
     const editEmail = (value) => {
-        setModalVisible(true)
         updateLocalUser({ email: value })
     }
-    useEffect(() => {
-        console.log(editName)
-    }, [onCompleted])
+
+    console.log(state.user)
 
     return (<>
         <EditModal
@@ -42,7 +40,10 @@ const Profile = () => {
                     <Text style={styles.name} >{state.user.name || "Add your name"} </Text>
                     <Icon name={'edit-2'}
                         size={size}
-                        color={'grey'} onPress={() => setOnCompleted(editName)} />
+                        color={'grey'} onPress={() => {
+                            setModalVisible(true)
+                            setOnCompleted(() => () => editName())
+                        }} />
                 </View>
                 <View style={styles.userDeatils}>
                     <View style={styles.detailsSection}>
@@ -62,7 +63,10 @@ const Profile = () => {
                         </View>
                         <Icon name={'edit-2'}
                             size={size}
-                            color={'grey'} onPress={() => setOnCompleted(editEmail)} />
+                            color={'grey'} onPress={() => {
+                                setModalVisible(true)
+                                setOnCompleted(() => () => editEmail)
+                            }} />
                     </View>
                     <View style={styles.detailsSection}>
                         <View style={styles.details}>
@@ -76,6 +80,8 @@ const Profile = () => {
                             color={'grey'} onPress={() => { }} />
                     </View>
                 </View>
+                {/* <VideosList heading={'Watch list'} data={state?.user?.watchList} /> */}
+                <VideosList heading={'Anime you liked'} data={state.user.favouriteAnime} />
                 <View style={styles.footer}>
                     <Text style={{ color: '#fff' }}>Copyright ©<Text style={{ color: '#FE9F01' }}>AnimeX</Text> 2023 All Rights Reserved</Text>
                 </View>
