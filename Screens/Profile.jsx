@@ -23,7 +23,7 @@ const Profile = () => {
         updateLocalUser({ email: value })
     }
 
-    console.log(state?.user?.favouriteAnime)
+
     return (<>
         <EditModal
             modalVisible={modalVisible}

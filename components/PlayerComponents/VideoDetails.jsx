@@ -50,26 +50,24 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
 
     const toggleFavAnime = async () => {
         try {
+            let response;
             if (isInFavAnime) {
                 setIsInFavAnime(false);
-                const response = await deleteFavAnime({
+                response = await deleteFavAnime({
                     headers: headersList,
                     data: bodyContent,
                 });
-                updateLocalUser({ ...response.favouriteAnime });
             } else {
                 setIsInFavAnime(true);
-                const response = await updateFavAnime({
+                response = await updateFavAnime({
                     headers: headersList,
                     data: bodyContent,
                 });
-                console.log(response)
-                updateLocalUser({ ...response.favouriteAnime });
-
             }
+            updateLocalUser({ favouriteAnime: response.favouriteAnime });
         } catch (error) {
             // Handle error
-            console.log(error)
+            Alert.alert(error)
         }
     }
 
