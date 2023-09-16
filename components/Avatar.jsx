@@ -1,9 +1,10 @@
-import { Image, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import React from 'react'
+import CachedImage from './CachedImage'
 
 const Avatar = ({ source, size, onPress }) => (
     <TouchableOpacity onPress={onPress}>
-        <Image width={size} height={size} source={source} resizeMode='contain'
+        <CachedImage width={size} height={size} source={source} resizeMode='contain'
             style={{ borderRadius: size }} />
     </TouchableOpacity>
 )

@@ -2,7 +2,7 @@ import { apiCall, createHeadersList, getReqOptionsFactoty } from "./apiConfig"
 
 let headersList = createHeadersList()
 let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://api.consumet.org/anime/gogoanime', headersList })
-let getReqOptionsAlt = getReqOptionsFactoty({ baseUrl: 'https://consumet-mauve.vercel.app', headersList })
+let getReqOptionsAlt = getReqOptionsFactoty({ baseUrl: 'https://consumet-mauve.vercel.app/anime/gogoanime', headersList })
 
 const _apiCall = async (reqOptionsConfig, condition = true) => {
     let response = {}

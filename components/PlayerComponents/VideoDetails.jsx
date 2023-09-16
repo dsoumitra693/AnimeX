@@ -1,9 +1,10 @@
-import { Alert, Image, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { normalize } from '../../fontsNormalisation';
 import { deleteFavAnime, updateFavAnime } from '../../Api/users';
 import { AuthContext } from '../../context/auth';
+import CachedImage from '../CachedImage';
 
 const getEngName = (namesStr) => {
     let nameArr = namesStr?.split(',');
@@ -127,7 +128,7 @@ const EpisodeCard = React.memo(({ name, title, thumbnail, episode: {
     return (
         <TouchableOpacity style={styles.episodeCard} onPress={playEpisode}>
             <View style={styles.thumbnail}>
-                <Image source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
+                <CachedImage source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
                 <Icon name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
             </View>
             <View style={styles.episodedetails}>

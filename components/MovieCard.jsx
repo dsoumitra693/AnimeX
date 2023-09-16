@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { normalize } from '../fontsNormalisation'
+import CachedImage from './CachedImage'
 
 const MovieCard = ({ title, src, size, animeId }) => {
     const navigator = useNavigation()
 
     return (
         <TouchableOpacity style={styles.card(normalize(size))} onPress={() => {
-            navigator.navigate('Player', {animeId: animeId, thumbnail: src})
+            navigator.navigate('Player', { animeId: animeId, thumbnail: src })
         }}>
-            <Image
+            <CachedImage
                 source={{ uri: src }}
                 style={styles.image}
                 resizeMethod='resize'

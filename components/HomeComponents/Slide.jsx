@@ -1,11 +1,12 @@
 import React, { memo, useContext, useEffect, useState, useCallback } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { normalize } from '../../fontsNormalisation';
 import { deleteWatchList, updateWatchList } from '../../Api/users';
 import { AuthContext } from '../../context/auth';
+import CachedImage from '../CachedImage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -74,7 +75,7 @@ const Slide = memo(({ src, title, genres, animeId }) => {
         justifyContent: 'center',
       }}
     >
-      <Image source={{ uri: src }} height={height * 0.8} width={width} resizeMode="stretch" />
+      <CachedImage source={{ uri: src }} height={height * 0.8} width={width} resizeMode="stretch" />
       <View style={styles.container}>
         <LinearGradient
           // Background Linear Gradient
