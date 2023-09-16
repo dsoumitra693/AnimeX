@@ -1,28 +1,42 @@
-import { Pressable, StyleSheet, Text, TextInput } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import ModalView from '../Modal'
 import { normalize } from '../../fontsNormalisation'
 
-const EditModal = ({ text, onCompleted, ...props }) => {
+const EditModal = ({ onCompleted, ...props }) => {
     const [value, setValue] = useState('')
+    const closeModal = () => {
+        props.setModalVisible(prev => !prev)
+        setValue('')
+    }
     return (
         <ModalView {...props}>
             <TextInput
                 style={styles.modalText}
-                placeholder={text}
                 onChangeText={txt => setValue(txt)}
                 value={value}
+                placeholder='Type Here'
+                placeholderTextColor={'#aaa'}
+                autoFocus={true}
             />
-            <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                    console.info(onCompleted)
-                    onCompleted()?.(value)
-                    props.setModalVisible(prev => !prev)
-                }
-                }>
-                <Text style={styles.textStyle}>Save</Text>
-            </Pressable>
+            <View style={styles.buttonWrapper}>
+                <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => {
+                        closeModal()
+                    }
+                    }>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                </Pressable>
+                <Pressable
+                    style={[styles.button, styles.buttonSave]}
+                    onPress={() => {
+                        onCompleted(value)
+                        closeModal()
+                    }}>
+                    <Text style={styles.textStyle}>Save</Text>
+                </Pressable>
+            </View>
         </ModalView >
     )
 }
@@ -30,13 +44,21 @@ const EditModal = ({ text, onCompleted, ...props }) => {
 export default EditModal
 
 const styles = StyleSheet.create({
+    buttonWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
     button: {
         borderRadius: 10,
         padding: 10,
         elevation: 2,
+        marginHorizontal: 10
+    },
+    buttonSave: {
+        backgroundColor: '#FE9F01',
     },
     buttonClose: {
-        backgroundColor: '#FE9F01',
+        backgroundColor: '#fff'
     },
     textStyle: {
         color: 'white',

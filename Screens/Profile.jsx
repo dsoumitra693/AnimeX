@@ -17,10 +17,9 @@ const Profile = () => {
 
     const editName = (value) => {
         updateLocalUser({ name: value })
-        console.log({ name: value })
     }
     const editEmail = (value) => {
-        updateLocalUser({ email: value })
+        updateLocalUser({ email: value.toLowerCase() })
     }
 
 
@@ -41,7 +40,7 @@ const Profile = () => {
                         size={size}
                         color={'grey'} onPress={() => {
                             setModalVisible(true)
-                            setOnCompleted(() => () => editName())
+                            setOnCompleted(() => (args) => editName(args))
                         }} />
                 </View>
                 <View style={styles.userDeatils}>
@@ -64,7 +63,7 @@ const Profile = () => {
                             size={size}
                             color={'grey'} onPress={() => {
                                 setModalVisible(true)
-                                setOnCompleted(() => () => editEmail)
+                                setOnCompleted(() => (args) => editEmail(args))
                             }} />
                     </View>
                     <View style={styles.detailsSection}>

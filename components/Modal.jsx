@@ -1,7 +1,7 @@
 import { StyleSheet, View, Modal, } from 'react-native'
 import React from 'react'
 
-const ModalView = ({ children, modalVisible, setModalVisible }) => {
+const ModalView = ({ children, modalVisible, setModalVisible, style }) => {
     return (
         <Modal
             animationType="slide"
@@ -10,7 +10,7 @@ const ModalView = ({ children, modalVisible, setModalVisible }) => {
             onRequestClose={() => {
                 setModalVisible(!modalVisible);
             }}>
-            <View style={styles.centeredView}>
+            <View style={[styles.centeredView, style]}>
                 <View style={styles.modalView}>
                     {children}
                 </View>

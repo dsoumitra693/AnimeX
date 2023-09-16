@@ -29,9 +29,8 @@ export default VideosList
 const styles = StyleSheet.create({
     container: {
         minWidth: '100%',
-        height: 290,
-        // backgroundColor: 'red',
-        marginTop: 20,
+        height: 280,
+        marginTop: 10,
         paddingHorizontal: 5,
         paddingVertical: 10,
     },
