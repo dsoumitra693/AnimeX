@@ -21,7 +21,7 @@ const Header = ({ route }) => {
   }
   return (
     <View style={styles.container}>
-      {route.name == 'Search' ? (
+      {route.name != 'Home' ? (
         <TouchableOpacity onPress={() => {
           navigation.goBack()
         }}>

@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/auth'
 import AvatarSection from '../components/ProfileComponents/AvatarSection'
@@ -23,7 +23,6 @@ const Profile = () => {
         updateLocalUser({ email: value })
     }
 
-    console.log(state.user)
 
     return (<>
         <EditModal
@@ -34,7 +33,7 @@ const Profile = () => {
         <ImageBackground source={{ uri: 'https://i.pinimg.com/1200x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg' }}
             style={styles.container} resizeMode='cover'>
             <View style={styles.darkBG} />
-            <View style={styles.profileSection}>
+            <ScrollView contentContainerStyle={styles.profileSection}>
                 <AvatarSection />
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={styles.name} >{state.user.name || "Add your name"} </Text>
@@ -80,12 +79,12 @@ const Profile = () => {
                             color={'grey'} onPress={() => { }} />
                     </View>
                 </View>
-                {/* <VideosList heading={'Watch list'} data={state?.user?.watchList} /> */}
-                <VideosList heading={'Anime you liked'} data={state.user.favouriteAnime} />
+                <VideosList heading={'Watch list'} data={state?.user?.watchList} />
+                <VideosList heading={'Anime you liked'} data={state?.user?.favouriteAnime} />
                 <View style={styles.footer}>
                     <Text style={{ color: '#fff' }}>Copyright ©<Text style={{ color: '#FE9F01' }}>AnimeX</Text> 2023 All Rights Reserved</Text>
                 </View>
-            </View>
+            </ScrollView>
         </ImageBackground>
     </>
     )
@@ -114,8 +113,8 @@ const styles = StyleSheet.create({
     profileSection: {
         alignItems: 'center',
         width: '100%',
-        height: '100%',
-        top: 100
+        top: 100,
+        paddingBottom: 150
     },
     name: {
         margin: 5,
@@ -147,6 +146,6 @@ const styles = StyleSheet.create({
     },
     footer: {
         position: 'absolute',
-        bottom: normalize(105),
+        bottom: normalize(100),
     }
 })
