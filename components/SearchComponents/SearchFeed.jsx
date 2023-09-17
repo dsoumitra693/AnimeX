@@ -2,7 +2,6 @@ import { StyleSheet, Text, FlatList, Keyboard, View, } from 'react-native'
 import React from 'react'
 import MovieCard from '../MovieCard'
 import Icon from 'react-native-vector-icons/Feather'
-import LottieView from 'lottie-react-native';
 import { normalize } from '../../fontsNormalisation';
 
 
