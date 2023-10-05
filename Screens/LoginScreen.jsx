@@ -28,6 +28,9 @@ const LoginScreen = () => {
         let res = await getOtp(number)
         if (res.status == 200) {
             setIsOtpSent(true)
+        } else {
+
+            showToast('There was an error while sending otp')
         }
     }
 
