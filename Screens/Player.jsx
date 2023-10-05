@@ -39,7 +39,7 @@ const Player = ({ route }) => {
 
   useEffect(() => {
     const filterByQuality = (sources) => {
-      if (!(Object.keys(sources).length === 0 && sources.constructor === Object)) {
+      if (!(Object.keys(sources)?.lenght === 0 && sources.constructor === Object)) {
         let videoUrl = sources?.find(source => source.quality == videoQuality).url
         return videoUrl
       }

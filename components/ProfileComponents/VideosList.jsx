@@ -3,7 +3,7 @@ import React from 'react'
 import MovieCard from '../MovieCard'
 
 const VideosList = ({ heading, data }) => {
-    if (data != undefined && data.length != 0) return (
+    if (data != undefined && data?.lenght != 0) return (
         <View style={styles.container}>
             <Text style={styles.heading}>{heading}</Text>
             <FlatList

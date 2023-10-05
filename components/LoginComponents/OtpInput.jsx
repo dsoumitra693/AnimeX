@@ -10,7 +10,7 @@ const OtpInput = ({ otp, setOtp, handleOtpSubmit, number, handlePhoneSubmit, cha
     const [isLoading, setIsLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     useEffect(() => {
-        setIsDisabled(otp.length !== 6)
+        setIsDisabled(otp?.lenght !== 6)
     }, [otp])
 
     const [canReqNewOTP, setCanReqNewOTP] = useState(false)

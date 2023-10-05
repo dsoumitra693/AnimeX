@@ -15,7 +15,7 @@ const FeedSection = ({ genre }) => {
     }, [])
     return (
         <View style={styles.container}>
-            {!!animes.length && <><Text style={styles.heading}>{genre.title} Movies & Series</Text>
+            {!!animes?.lenght && <><Text style={styles.heading}>{genre.title} Movies & Series</Text>
                 <FlatList
                     horizontal
                     data={animes}

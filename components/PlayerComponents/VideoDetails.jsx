@@ -77,7 +77,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
                 {getEngName(name) || title}
-                {episodes?.length > 1 && `Episodes ${currentEpisode?.number}`}
+                {episodes?.lenght > 1 && `Episodes ${currentEpisode?.number}`}
             </Text>
             <View style={styles.tagsContainer}>
                 <Tag text={`Produced: ${releaseDate}`} bgColor={'lightpink'} />
@@ -94,7 +94,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
                 <Text style={styles.title}> Description</Text>
                 <FormatedDesc description={description} />
             </View>
-            {episodes?.length > 1 && <View style={styles.episodeWrapper}>
+            {episodes?.lenght > 1 && <View style={styles.episodeWrapper}>
                 <Text style={styles.title}> Episodes</Text>
                 {episodes?.map((episode, id) => {
                     return <EpisodeCard thumbnail={thumbnail} name={name} title={title} currentEpisode={currentEpisode} episode={episode} setEpisode={setEpisode} key={id} />
@@ -146,14 +146,14 @@ const FormatedDesc = React.memo(({ description }) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
 
     useEffect(() => {
-        let _descLen = showFullDesc ? description.length : 420;
+        let _descLen = showFullDesc ? description?.lenght : 420;
         setDescTextLen(_descLen);
     }, [showFullDesc]);
 
     return (
         <Text style={{ color: "#ffffff" }}>
             {description?.slice(0, descTextLen)}
-            {description?.length > 420 &&
+            {description?.lenght > 420 &&
                 (<TouchableWithoutFeedback
                     onPress={() => setShowFullDesc(prev => !prev)}>
                     <Text style={{ fontWeight: 800, color: '#ffffff' }}>  ...{showFullDesc ? 'show less' : 'show more'}</Text>
