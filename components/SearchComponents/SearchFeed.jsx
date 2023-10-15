@@ -9,7 +9,7 @@ import { normalize } from '../../fontsNormalisation';
 const SearchFeed = ({ data, searchText }) => {
     const dismissKeyboard = () => Keyboard.dismiss()
 
-    if (!!data?.lenght && searchText) return (
+    if (!!data?.length && searchText) return (
         <View style={styles.searchFeed}>
             <Text style={styles.heading}>Showing search result '{searchText}'</Text>
             <FlatList
@@ -25,7 +25,7 @@ const SearchFeed = ({ data, searchText }) => {
             />
         </View>
     )
-    if (!data?.lenght && searchText) return (
+    if (!data?.length && searchText) return (
         <View style={{ ...styles.searchFeed, }}>
             <Text style={styles.heading}>NO RESULT</Text>
             <LottieView

@@ -1,5 +1,5 @@
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { AuthContext } from '../context/auth'
 import AvatarSection from '../components/ProfileComponents/AvatarSection'
 import { normalize } from '../fontsNormalisation'
@@ -78,8 +78,8 @@ const Profile = () => {
                             color={'grey'} onPress={() => { }} />
                     </View>
                 </View>
-                <VideosList heading={'Watch list'} data={state?.user?.watchList} />
-                <VideosList heading={'Anime you liked'} data={state?.user?.favouriteAnime} />
+                {/* <VideosList heading={'Watch list'} data={state?.user?.watchList} /> */}
+                {/* <VideosList heading={'Anime you liked'} data={state?.user?.favouriteAnime} /> */}
                 <View style={styles.footer}>
                     <Text style={{ color: '#fff' }}>Copyright ©<Text style={{ color: '#FE9F01' }}>AnimeX</Text> 2023 All Rights Reserved</Text>
                 </View>

@@ -6,7 +6,7 @@ let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://anime-x-backend.ver
 const universalApiCaller = async ({ url, method, ...props }) => {
     let _reqOptions = getReqOptions({ url, method })
     let response = await apiCall({ ..._reqOptions, ...props })
-    return response.data
+    return response.data != undefined ? response.data : response
 }
 
 export const getUserDetails = async (reqOptions) =>
@@ -36,3 +36,6 @@ export const updateWatchList = async (reqOptions) =>
 
 export const deleteWatchList = async (reqOptions) =>
     await universalApiCaller({ url: 'watch-list', method: 'DELETE', ...reqOptions });
+
+export const uploadProfileImg = async (reqOptions) =>
+    await universalApiCaller({ url: 'upload/profile-img', method: 'POST', ...reqOptions })

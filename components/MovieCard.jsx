@@ -6,7 +6,6 @@ import CachedImage from './CachedImage'
 
 const MovieCard = ({ title, src, size, animeId }) => {
     const navigator = useNavigation()
-
     return (
         <TouchableOpacity style={styles.card(normalize(size))} onPress={() => {
             navigator.navigate('Player', { animeId: animeId, thumbnail: src })

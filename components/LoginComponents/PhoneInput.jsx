@@ -8,7 +8,7 @@ const PhoneInput = ({ number, setNumber, handlePhoneSubmit }) => {
     const [isDisabled, setIsDisabled] = useState(true)
 
     useEffect(() => {
-        setIsDisabled(number?.lenght !== 10)
+        setIsDisabled(number?.length !== 10)
     }, [number])
     return (<>
         <View style={{ ...styles.inputWrapper }}>

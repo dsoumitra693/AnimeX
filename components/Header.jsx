@@ -37,7 +37,12 @@ const Header = ({ route }) => {
         )}
       <View style={styles.leftContainer}>
         <Icon name='cast' size={FONT.base} color={COLORS.white} onPress={logOut} />
-        <Avatar source={{ uri: defaultProfileImg }} size={25} onPress={goToProfilePage} />
+        <Avatar source={{
+          uri: state.user.profileImgUrl
+            || defaultProfileImg
+        }}
+          size={25}
+          onPress={goToProfilePage} />
       </View>
     </View>
   )

@@ -33,6 +33,14 @@
         "projectId": "0b9ada16-d2bd-4cb9-a45a-fed2af8cff33"
       }
     },
-    "scheme": "animx"
+    "scheme": "animx",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }

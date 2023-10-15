@@ -1,16 +1,65 @@
-import { StyleSheet, View } from 'react-native'
-import React from 'react'
+import { Alert, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useContext, useState } from 'react'
 import Avatar from '../Avatar'
 import { defaultProfileImg } from '../../constants'
 import Icon from 'react-native-vector-icons/Feather'
+import * as Picker from 'expo-image-picker';
+import { AuthContext } from '../../context/auth'
+import { imageTobase64 } from './imageTOBase64'
+import { uploadProfileImg } from '../../Api/users'
 
 const AvatarSection = () => {
-    const changeProfileImg = () => { }
+    let [state, setState] = useContext(AuthContext)
+
+    const updateLocalUser = useCallback((props) => {
+        setState((prevData) => ({ ...prevData, user: { ...prevData.user, ...props } }));
+    }, [setState]);
+
+    const headersList = {
+        Accept: '*/*',
+        authorization: state.token,
+        'Content-Type': 'application/octet-stream',
+    };
+
+
+    const uploader = async (bodyContent) => {
+        try {
+            let response = await uploadProfileImg({
+                headers: headersList,
+                data: bodyContent,
+            });
+            console.log(response)
+            updateLocalUser({ profileImgUrl: response.profileImg });
+        } catch (error) {
+            // Handle error
+            console.log(error)
+            Alert.alert('An error occurs')
+        }
+    }
+    const changeProfileImg = async () => {
+        let result = await Picker.launchImageLibraryAsync({
+            mediaTypes: Picker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 4],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            let url = result.assets[0].uri
+            let base64Img = await imageTobase64(url)
+            const bodyContent = JSON.stringify({
+                profileImg: base64Img
+            });
+            uploader(bodyContent)
+        }
+    }
     return (
-        <View style={styles.avatarWrapper} onPress={changeProfileImg}>
+        <TouchableOpacity style={styles.avatarWrapper} onPress={changeProfileImg}>
             <Avatar
-                source={{ uri: defaultProfileImg }}
-                size={80}
+                size={80} source={{
+                    uri: state.user.profileImgUrl
+                        || defaultProfileImg
+                }}
             />
             <View style={styles.iconWrapper}>
                 <Icon name={'camera'}
@@ -18,7 +67,7 @@ const AvatarSection = () => {
                     color={'grey'}
                     style={styles.editBtn} />
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
