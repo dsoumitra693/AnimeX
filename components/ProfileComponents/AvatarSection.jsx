@@ -7,6 +7,7 @@ import * as Picker from 'expo-image-picker';
 import { AuthContext } from '../../context/auth'
 import { imageTobase64 } from './imageTOBase64'
 import { uploadProfileImg } from '../../Api/users'
+import { showToast } from '../../utils'
 
 const AvatarSection = () => {
     let [state, setState] = useContext(AuthContext)
@@ -23,17 +24,16 @@ const AvatarSection = () => {
 
 
     const uploader = async (bodyContent) => {
+        showToast('Changing your profile image!')
         try {
             let response = await uploadProfileImg({
                 headers: headersList,
                 data: bodyContent,
             });
-            console.log(response)
             updateLocalUser({ profileImgUrl: response.profileImg });
+            showToast('Looks great!')
         } catch (error) {
-            // Handle error
-            console.log(error)
-            Alert.alert('An error occurs')
+            showToast('An error occurs')
         }
     }
     const changeProfileImg = async () => {

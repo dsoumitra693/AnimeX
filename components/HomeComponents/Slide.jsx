@@ -75,13 +75,12 @@ const Slide = memo(({ src, title, genres, animeId }) => {
         justifyContent: 'center',
       }}
     >
-      <CachedImage source={{ uri: src }} height={height * 0.8} width={width} resizeMode="stretch" />
+      <CachedImage source={{ uri: src }} height={height * 0.85} width={width} resizeMode="stretch" />
       <View style={styles.container}>
         <LinearGradient
-          // Background Linear Gradient
           colors={['transparent', '#222']}
           start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 0.65 }}
+          end={{ x: 0, y: 0.9 }}
           style={styles.linearGradient}
         >
           <View style={styles.textWrapper}>
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     bottom: 0,
-    height: '30%',
+    height: '20%',
     left: 0,
     width: '100%',
   },

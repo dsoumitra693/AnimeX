@@ -22,7 +22,6 @@ export const getStreamUrls = async (episodeId) => {
 export const searchAnime = async (searchQuery) => {
     const reqOptionsConfig = { url: searchQuery, method: 'GET' }
     let res = await _apiCall(reqOptionsConfig, searchQuery)
-    console.log(res)
     return res.results
 }
 
