@@ -1,14 +1,13 @@
 import { apiCall, createHeadersList, getReqOptionsFactoty } from "./apiConfig"
 
 let headersList = createHeadersList()
-let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://consumet-mauve.vercel.app/anime/gogoanime', headersList })
-
+let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://api.consumet.org/anime/gogoanime', headersList })
 const _apiCall = async (reqOptionsConfig, condition = true) => {
     let response = {}
     if (condition) {
         let reqOptions = getReqOptions(reqOptionsConfig)
         response = await apiCall(reqOptions)
-        return response.data
+        return response
     }
 }
 
@@ -16,13 +15,13 @@ const _apiCall = async (reqOptionsConfig, condition = true) => {
 export const getStreamUrls = async (episodeId) => {
     const reqOptionsConfig = { url: `watch/${episodeId}`, method: 'GET' }
     let res = await _apiCall(reqOptionsConfig, episodeId)
-    return res
+    return res.data
 }
 
 export const searchAnime = async (searchQuery) => {
     const reqOptionsConfig = { url: searchQuery, method: 'GET' }
     let res = await _apiCall(reqOptionsConfig, searchQuery)
-    return res.results
+    return res.data.results
 }
 
 export const getTopAiringAimne = async () => await searchAnime('top-airing')
