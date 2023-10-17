@@ -78,7 +78,7 @@ const Profile = () => {
                             color={'grey'} onPress={() => { }} />
                     </View>
                 </View>
-                {/* <VideosList heading={'Watch list'} data={state?.user?.watchList} /> */}
+                <VideosList heading={'Watch list'} data={state?.user?.watchList} />
                 {/* <VideosList heading={'Anime you liked'} data={state?.user?.favouriteAnime} /> */}
                 <View style={styles.footer}>
                     <Text style={{ color: '#fff' }}>Copyright ©<Text style={{ color: '#FE9F01' }}>AnimeX</Text> 2023 All Rights Reserved</Text>
