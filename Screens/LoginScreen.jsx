@@ -11,27 +11,31 @@ const LoginScreen = () => {
     const [state, setState] = useContext(AuthContext)
     const [number, setNumber] = useState('')
     const [otp, setOtp] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleOtpSubmit = async () => {
+        setIsLoading(true)
         let res = await verifyOtp(number, otp)
         if (res.status == 200) {
             const data = JSON.parse(res.request._response).data
             setState({ ...state, user: data.userObj, token: data.token })
             saveToAsyncStorage(data)
         }
-        else if (res.status == 400) {
+        else {
             showToast('There was an error while verifing otp')
         }
+        setIsLoading(false)
     }
     const [isOtpSent, setIsOtpSent] = useState(false)
     const handlePhoneSubmit = async () => {
+        setIsLoading(true)
         let res = await getOtp(number)
         if (res.status == 200) {
             setIsOtpSent(true)
         } else {
-
             showToast('There was an error while sending otp')
         }
+        setIsLoading(false)
     }
 
     const changeNumber = () => {
@@ -46,14 +50,18 @@ const LoginScreen = () => {
                 {!isOtpSent ? <PhoneInput
                     number={number}
                     setNumber={setNumber}
-                    handlePhoneSubmit={handlePhoneSubmit} /> :
+                    handlePhoneSubmit={handlePhoneSubmit}
+                    isLoading={isLoading}
+                /> :
                     <OtpInput
                         otp={otp}
                         setOtp={setOtp}
                         handleOtpSubmit={handleOtpSubmit}
                         handlePhoneSubmit={handlePhoneSubmit}
                         number={number}
-                        changeNumber={changeNumber} />}
+                        changeNumber={changeNumber}
+                        isLoading={isLoading}
+                    />}
             </View>
         </View>
     )
