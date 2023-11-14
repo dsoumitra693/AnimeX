@@ -12,10 +12,9 @@ const getEngName = (namesStr) => {
 };
 
 const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, animeId }) => {
-    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url } = videoDetails;
+    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url, status } = videoDetails;
     const [isInFavAnime, setIsInFavAnime] = useState(false);
     const [data, setData] = useContext(AuthContext);
-
     useEffect(() => {
         let isFound = data.user.favouriteAnime.find((anime) => {
             return anime.animeId === animeId
@@ -77,7 +76,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
                 {getEngName(name) || title}
-                {episodes?.length > 1 && `Episodes ${currentEpisode?.number}`}
+                {episodes?.length > 1 && ` Episodes ${currentEpisode?.number}`}
             </Text>
             <View style={styles.tagsContainer}>
                 <Tag text={`Produced: ${releaseDate}`} bgColor={'lightpink'} />
@@ -104,8 +103,8 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
     );
 };
 
-const Tag = ({ text, bgColor }) => (
-    <View style={styles.tags(bgColor)}>
+const Tag = ({ text, bgColor, style }) => (
+    <View style={[styles.tags(bgColor), style]}>
         <Text style={styles.tagText}>{text}</Text>
     </View>
 );
@@ -167,7 +166,8 @@ export default VideoDetails;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        padding: 20,
+        padding: 10,
+        paddingTop: 8
     },
     tagsContainer: {
         flexDirection: 'row',
@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
         fontFamily: 'CooperHewitt',
         letterSpacing: 0.75,
         color: '#fff',
-        lineHeight: 25
+        lineHeight: 25,
+        textAlign: 'left'
     },
     details: {
         fontSize: normalize(17),
@@ -193,18 +194,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: bgColor ?? '#FE9F01',
-        borderRadius: 5,
+        borderRadius: 3,
+        overflow: 'hidden',
     }),
     tagText: {
         fontSize: normalize(14),
         fontFamily: 'CooperHewitt',
-        color: '#000'
+        color: '#000',
+        zIndex: 10
     },
     btnWrapper: {
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        paddingVertical: 15
+        paddingVertical: 10,
     },
     btn: {
         paddingHorizontal: 24,
@@ -223,12 +226,12 @@ const styles = StyleSheet.create({
     },
     descWrapper: {
         width: '100%',
-        paddingVertical: 10,
     },
     descText: {
         fontSize: normalize(15),
         color: '#fff',
         fontFamily: 'CooperHewitt',
+        padding: 10,
         paddingVertical: 5,
         lineHeight: 23
     },
@@ -258,5 +261,5 @@ const styles = StyleSheet.create({
     },
     episodedetails: {
         width: '50%'
-    }
+    },
 });

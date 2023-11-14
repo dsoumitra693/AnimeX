@@ -1,7 +1,10 @@
 import { apiCall, createHeadersList, getReqOptionsFactoty } from "./apiConfig"
 
 let headersList = createHeadersList()
-let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://api.consumet.org/anime/gogoanime', headersList })
+const baseUrl = 'https://api.consumet.org/anime/gogoanime'
+// const baseUrl = 'https://api.consumet.org/anime/gogoanime'
+
+let getReqOptions = getReqOptionsFactoty({ baseUrl, headersList })
 const _apiCall = async (reqOptionsConfig, condition = true) => {
     let response = {}
     if (condition) {

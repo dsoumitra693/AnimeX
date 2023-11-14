@@ -41,7 +41,7 @@ const Slide = memo(({ src, title, genres, animeId }) => {
       });
       updateLocalUser({ watchList: response.watchList });
     } catch (error) {
-      // Handle error
+      showToast("Something went wrong");
     }
   }, [headersList, bodyContent, updateLocalUser]);
 
@@ -54,7 +54,7 @@ const Slide = memo(({ src, title, genres, animeId }) => {
       });
       updateLocalUser({ watchList: response.watchList });
     } catch (error) {
-      // Handle error
+      showToast("Something went wrong");
     }
   }, [headersList, bodyContent, updateLocalUser]);
 

@@ -32,7 +32,7 @@ const RecentSlides = () => {
                         animated: true,
                     })
                 } catch (error) {
-                    showToast("Something went wrong" + error);
+                    showToast("Something went wrong");
                 }
             }
         }
