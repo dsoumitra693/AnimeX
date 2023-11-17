@@ -23,7 +23,7 @@ Backend Repo Link: https://github.com/dsoumitra693/AnimeX-Backend
 
 • Implementing Cast to Device
 
-• Adding Profile Page
+• Adding Profile Page ✅
 
 • Adding Fuctionality to Downlaod Video
 
