@@ -1,7 +1,10 @@
 import { apiCall, createHeadersList, getReqOptionsFactoty } from "../apiConfig"
 
 let headersList = createHeadersList()
-let getReqOptions = getReqOptionsFactoty({ baseUrl: 'https://anime-x-backend.vercel.app/user', headersList })
+let getReqOptions = getReqOptionsFactoty({
+    baseUrl: 'https://anime-x-backend.vercel.app/user',
+    headersList
+})
 
 const universalApiCaller = async ({ url, method, ...props }) => {
     let _reqOptions = getReqOptions({ url, method })

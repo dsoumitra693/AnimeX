@@ -1,5 +1,5 @@
-import { Alert, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useContext } from 'react'
 import Avatar from '../Avatar'
 import { defaultProfileImg } from '../../constants'
 import Icon from 'react-native-vector-icons/Feather'
