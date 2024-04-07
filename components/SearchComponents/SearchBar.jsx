@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import { StatusBar } from 'react-native'
-import Icon from 'react-native-vector-icons/Feather'
+import { Feather } from '@expo/vector-icons'
 import { TextInput, TouchableOpacity } from 'react-native'
 import { normalize } from '../../fontsNormalisation'
 
@@ -19,7 +19,7 @@ const SearchBar = ({ setSearchText, searchText }) => {
         returnKeyType='search'
       />
       <TouchableOpacity onPress={() => setSearchText('')}>
-        <Icon name='x' size={30} color={searchText == '' ? '#888': '#fff'} />
+        <Feather name='x' size={30} color={searchText == '' ? '#888': '#fff'} />
       </TouchableOpacity>
     </View>
   )

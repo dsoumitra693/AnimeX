@@ -1,6 +1,6 @@
 import { StyleSheet, View, StatusBar, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
-import Icon from 'react-native-vector-icons/Feather'
+import { Feather } from '@expo/vector-icons';
 import { COLORS, FONT, defaultProfileImg } from '../constants'
 import Avatar from './Avatar'
 import { useNavigation } from '@react-navigation/native'
@@ -25,18 +25,18 @@ const Header = ({ route }) => {
         <TouchableOpacity onPress={() => {
           navigation.goBack()
         }}>
-          <Icon name='arrow-left' size={FONT.base} color={COLORS.white} />
+          <Feather name='arrow-left' size={FONT.base} color={COLORS.white} />
         </TouchableOpacity>
       ) :
 
         (<TouchableOpacity onPress={() => {
           navigation.navigate('Search')
         }}>
-          <Icon name='search' size={FONT.base} color={COLORS.white} />
+          <Feather name='search' size={FONT.base} color={COLORS.white} />
         </TouchableOpacity>
         )}
       <View style={styles.leftContainer}>
-        <Icon name='cast' size={FONT.base} color={COLORS.white} onPress={logOut} />
+        <Feather name='cast' size={FONT.base} color={COLORS.white} onPress={logOut} />
         <Avatar source={{
           uri: state?.user?.profileImgUrl
             || defaultProfileImg

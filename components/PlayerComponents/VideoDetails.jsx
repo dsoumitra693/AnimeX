@@ -1,6 +1,6 @@
 import { Alert, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { normalize } from '../../fontsNormalisation';
 import { deleteFavAnime, updateFavAnime } from '../../Api/users';
 import { AuthContext } from '../../context/auth';
@@ -11,16 +11,16 @@ const getEngName = (namesStr) => {
     return nameArr?.find(name => (/^[a-zA-Z0-9"': ]+$/.test(name.trim())));
 };
 
-const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, animeId }) => {
+const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, movieId }) => {
     const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url, status } = videoDetails;
     const [isInFavAnime, setIsInFavAnime] = useState(false);
     const [data, setData] = useContext(AuthContext);
     useEffect(() => {
         let isFound = data.user.favouriteAnime.find((anime) => {
-            return anime.animeId === animeId
+            return anime.movieId === movieId
         }) || false;
         setIsInFavAnime(isFound);
-    }, [animeId, data.user]);
+    }, [movieId, data.user]);
     const onShare = () => {
         const message = `Hey, I'm watching ${getEngName(name) || title}, you would like it too! Watch it on AnimeX app. \n ${url}`;
         try {
@@ -39,7 +39,7 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, ani
     };
 
     const bodyContent = JSON.stringify({
-        animeId: animeId,
+        movieId: movieId,
         name: title,
         imgUrl: thumbnail,
     });
@@ -111,30 +111,30 @@ const Tag = ({ text, bgColor, style }) => (
 
 const Btn = ({ title, iconName, onPress, isActive }) => (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
-        <Icon name={iconName} size={normalize(25)} color={!isActive ? '#777' : '#ffc0cb'} />
+        <Ionicons name={iconName} size={normalize(25)} color={!isActive ? '#777' : '#ffc0cb'} />
         <Text style={[styles.tagText, { color: !isActive ? '#777' : '#ffc0cb' }]}>{title}</Text>
     </TouchableOpacity>
 );
 
 const EpisodeCard = React.memo(({ name, title, thumbnail, episode: {
-    id: animeId, number: episodeNumber
+    id: movieId, number: episodeNumber
 }, setEpisode, currentEpisode }) => {
 
     const playEpisode = () => {
-        if (currentEpisode.id !== animeId) setEpisode({ id: animeId, number: episodeNumber });
+        if (currentEpisode.id !== movieId) setEpisode({ id: movieId, number: episodeNumber });
     };
 
     return (
         <TouchableOpacity style={styles.episodeCard} onPress={playEpisode}>
             <View style={styles.thumbnail}>
                 <CachedImage source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
-                <Icon name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
+                <Ionicons name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
             </View>
             <View style={styles.episodedetails}>
                 <Text style={{ ...styles.title, fontSize: normalize(15) }}>{episodeNumber}. Episode ({getEngName(name) || title})</Text>
             </View>
             <View>
-                <Icon name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
+                <Ionicons name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
             </View>
         </TouchableOpacity>
     );
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: normalize(20),
-        fontFamily: 'CooperHewitt',
         letterSpacing: 0.75,
         color: '#fff',
         lineHeight: 25,
@@ -186,7 +185,6 @@ const styles = StyleSheet.create({
     details: {
         fontSize: normalize(17),
         paddingVertical: 8,
-        fontFamily: 'CooperHewitt',
     },
     tags: (bgColor) => ({
         padding: 4,
@@ -199,7 +197,6 @@ const styles = StyleSheet.create({
     }),
     tagText: {
         fontSize: normalize(14),
-        fontFamily: 'CooperHewitt',
         color: '#000',
         zIndex: 10
     },
@@ -217,7 +214,6 @@ const styles = StyleSheet.create({
     stats: {
         fontSize: normalize(15),
         color: '#fff',
-        fontFamily: 'CooperHewitt',
         paddingVertical: 5,
     },
     statsHighlight: {
@@ -230,7 +226,6 @@ const styles = StyleSheet.create({
     descText: {
         fontSize: normalize(15),
         color: '#fff',
-        fontFamily: 'CooperHewitt',
         padding: 10,
         paddingVertical: 5,
         lineHeight: 23

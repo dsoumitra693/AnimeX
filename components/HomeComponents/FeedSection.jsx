@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React, { memo, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MovieCard from '../MovieCard'
-import { searchAnime } from '../../apiCall'
+import { searchMoviesWithGenre } from '../../apiCall'
 import { normalize } from '../../fontsNormalisation'
 
 const FeedSection = ({ genre }) => {
@@ -9,7 +9,8 @@ const FeedSection = ({ genre }) => {
 
     useEffect(() => {
         (async function () {
-            let _animes = await searchAnime(genre.id)
+            let _animes = await searchMoviesWithGenre(genre.id)
+            console.log(_animes)
             setAnimes(_animes)
         })()
     }, [])
@@ -28,7 +29,7 @@ const FeedSection = ({ genre }) => {
     )
 }
 
-export default memo(FeedSection)
+export default FeedSection
 
 const styles = StyleSheet.create({
     container: {
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
         fontSize: normalize(20),
         letterSpacing: -0.5,
         fontWeight: '600',
-        fontFamily: 'CooperHewitt',
         color: '#fff',
     }
 })

@@ -1,6 +1,6 @@
 import { View, Animated, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, Text, Dimensions } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import Icon from 'react-native-vector-icons/Ionicons'
+import { Ionicons } from '@expo/vector-icons';
 import { Slider } from '@miblanchard/react-native-slider'
 import { msToTime, showToast } from '../../utils'
 import * as ScreenOrientation from 'expo-screen-orientation'
@@ -209,7 +209,7 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
 
 const CTRLButton = ({ iconName, size, onPress, style }) => (
     <TouchableOpacity onPress={onPress}>
-        <Icon name={iconName} size={normalize(size)} color={'#fff'} style={style} />
+        <Ionicons name={iconName} size={normalize(size)} color={'#fff'} style={style} />
     </TouchableOpacity>
 )
 

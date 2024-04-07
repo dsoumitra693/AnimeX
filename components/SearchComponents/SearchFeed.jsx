@@ -1,7 +1,7 @@
 import { StyleSheet, Text, FlatList, Keyboard, View, } from 'react-native'
 import React from 'react'
 import MovieCard from '../MovieCard'
-import Icon from 'react-native-vector-icons/Feather'
+import { Feather } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { normalize } from '../../fontsNormalisation';
 
@@ -53,7 +53,7 @@ const SearchFeed = ({ data, searchText }) => {
     return (
         <View style={{ ...styles.searchFeed, }}>
             <Text style={styles.heading}>SEARCH HERE ...</Text>
-            <Icon name='search' size={80} color={'#888'} />
+            <Feather name='search' size={80} color={'#888'} />
             <Text
                 style={{
                     ...styles.heading,
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         paddingVertical: 20,
         fontSize: normalize(20),
-        fontFamily: 'CooperHewitt',
         borderColor: '#FE9F01',
         borderTopWidth: 2,
     },

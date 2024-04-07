@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: normalize(13),
-        fontFamily: 'CooperHewitt',
         fontWeight: '700',
         color: '#fff'
     }

@@ -1,0 +1,1 @@
+export const backend_url = "https://consumet-ts-two.vercel.app"

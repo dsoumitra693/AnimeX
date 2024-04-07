@@ -1,72 +1,57 @@
-import { Dimensions, FlatList } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
-import Slide from './Slide'
-import { getTopAiringAimne } from '../../apiCall'
-import { showToast } from '../../utils'
-
-
-const WINDOW_WIDTH = Dimensions.get("window").width
-let CurrentSlide = 0
-let IntervalTime = 4000
-let timerId
+import React, { useEffect, useState, useRef } from "react";
+import { getTopAiringMovie } from "../../apiCall";
+import { FlatList, Text, View } from "react-native";
+import Slide from "./Slide";
 
 const RecentSlides = () => {
-    // get top airing anime
-    const [topAiringAinme, setTopAiringAinme] = useState({})
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const flatListRef = useRef(null);
 
-    useEffect(() => {
-        (async function () {
-            let _topAiringAinme = await getTopAiringAimne()
-            setTopAiringAinme(_topAiringAinme)
-        })()
-    }, [])
-    const flatList = useRef(null)
+  useEffect(() => {
+    (async function () {
+      let _trendingMovies = await getTopAiringMovie();
 
-    goToNextPage = () => {
-        if (CurrentSlide >= 9) CurrentSlide = 0;
-        if ((flatList !== null) && (flatList.current !== null)) {
-            if (typeof flatList.current.scrollToIndex === "function") {
-                try {
-                    flatList?.current?.scrollToIndex({
-                        index: CurrentSlide++,
-                        animated: true,
-                    })
-                } catch (error) {
-                    showToast("Something went wrong");
-                }
-            }
-        }
+      setTrendingMovies(_trendingMovies.slice(0, 5));
+    })();
+  }, []);
+
+  const autoSlide = () => {
+    if (
+      flatListRef.current &&
+      Array.isArray(trendingMovies) && // Check if trendingMovies is an array
+      trendingMovies?.length > 0
+    ) {
+      const currentIndex = flatListRef.current.currentIndex || 0;
+      const nextIndex = (currentIndex + 1) % trendingMovies.length;
+      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
     }
-    startAutoPlay = () => {
-        timerId = setInterval(goToNextPage, IntervalTime)
-    }
+  };
 
-    stopAutoPlay = () => {
-        if (timerId)
-            clearInterval(timerId)
-    }
+  useEffect(() => {
+    const intervalId = setInterval(autoSlide, 1000);
 
-    useEffect(() => {
-        if (topAiringAinme?.length != 0) startAutoPlay()
-        return () => stopAutoPlay()
-    }, [topAiringAinme])
+    return () => clearInterval(intervalId);
+  }, [ trendingMovies]);
 
-    return (
-        <FlatList
-            horizontal
-            data={topAiringAinme ? topAiringAinme : [{}]}
-            ref={flatList}
-            showsHorizontalScrollIndicator={false}
-            snapToAlignment="start"
-            decelerationRate={"fast"}
-            snapToInterval={WINDOW_WIDTH}
-            renderItem={({ item }) => {
-
-                return <Slide src={item.image} title={item.title} genres={item.genres} animeId={item.id} />
-            }}
-            keyExtractor={item => item.id}
+  if (trendingMovies.length == 0) return;
+  return (
+    <FlatList
+      ref={flatListRef}
+      data={trendingMovies}
+      horizontal
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={(item) => item?.id?.toString()}
+      renderItem={({ item }) => (
+        <Slide
+          src={item?.image}
+          title={item?.title}
+          type={item?.type}
+          movieId={item?.id}
         />
-    )
-}
+      )}
+    />
+  );
+};
 
-export default RecentSlides
+export default RecentSlides;

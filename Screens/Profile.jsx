@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useState } from 'react'
 import { AuthContext } from '../context/auth'
 import AvatarSection from '../components/ProfileComponents/AvatarSection'
 import { normalize } from '../fontsNormalisation'
-import Icon from 'react-native-vector-icons/Feather'
+import { Feather } from '@expo/vector-icons';
 import { EditModal, VideosList } from '../components'
 
 let size = normalize(18)
@@ -36,7 +36,7 @@ const Profile = () => {
                 <AvatarSection />
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={styles.name} >{state.user.name || "Add your name"} </Text>
-                    <Icon name={'edit-2'}
+                    <Feather name={'edit-2'}
                         size={size}
                         color={'grey'} onPress={() => {
                             setModalVisible(true)
@@ -46,7 +46,7 @@ const Profile = () => {
                 <View style={styles.userDeatils}>
                     <View style={styles.detailsSection}>
                         <View style={styles.details}>
-                            <Icon name={'phone'}
+                            <Feather name={'phone'}
                                 size={size}
                                 color={'grey'} />
                             <Text style={styles.text}>{state.user.phone}</Text>
@@ -54,12 +54,12 @@ const Profile = () => {
                     </View>
                     <View style={styles.detailsSection}>
                         <View style={styles.details}>
-                            <Icon name={'mail'}
+                            <Feather name={'mail'}
                                 size={size}
                                 color={'grey'} />
                             <Text style={styles.text}>{state.user.email || 'Add new email'}</Text>
                         </View>
-                        <Icon name={'edit-2'}
+                        <Feather name={'edit-2'}
                             size={size}
                             color={'grey'} onPress={() => {
                                 setModalVisible(true)
@@ -68,12 +68,12 @@ const Profile = () => {
                     </View>
                     <View style={styles.detailsSection}>
                         <View style={styles.details}>
-                            <Icon name={'video'}
+                            <Feather name={'video'}
                                 size={size}
                                 color={'grey'} />
                             <Text style={styles.text}>{'change plan'}</Text>
                         </View>
-                        <Icon name={'chevron-right'}
+                        <Feather name={'chevron-right'}
                             size={size}
                             color={'grey'} onPress={() => { }} />
                     </View>
@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     name: {
         margin: 5,
         fontSize: normalize(20),
-        fontFamily: 'CooperHewitt',
         color: '#fff'
     },
     userDeatils: {
@@ -140,7 +139,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: size,
-        fontFamily: 'CooperHewitt',
         color: '#fff'
     },
     footer: {

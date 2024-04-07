@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { getOtp, verifyOtp } from '../auth'
 import { AuthContext } from '../context/auth'
@@ -38,6 +38,19 @@ const LoginScreen = () => {
         setIsLoading(false)
     }
 
+    const setDefaultUser = ()=>{
+        setState({ ...state, user: {
+            id: 'user_default',
+            name: 'user',
+            email: '',
+            phone: '',
+            isSubscribed: false,
+            favouriteAnime: [],
+            watchList: [],
+            profileImgUrl: 'https://static.vecteezy.com/system/resources/previews/020/765/399/non_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg',
+        }, 
+        token: 'default_user_token' })
+    }
     const changeNumber = () => {
         setIsOtpSent(false)
     }
@@ -46,6 +59,9 @@ const LoginScreen = () => {
         <View style={styles.container}>
             <CachedImage source={{ uri: 'https://i.pinimg.com/1200x/4b/b8/e9/4bb8e931640dcff50f8e670c86919e1b.jpg' }}
                 style={StyleSheet.absoluteFillObject} />
+                <TouchableOpacity style={styles.skipSection} onPress={setDefaultUser}>
+                    <Text style={[styles.msgtext,{fontSize:18}]}>Skip</Text>
+                </TouchableOpacity>
             <View style={styles.authWrapper}>
                 {!isOtpSent ? <PhoneInput
                     number={number}

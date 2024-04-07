@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useContext } from 'react'
 import Avatar from '../Avatar'
 import { defaultProfileImg } from '../../constants'
-import Icon from 'react-native-vector-icons/Feather'
+import { Feather } from '@expo/vector-icons';
 import * as Picker from 'expo-image-picker';
 import { AuthContext } from '../../context/auth'
 import { imageTobase64 } from './imageTOBase64'
@@ -62,7 +62,7 @@ const AvatarSection = () => {
                 }}
             />
             <View style={styles.iconWrapper}>
-                <Icon name={'camera'}
+                <Feather name={'camera'}
                     size={20}
                     color={'grey'}
                     style={styles.editBtn} />

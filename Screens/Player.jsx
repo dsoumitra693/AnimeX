@@ -1,17 +1,19 @@
 import { StyleSheet, View } from 'react-native'
 import React, { useState, useEffect, } from 'react'
 import { MoviePlayer, VideoDetails } from '../components'
-import { getAnimeInfo, getStreamUrls } from '../apiCall'
+import { getMovieInfo, getStreamUrls } from '../apiCall'
 
 const Player = ({ route }) => {
+  console.log(route)
   //get video details 
   const [videoDetails, setVideoDetails] = useState({})
 
   useEffect(() => {
     (async function () {
-      let animeInfo = await getAnimeInfo(route.params.animeId)
-      setVideoDetails(animeInfo)
-      setEpisode(animeInfo.episodes[0])
+      let movieInfo = await getMovieInfo(route.params.movieId)
+      console.log(movieInfo)
+      setVideoDetails(movieInfo)
+      setEpisode(movieInfo.episodes[0])
     })()
 
   }, [])
@@ -26,16 +28,16 @@ const Player = ({ route }) => {
 
 
   //video url
-  useEffect(() => {
-    (async function () {
-      let videoId = episode?.id ? episode?.id : videoDetails?.id
-      let _videoSources = await getStreamUrls(videoId)
-      if (_videoSources !== undefined) {
-        let { sources } = _videoSources
-        setVideoSource(sources)
-      }
-    })()
-  }, [videoDetails, episode])
+  // useEffect(() => {
+  //   (async function () {
+  //     let videoId = episode?.id ? episode?.id : videoDetails?.id
+  //     let _videoSources = await getStreamUrls(videoId, videoDetails?.id)
+  //     if (_videoSources !== undefined) {
+  //       let { sources } = _videoSources
+  //       setVideoSource(sources)
+  //     }
+  //   })()
+  // }, [videoDetails, episode])
 
   useEffect(() => {
     const filterByQuality = (sources) => {
@@ -77,7 +79,7 @@ const Player = ({ route }) => {
           videoDetails={videoDetails}
           setEpisode={setEpisode}
           currentEpisode={episode}
-          animeId={route.params.animeId}
+          movieId={route.params.movieId}
           thumbnail={route.params.thumbnail} />
       </>}
     </View>

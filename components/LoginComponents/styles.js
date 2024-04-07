@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
     inputField: {
         width: '100%',
         fontSize: normalize(18),
-        fontFamily: 'CooperHewitt',
         color: "#ffffff",
     },
     authBtn: (isDisabled) => ({
@@ -52,7 +51,6 @@ export const styles = StyleSheet.create({
         opacity: isDisabled ? 0.5 : 1,
     }),
     authBtnTitle: {
-        fontFamily: 'CooperHewitt',
         fontSize: normalize(20),
         color: "#fff"
     },
@@ -61,7 +59,6 @@ export const styles = StyleSheet.create({
     },
     footertext: {
         fontSize: 14,
-        fontFamily: 'CooperHewitt',
         color: '#666666'
     },
     footerLink: {
@@ -77,10 +74,8 @@ export const styles = StyleSheet.create({
     msgtext: {
         fontSize: 14,
         color: '#ffffff',
-        fontFamily: 'CooperHewitt',
     },
     msgHighlight: {
-        fontFamily: 'CooperHewitt',
         fontWeight: 900
     },
     msgTextBtn: {
@@ -97,4 +92,16 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         opacity: isDisabled ? 0.5 : 1,
     }),
+    skipSection:{
+        backgroundColor: '#444444',
+        overflow: 'hidden',
+        borderRadius: 15,
+        paddingHorizontal: 15,
+        paddingVertical:8,
+        flexDirection: 'row',
+        position: 'absolute',
+        top:20,
+        right:10
+    }
 })
+

@@ -1,8 +1,10 @@
 import { apiCall, createHeadersList, getReqOptionsFactoty } from "../apiConfig"
+import { backend_url } from "../config"
+
 
 let headersList = createHeadersList()
 let getReqOptions = getReqOptionsFactoty({
-    baseUrl: 'https://anime-x-backend.vercel.app/user',
+    baseUrl: `${backend_url}/user`,
     headersList
 })
 
