@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { normalize } from "../../fontsNormalisation";
 
 
@@ -100,7 +100,7 @@ export const styles = StyleSheet.create({
         paddingVertical:8,
         flexDirection: 'row',
         position: 'absolute',
-        top:20,
+        top:StatusBar.currentHeight,
         right:10
     }
 })

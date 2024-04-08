@@ -9,10 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 const Stack = createNativeStackNavigator()
 export const LoginStack = () => {
     return (
-        <Stack.Navigator screenOptions={{
-            header: (props) => <Header {...props} />,
-            statusBarColor: '#222',
-        }}>
+        <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen name='Home'
                 component={Home}
             />
@@ -20,10 +17,8 @@ export const LoginStack = () => {
                 component={Profile}
             />
             <Stack.Screen name='Player'
-                options={{ ...screenOptions, }}
                 component={Player} />
             <Stack.Screen name='Search'
-                options={screenOptions}
                 component={Search} />
         </Stack.Navigator>
     )
@@ -32,7 +27,7 @@ export const LoginStack = () => {
 export const LogoutStack = () => {
     return (
         <Stack.Navigator screenOptions={{
-            statusBarColor: '#222',
+            headerShown:false,
             ...screenOptions
         }}>
             <Stack.Screen name='Login'

@@ -1,5 +1,5 @@
 import { normalize } from "./fontsNormalisation";
-
+import { Header } from "./components";
 export const COLORS = {
   white: "#fff",
 };
@@ -27,9 +27,7 @@ export const FEED_GENRES = [
   { title: "Must See Psychological Anime", id: "Psychological" },
   { title: "Must See Thriller Anime", id: "Thriller" },
   { title: "Must See Mecha Anime", id: "Mecha" },
-  { title: "Must See Historical Anime", id: "Historical" },
   { title: "Must See Music Anime", id: "Music" },
-  { title: "Must See Supernatural Anime", id: "Supernatural" },
   { title: "Must See Shounen Anime", id: "Shounen" },
   { title: "Must See Shoujo Anime", id: "Shoujo" },
   { title: "Must See Seinen Anime", id: "Seinen" },
@@ -54,5 +52,11 @@ export const screenOptions = {
   tabBarStyle: {
     display: "none",
   },
-  headerShown: false,
+  statusBarStyle: "auto",
+  statusBarTranslucent: true,
+  statusBarColor: "transparent",
+  statusBarStyle:"dark",
+  navigationBarColor:"#222",
+  header: (props) => <Header {...props} />,
 };
+
