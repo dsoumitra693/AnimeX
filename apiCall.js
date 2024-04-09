@@ -39,5 +39,5 @@ export const getTopAiringMovie = () => searchMovie("top-airing")
 export const getMovieInfo = async (animeId) => {
   const reqOptionsConfig = { url: `info/${animeId}`, method: "GET" };
   const res = await _apiCall(reqOptionsConfig);
-  return res?.data?.results;
+  return res.data;
 };

@@ -18,7 +18,7 @@ export default function App() {
 
 
   if (isLoaded) return (
-    <View style={{flex:1, justifyContent:"center", backgroundColor:"red"}}>
+    <View style={{flex:1, justifyContent:"center", backgroundColor:"#222"}}>
     <AuthProvider>
       <Navigation />
     </ AuthProvider>

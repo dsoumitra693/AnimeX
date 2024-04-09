@@ -15,7 +15,7 @@ export let getReqOptionsFactoty = ({ baseUrl, headersList }) => {
 };
 
 export const apiCall = async (reqOptions) => {
-
+  console.log(reqOptions)
   try {
     let response = await axios.request(reqOptions);
     return response;

@@ -1,6 +1,6 @@
 import { Alert, ScrollView, Share, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
 import { normalize } from '../../fontsNormalisation';
 import { deleteFavAnime, updateFavAnime } from '../../Api/users';
 import { AuthContext } from '../../context/auth';
@@ -11,8 +11,8 @@ const getEngName = (namesStr) => {
     return nameArr?.find(name => (/^[a-zA-Z0-9"': ]+$/.test(name.trim())));
 };
 
-const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, movieId }) => {
-    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url, status } = videoDetails;
+const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, movieId }) => {
+    const { title, description, releaseDate, otherName: name, episodes, type, subOrDub, url, status, image:thumbnail } = videoDetails;
     const [isInFavAnime, setIsInFavAnime] = useState(false);
     const [data, setData] = useContext(AuthContext);
     useEffect(() => {
@@ -75,20 +75,20 @@ const VideoDetails = ({ currentEpisode, setEpisode, videoDetails, thumbnail, mov
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
-                {getEngName(name) || title}
+                {title || getEngName(name)}
                 {episodes?.length > 1 && ` Episodes ${currentEpisode?.number}`}
             </Text>
             <View style={styles.tagsContainer}>
                 <Tag text={`Produced: ${releaseDate}`} bgColor={'lightpink'} />
-                <Tag text={type} bgColor={'skyblue'} />
                 <Tag text={subOrDub?.toUpperCase()} />
+                <Tag text={status?.toUpperCase()}  bgColor={'lightgreen'}/>
             </View>
-            <View style={styles.btnWrapper}>
+            {/* <View style={styles.btnWrapper}>
                 <Btn title={isInFavAnime ? "Liked" : "Like"} iconName={isInFavAnime ? 'md-heart' : 'md-heart-outline'} onPress={toggleFavAnime} />
                 <Btn title="Dislike" iconName={'md-heart-dislike-outline'} onPress={() => { }} isActive={false} />
                 <Btn title="Share" iconName={'ios-share-social-outline'} onPress={onShare} isActive={false} />
                 <Btn title="Download" iconName={'ios-download-outline'} onPress={() => { }} isActive={false} />
-            </View>
+            </View> */}
             <View style={styles.descWrapper}>
                 <Text style={styles.title}> Description</Text>
                 <FormatedDesc description={description} />
@@ -109,16 +109,17 @@ const Tag = ({ text, bgColor, style }) => (
     </View>
 );
 
-const Btn = ({ title, iconName, onPress, isActive }) => (
-    <TouchableOpacity style={styles.btn} onPress={onPress}>
-        <Ionicons name={iconName} size={normalize(25)} color={!isActive ? '#777' : '#ffc0cb'} />
-        <Text style={[styles.tagText, { color: !isActive ? '#777' : '#ffc0cb' }]}>{title}</Text>
-    </TouchableOpacity>
-);
+// const Btn = ({ title, iconName, onPress, isActive }) => (
+//     <TouchableOpacity style={styles.btn} onPress={onPress}>
+//         <Ionicons name={iconName} size={normalize(25)} color={!isActive ? '#777' : '#ffc0cb'} />
+//         <Text style={[styles.tagText, { color: !isActive ? '#777' : '#ffc0cb' }]}>{title}</Text>
+//     </TouchableOpacity>
+// );
 
 const EpisodeCard = React.memo(({ name, title, thumbnail, episode: {
     id: movieId, number: episodeNumber
 }, setEpisode, currentEpisode }) => {
+    console.log(thumbnail)
 
     const playEpisode = () => {
         if (currentEpisode.id !== movieId) setEpisode({ id: movieId, number: episodeNumber });
@@ -128,13 +129,13 @@ const EpisodeCard = React.memo(({ name, title, thumbnail, episode: {
         <TouchableOpacity style={styles.episodeCard} onPress={playEpisode}>
             <View style={styles.thumbnail}>
                 <CachedImage source={{ uri: thumbnail }} style={{ height: '100%', width: '100%' }} resizeMode='stretch' />
-                <Ionicons name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
+                {/* <Ionicons name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} /> */}
             </View>
             <View style={styles.episodedetails}>
-                <Text style={{ ...styles.title, fontSize: normalize(15) }}>{episodeNumber}. Episode ({getEngName(name) || title})</Text>
+                <Text style={{ ...styles.title, fontSize: normalize(15) }}>{episodeNumber}. Episode {title || getEngName(name)}</Text>
             </View>
             <View>
-                <Ionicons name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} />
+                {/* <Ionicons name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} /> */}
             </View>
         </TouchableOpacity>
     );
@@ -150,7 +151,7 @@ const FormatedDesc = React.memo(({ description }) => {
     }, [showFullDesc]);
 
     return (
-        <Text style={{ color: "#ffffff" }}>
+        <Text style={{ color: "#ffffff" , paddingLeft:10}}>
             {description?.slice(0, descTextLen)}
             {description?.length > 420 &&
                 (<TouchableWithoutFeedback

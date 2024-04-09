@@ -11,7 +11,7 @@ export const LoginStack = () => {
     return (
         <Stack.Navigator screenOptions={{
             ...screenOptions,
-            headerShown:false,
+            headerShown:true,
             header: (props) => <Header {...props} />,
             }}>
             <Stack.Screen name='Home'

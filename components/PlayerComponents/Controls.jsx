@@ -9,12 +9,15 @@ import { normalize } from '../../fontsNormalisation'
 const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosition, setCurrentPosition }) => {
 
     const playFrom = async (ms) => {
-        videoRef?.current.playFromPositionAsync(ms)
-        await videoRef?.current.playAsync()
+        if (videoRef?.current) {
+            videoRef.current.playFromPositionAsync(ms)
+            await videoRef.current.playAsync()
+        }
     }
-    //handling showing controls btns
+
     const fadeAnim = useRef(new Animated.Value(1)).current;
     const [isShowingControls, setIsShowingControls] = useState(true)
+    const [showSettings, setShowSettings] = useState(false)
 
     const triggerShowHide = () => {
         setIsShowingControls(true);
@@ -24,13 +27,10 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
             useNativeDriver: true,
         }).start();
 
-        // Reset the auto-hide timer
         clearTimeout(timerId);
         startAutoHideTimer();
     };
 
-
-    // Auto-hide controls after a timeout
     let timerId;
     const timeoutTime = 3000;
 
@@ -49,16 +49,15 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
             useNativeDriver: true,
         }).start(() => {
             setIsShowingControls(false);
+            setShowSettings(false)
         });
     };
 
     useEffect(() => {
         startAutoHideTimer();
         return () => clearTimeout(timerId);
-    }, [isShowingControls, status.isPlaying]);
+    }, [isShowingControls, status.isPlaying, timerId, timeoutTime]);
 
-
-    //handling play pause
     const togglePlayPause = async () => {
         try {
             if (!status.isPlaying) {
@@ -73,7 +72,6 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
         }
     }
 
-    //hndling slider logic
     const [sliderValue, setSliderValue] = useState(0.0)
     useEffect(() => {
         let { positionMillis: currentPostion,
@@ -83,42 +81,45 @@ const Controls = ({ videoRef, status, videoQuality, setVideoQuality, currentPosi
             setSliderValue(_silderValue)
         }
     }, [status])
-    const seekTo = async (value) => await playFrom(value * status.durationMillis)
 
-    //skip forward of backward
+    const seekTo = async (value) => {
+      if (videoRef?.current) {
+        await playFrom(value * status.durationMillis)
+      }
+    }
 
-    const skipTo = async (ms) => await playFrom(status.positionMillis + ms)
+    const skipTo = async (ms) => {
+      if (videoRef?.current) {
+        await playFrom(status.positionMillis + ms);
+      }
+    }
 
-    //landscape full screen logic
     const [isFullscreen, setIsFullscreen] = useState(false)
     const toggleFullscreen = () => {
-        if (!isFullscreen) {
-            videoRef.current.presentFullscreenPlayer()
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
-        } else {
-            videoRef.current.dismissFullscreenPlayer()
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+        if (videoRef.current) {
+            if (!isFullscreen) {
+                videoRef.current.presentFullscreenPlayer()
+                ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+            } else {
+                videoRef.current.dismissFullscreenPlayer()
+                ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+            }
         }
     }
 
-
-    //toggle mute
     const toggleMute = () => {
-        if (isShowingControls) videoRef.current.setIsMutedAsync(!status.isMuted)
+        if (isShowingControls && videoRef.current) videoRef.current.setIsMutedAsync(!status.isMuted)
     }
 
-    //video settings controls
-    const [showSettings, setShowSettings] = useState(false)
     const toggleShowingSettings = () => setShowSettings(prev => !prev)
     useEffect(() => {
         videoRef?.current.playFromPositionAsync(currentPosition)
     }, [currentPosition])
 
-
     return (
         <TouchableOpacity
             onPress={triggerShowHide}
-            activeOpacity={1} // Disable touchable feedback to prevent interference with auto-hide
+            activeOpacity={1}
             style={{
                 ...styles.Controls(isFullscreen),
                 opacity: isShowingControls ? 1 : 0,
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
         height: 30,
         width: '90%',
         position: 'absolute',
-        bottom: 10,
+        bottom: 20,
     },
     timeStampWrapper: {
         height: 30,

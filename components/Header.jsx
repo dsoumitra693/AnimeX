@@ -1,7 +1,7 @@
 import { StyleSheet, View, StatusBar, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import { COLORS, FONT, defaultProfileImg } from "../constants";
-import { Avatar } from "./Avatar";
+import { Avatar } from "./";
 import { useNavigation } from "@react-navigation/native";
 import { deleteFromAsyncStorage } from "../asyncStorage";
 import { AuthContext } from "../context/auth";

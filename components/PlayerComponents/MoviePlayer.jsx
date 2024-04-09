@@ -4,15 +4,36 @@ import { Video, ResizeMode } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation'
 import Controls from './Controls'
 
+const FULLSCREEN_UPDATE_VALUES = {
+  START: 0,
+  FINISH: 1,
+  ENTER: 2,
+  EXIT: 3,
+};
+
 const MoviePlayer = ({ VideoUrl, videoQuality, setVideoQuality, setJustFinished, currentPosition, setCurrentPosition }) => {
   const videoRef = useRef(null);
   const [status, setStatus] = useState({})
+
   const toggleFullscreen = (evt) => {
-    if (evt.fullscreenUpdate == 0 || evt.fullscreenUpdate == 1) {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
-    } else if (evt.fullscreenUpdate == 2 || evt.fullscreenUpdate == 3) {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+    switch (evt.fullscreenUpdate) {
+      case FULLSCREEN_UPDATE_VALUES.START:
+      case FULLSCREEN_UPDATE_VALUES.FINISH:
+        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+        break;
+      case FULLSCREEN_UPDATE_VALUES.ENTER:
+      case FULLSCREEN_UPDATE_VALUES.EXIT:
+        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+        break;
+      default:
+        // Handle unexpected `evt.fullscreenUpdate` values here
+        break;
     }
+  }
+
+  const handleVideoError = (error) => {
+    console.log('Video error:', error)
+    // Handle the video error here
   }
 
   if (VideoUrl) return (
@@ -25,9 +46,11 @@ const MoviePlayer = ({ VideoUrl, videoQuality, setVideoQuality, setJustFinished,
           setStatus(status)
           setJustFinished(status.didJustFinish)
         }}
+        shouldPlay={true}
         usePoster={true}
         useNativeControls={false}
         onFullscreenUpdate={toggleFullscreen}
+        onError={handleVideoError}
       />
       <Controls
         status={status}
@@ -38,7 +61,7 @@ const MoviePlayer = ({ VideoUrl, videoQuality, setVideoQuality, setJustFinished,
         setCurrentPosition={setCurrentPosition} />
     </View>
   )
-  return <ActivityIndicator/>
+  return <View style={styles.playerWrapper}/>
 }
 
 export default MoviePlayer

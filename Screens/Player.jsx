@@ -4,14 +4,14 @@ import { MoviePlayer, VideoDetails } from '../components'
 import { getMovieInfo, getStreamUrls } from '../apiCall'
 
 const Player = ({ route }) => {
-  console.log(route)
   //get video details 
   const [videoDetails, setVideoDetails] = useState({})
 
   useEffect(() => {
     (async function () {
+      console.log("hello")
       let movieInfo = await getMovieInfo(route.params.movieId)
-      console.log(movieInfo)
+      console.log("Movieinfo", movieInfo)
       setVideoDetails(movieInfo)
       setEpisode(movieInfo.episodes[0])
     })()
@@ -27,17 +27,17 @@ const Player = ({ route }) => {
   const [currentPosition, setCurrentPosition] = useState(0)
 
 
-  //video url
-  // useEffect(() => {
-  //   (async function () {
-  //     let videoId = episode?.id ? episode?.id : videoDetails?.id
-  //     let _videoSources = await getStreamUrls(videoId, videoDetails?.id)
-  //     if (_videoSources !== undefined) {
-  //       let { sources } = _videoSources
-  //       setVideoSource(sources)
-  //     }
-  //   })()
-  // }, [videoDetails, episode])
+  // video url
+  useEffect(() => {
+    (async function () {
+      let videoId = episode?.id ? episode?.id : videoDetails?.id
+      let _videoSources = await getStreamUrls(videoId, videoDetails?.id)
+      if (_videoSources !== undefined) {
+        let { sources } = _videoSources
+        setVideoSource(sources)
+      }
+    })()
+  }, [videoDetails, episode])
 
   useEffect(() => {
     const filterByQuality = (sources) => {
