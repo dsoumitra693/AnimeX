@@ -1,5 +1,4 @@
 import { normalize } from "./fontsNormalisation";
-import { Header } from "./components";
 export const COLORS = {
   white: "#fff",
 };
@@ -52,11 +51,11 @@ export const screenOptions = {
   tabBarStyle: {
     display: "none",
   },
+  headerShown:false,
   statusBarStyle: "auto",
   statusBarTranslucent: true,
   statusBarColor: "transparent",
   statusBarStyle:"dark",
   navigationBarColor:"#222",
-  header: (props) => <Header {...props} />,
 };
 

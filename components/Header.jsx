@@ -1,11 +1,12 @@
 import { StyleSheet, View, StatusBar, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
-import { Feather } from "@expo/vector-icons";
 import { COLORS, FONT, defaultProfileImg } from "../constants";
-import Avatar from "./Avatar";
+import { Avatar } from "./Avatar";
 import { useNavigation } from "@react-navigation/native";
 import { deleteFromAsyncStorage } from "../asyncStorage";
 import { AuthContext } from "../context/auth";
+import { Feather } from "@expo/vector-icons";
+Feather.loadFont().then();
 
 const Header = ({ route }) => {
   const navigation = useNavigation();
