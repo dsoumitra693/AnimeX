@@ -10,7 +10,6 @@ const FeedSection = ({ genre }) => {
     useEffect(() => {
         (async function () {
             let _animes = await searchMoviesWithGenre(genre.id)
-            console.log(_animes)
             setAnimes(_animes)
         })()
     }, [])

@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import Icon from "react-native-vector-icons/Feather";
+import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { normalize } from "../../fontsNormalisation";
 import { deleteWatchList, updateWatchList } from "../../Api/users";
@@ -90,7 +90,7 @@ const Slide = ({ src, title, type, movieId }) => {
     >
       <CachedImage
         source={{ uri: src }}
-        height={height * 0.9}
+        height={height*1.05}
         width={width}
         resizeMode="stretch"
       />
@@ -138,7 +138,7 @@ export default Slide;
 
 const Button = ({ iconName, title, style, onPress, textColor }) => (
   <TouchableOpacity style={{ ...styles.btn, ...style }} onPress={onPress}>
-    <Icon name={iconName} size={30} color={textColor} />
+    <Feather name={iconName} size={30} color={textColor} />
     <Text
       style={{
         fontSize: normalize(16),
@@ -186,14 +186,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btn: {
-    width: 130,
+    width: 180,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
-    padding: 15,
+    padding: 10,
     backgroundColor: "#DDDCDD",
-    borderRadius: 5,
+    borderRadius: 10,
     elevation: 3,
     color: "#222",
   },

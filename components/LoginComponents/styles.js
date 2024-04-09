@@ -7,16 +7,17 @@ export const styles = StyleSheet.create({
         flex: 1,
         position: 'relative',
         backgroundColor: '#444',
-        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: "column"
+        flexDirection: "column",
+        justifyContent:"flex-end"
     },
     authWrapper: {
         width: '90%',
-        height: 260,
+        height: 250,
         position: 'absolute',
         backgroundColor: '#222222',
-        bottom: 0,
+        position:'relative',
+        bottom:0,
         borderTopLeftRadius: 250 / 20,
         borderTopRightRadius: 250 / 20,
         alignItems: 'center',
@@ -24,7 +25,7 @@ export const styles = StyleSheet.create({
         paddingTop: 30,
     },
     inputWrapper: {
-        width: '80%',
+        width: '90%',
         height: 50,
         backgroundColor: '#444444',
         overflow: 'hidden',
@@ -39,7 +40,7 @@ export const styles = StyleSheet.create({
         color: "#ffffff",
     },
     authBtn: (isDisabled) => ({
-        width: '80%',
+        width: '90%',
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',

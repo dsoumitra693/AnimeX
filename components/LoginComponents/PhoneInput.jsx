@@ -5,7 +5,7 @@ import AuthBtn from './AuthBtn'
 
 const PhoneInput = ({ number, setNumber, handlePhoneSubmit, isLoading }) => {
     const [isDisabled, setIsDisabled] = useState(true)
-
+    
     useEffect(() => {
         setIsDisabled(number?.length !== 10 && isLoading)
     }, [number, isLoading])
