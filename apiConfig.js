@@ -21,7 +21,7 @@ export const apiCall = async (reqOptions) => {
     return response;
   } catch (error) {
     if (error.response) {
-      console.error("Response Error:", error.response.data);
+      console.error("Response Error:", error.response?.data);
       console.error("Status Code:", error.response.status);
       console.error("Headers:", error.response.headers);
     } else if (error.request) {

@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Video, ResizeMode } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation'
 import Controls from './Controls'
+import { StatusBar } from 'react-native';
 
 const FULLSCREEN_UPDATE_VALUES = {
   START: 0,
@@ -11,7 +12,7 @@ const FULLSCREEN_UPDATE_VALUES = {
   EXIT: 3,
 };
 
-const MoviePlayer = ({ VideoUrl, videoQuality, setVideoQuality, setJustFinished, currentPosition, setCurrentPosition }) => {
+const MoviePlayer = ({ VideoUrl, VideoSource, videoQuality, setVideoQuality, setJustFinished, currentPosition, setCurrentPosition }) => {
   const videoRef = useRef(null);
   const [status, setStatus] = useState({})
 
@@ -58,7 +59,9 @@ const MoviePlayer = ({ VideoUrl, videoQuality, setVideoQuality, setJustFinished,
         videoQuality={videoQuality}
         setVideoQuality={setVideoQuality}
         currentPosition={currentPosition}
-        setCurrentPosition={setCurrentPosition} />
+        setCurrentPosition={setCurrentPosition} 
+        VideoSource={VideoSource}
+        />
     </View>
   )
   return <View style={styles.playerWrapper}/>
@@ -72,8 +75,8 @@ const styles = StyleSheet.create({
     aspectRatio: 16 / 9,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#222',
-    marginTop: 10,
+    backgroundColor: '#000',
+    marginTop: StatusBar.currentHeight,
   },
   player: {
     position: 'absolute',

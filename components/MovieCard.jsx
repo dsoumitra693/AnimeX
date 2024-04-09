@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native'
 import { normalize } from '../fontsNormalisation'
 import CachedImage from './CachedImage'
 
-const MovieCard = ({ title, src, size, animeId }) => {
+const MovieCard = ({ title, src, size, movieId }) => {
     const navigator = useNavigation()
     return (
         <TouchableOpacity style={styles.card(normalize(size))} onPress={() => {
-            navigator.navigate('Player', { animeId: animeId, thumbnail: src })
+            navigator.navigate('Player', { movieId, thumbnail: src })
         }}>
             <CachedImage
                 source={{ uri: src }}

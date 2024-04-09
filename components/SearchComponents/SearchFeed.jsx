@@ -17,7 +17,7 @@ const SearchFeed = ({ data, searchText }) => {
                 horizontal={false}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) =>
-                    <MovieCard src={item.image} title={item.title} size={160} animeId={item.id} />}
+                    <MovieCard src={item.image} title={item.title} size={160} movieId={item.id} />}
                 onScroll={dismissKeyboard}
                 numColumns={2}
                 key={2}
@@ -83,11 +83,10 @@ const styles = StyleSheet.create({
     },
     searchFeed: {
         width: '100%',
-        position: 'relative',
         top: 40,
         padding: 15,
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingBottom: 50
+        height:790
     }
 })

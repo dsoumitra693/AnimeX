@@ -20,7 +20,7 @@ const FeedSection = ({ genre }) => {
                     horizontal
                     data={animes}
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => <MovieCard src={item.image} title={item.title} animeId={item.id} />}
+                    renderItem={({ item }) => <MovieCard src={item.image} title={item.title} movieId={item.id} />}
                     keyExtractor={item => item.id}
                 />
             </>}

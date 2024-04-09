@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native'
 import { SearchBar, SearchFeed } from '../components'
 import React, { useState, useEffect } from 'react'
-import { searchAnime } from '../apiCall'
+import { searchMovie } from '../apiCall'
 
 const SearchScreens = () => {
   const [searchText, setSearchText] = useState('')
@@ -9,7 +9,7 @@ const SearchScreens = () => {
 
     useEffect(() => {
         (async function () {
-            let _amines = await searchAnime(searchText)
+            let _amines = await searchMovie(searchText)
             setAmines(_amines)
         })()
     }, [searchText])

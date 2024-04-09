@@ -9,7 +9,6 @@ const Player = ({ route }) => {
 
   useEffect(() => {
     (async function () {
-      console.log("hello")
       let movieInfo = await getMovieInfo(route.params.movieId)
       console.log("Movieinfo", movieInfo)
       setVideoDetails(movieInfo)
@@ -19,7 +18,7 @@ const Player = ({ route }) => {
   }, [])
 
 
-  const [videoQuality, setVideoQuality] = useState('360p')
+  const [videoQuality, setVideoQuality] = useState('default')
   const [episode, setEpisode] = useState({})
   const [VideoUrl, setVideoUrl] = useState('')
   const [VideoSource, setVideoSource] = useState({})
@@ -31,6 +30,7 @@ const Player = ({ route }) => {
   useEffect(() => {
     (async function () {
       let videoId = episode?.id ? episode?.id : videoDetails?.id
+      console.log(videoId)
       let _videoSources = await getStreamUrls(videoId, videoDetails?.id)
       if (_videoSources !== undefined) {
         let { sources } = _videoSources
@@ -74,7 +74,8 @@ const Player = ({ route }) => {
           videoQuality={videoQuality}
           setJustFinished={setJustFinished}
           currentPosition={currentPosition}
-          setCurrentPosition={setCurrentPosition} />
+          setCurrentPosition={setCurrentPosition} 
+          VideoSource={VideoSource}/>
         <VideoDetails
           videoDetails={videoDetails}
           setEpisode={setEpisode}

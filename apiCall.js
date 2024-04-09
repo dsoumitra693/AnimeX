@@ -19,19 +19,19 @@ export const getStreamUrls = async (episodeId, mediaId) => {
     method: "GET",
   };
   const res = await _apiCall(reqOptionsConfig, episodeId);
-  return res.data;
+  return res?.data;
 };
 
 export const searchMovie = async (searchQuery) => {
   const reqOptionsConfig = { url: searchQuery, method: "GET" };
   const res = await _apiCall(reqOptionsConfig, searchQuery);
-  return res.data.results;
+  return res?.data?.results;
 };
 
 export const searchMoviesWithGenre = async (genre) => {
   const reqOptionsConfig = { url: genre, method: "GET" };
   const res = await _apiCall(reqOptionsConfig, genre);
-  return res.data.results;
+  return res?.data?.results;
 };
 
 export const getTopAiringMovie = () => searchMovie("top-airing")
@@ -39,5 +39,5 @@ export const getTopAiringMovie = () => searchMovie("top-airing")
 export const getMovieInfo = async (animeId) => {
   const reqOptionsConfig = { url: `info/${animeId}`, method: "GET" };
   const res = await _apiCall(reqOptionsConfig);
-  return res.data;
+  return res?.data;
 };
