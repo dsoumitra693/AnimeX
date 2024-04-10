@@ -6,7 +6,7 @@ import {
   Text,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Icon } from "../";
 import { Slider } from "@miblanchard/react-native-slider";
 import { msToTime, showToast } from "../../utils";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -45,7 +45,7 @@ const Controls = ({
   };
 
   let timerId;
-  const timeoutTime = 3000;
+  const timeoutTime = 4000;
 
   const startAutoHideTimer = () => {
     if (status.isPlaying) {
@@ -146,21 +146,32 @@ const Controls = ({
     >
       <View style={styles.playPauseWrapper}>
         <CTRLButton
-          iconName={"ios-play-back-outline"}
-          size={30}
+          source={require("../../assets/icons/angle-double-left.png")}
+          size={25}
           onPress={() => skipTo(-10000)}
         />
+        {status.isPlaying ? (
+          <CTRLButton
+            source={require("../../assets/icons/pause.png")}
+            size={30}
+            onPress={togglePlayPause}
+            style={{
+              left: 0,
+            }}
+          />
+        ) : (
+          <CTRLButton
+            source={require("../../assets/icons/play.png")}
+            size={30}
+            onPress={togglePlayPause}
+            style={{
+              left: 2,
+            }}
+          />
+        )}
         <CTRLButton
-          iconName={status.isPlaying ? "md-pause" : "md-play"}
-          size={60}
-          onPress={togglePlayPause}
-          style={{
-            left: !status.isPlaying ? 2 : 0,
-          }}
-        />
-        <CTRLButton
-          iconName={"ios-play-forward-outline"}
-          size={30}
+          source={require("../../assets/icons/angle-double-right.png")}
+          size={25}
           onPress={() => skipTo(10000)}
         />
       </View>
@@ -189,33 +200,46 @@ const Controls = ({
         onSlidingComplete={seekTo}
       />
       <View style={styles.bottomCtrls}>
-        <CTRLButton
-          iconName={!status.isMuted ? "ios-volume-high" : "ios-volume-mute"}
-          size={20}
-          onPress={toggleMute}
-        />
+        {status.isMuted ? (
+          <CTRLButton
+            source={require("../../assets/icons/volume-slash.png")}
+            size={25}
+            onPress={toggleMute}
+          />
+        ) : (
+          <CTRLButton
+            source={require("../../assets/icons/volume.png")}
+            size={25}
+            onPress={toggleMute}
+          />
+        )}
         <View
           style={{
             position: "absolute",
             justifyContent: "space-between",
-            flexDirection: "row-reverse",
+            flexDirection: "row",
             position: "relative",
             width: "20%",
           }}
         >
           <CTRLButton
-            iconName={
-              isFullscreen ? "ios-contract-outline" : "ios-expand-outline"
-            }
-            size={20}
-            onPress={toggleFullscreen}
-          />
-
-          <CTRLButton
-            iconName="ios-settings-outline"
-            size={20}
+            source={require("../../assets/icons/settings.png")}
+            size={25}
             onPress={toggleShowingSettings}
           />
+          {isFullscreen ? (
+            <CTRLButton
+              source={require("../../assets/icons/down-left-and-up-right-to-center.png")}
+              size={25}
+              onPress={toggleShowingSettings}
+            />
+          ) : (
+            <CTRLButton
+              source={require("../../assets/icons/arrow-up-right-and-arrow-down-left-from-center.png")}
+              size={25}
+              onPress={toggleShowingSettings}
+            />
+          )}
           {showSettings && (
             <View style={styles.settings}>
               {VideoSource.map(({ quality }, id) => {
@@ -242,14 +266,9 @@ const Controls = ({
   );
 };
 
-const CTRLButton = ({ iconName, size, onPress, style }) => (
+const CTRLButton = ({ source, size, onPress, style }) => (
   <TouchableOpacity onPress={onPress}>
-    <Ionicons
-      name={iconName}
-      size={normalize(size)}
-      color={"#fff"}
-      style={style}
-    />
+    <Icon source={source} size={normalize(size)} color="#fff" />
   </TouchableOpacity>
 );
 
@@ -271,17 +290,18 @@ const styles = StyleSheet.create({
   },
   Controls: (isFullscreen) => ({
     position: "absolute",
-    bottom: 10,
     width: isFullscreen ? window_height : "100%",
     height: isFullscreen ? window_width : "100%",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor:'rgba(0,0,0, 0.5)'
   }),
   playPauseWrapper: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     width: "100%",
+    bottom:20
   },
   timeStampText: {
     color: "#fff",
@@ -292,7 +312,7 @@ const styles = StyleSheet.create({
     height: 10,
     width: "95%",
     position: "absolute",
-    bottom: 30,
+    bottom: 40,
   },
   timeStampWrapper: {
     height: 30,
@@ -304,7 +324,7 @@ const styles = StyleSheet.create({
   },
   bottomCtrls: {
     width: "100%",
-    bottom: 0,
+    bottom: 10,
     position: "absolute",
     justifyContent: "space-between",
     flexDirection: "row",

@@ -21,7 +21,7 @@ export const LoginStack = () => {
       <Stack.Screen
         name="Player"
         component={Player}
-        options={{...screenOptions, headerShown:false}}
+        options={{...screenOptions, headerShown:false, statusBarStyle:"light",}}
       />
       <Stack.Screen name="Search" component={Search} />
     </Stack.Navigator>

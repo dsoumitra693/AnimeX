@@ -9,11 +9,11 @@ import {
   View,
 } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import { normalize } from "../../fontsNormalisation";
 import { deleteFavAnime, updateFavAnime } from "../../Api/users";
 import { AuthContext } from "../../context/auth";
-import CachedImage from "../CachedImage";
+import { CachedImage } from "../";
+import { Icon } from "../";
 
 const getEngName = (namesStr) => {
   let nameArr = namesStr?.split(",");
@@ -36,6 +36,7 @@ const VideoDetails = ({
     subOrDub,
     url,
     status,
+    genres,
     image: thumbnail,
   } = videoDetails;
   const [isInFavAnime, setIsInFavAnime] = useState(false);
@@ -115,26 +116,28 @@ const VideoDetails = ({
         <Tag text={status?.toUpperCase()} bgColor={"lightgreen"} />
       </View>
       <View style={styles.btnWrapper}>
-        <Btn
-          title={isInFavAnime ? "Liked" : "Like"}
-          iconName={isInFavAnime ? "md-heart" : "md-heart-outline"}
-          onPress={toggleFavAnime}
-        />
-        <Btn
-          title="Dislike"
-          iconName={"md-heart-dislike-outline"}
-          onPress={() => {}}
-          isActive={false}
-        />
+        {isInFavAnime ? (
+          <Btn
+            title={"Liked"}
+            source={require("../../assets/icons/heart-fill.png")}
+            onPress={toggleFavAnime}
+          />
+        ) : (
+          <Btn
+            title={"Like"}
+            source={require("../../assets/icons/heart.png")}
+            onPress={toggleFavAnime}
+          />
+        )}
         <Btn
           title="Share"
-          iconName={"ios-share-social-outline"}
+          source={require("../../assets/icons/share-square.png")}
           onPress={onShare}
           isActive={false}
         />
         <Btn
           title="Download"
-          iconName={"ios-download-outline"}
+          source={require("../../assets/icons/download.png")}
           onPress={() => {}}
           isActive={false}
         />
@@ -144,11 +147,21 @@ const VideoDetails = ({
         <FormatedDesc description={description} />
       </View>
       <View style={styles.descWrapper}>
-        <Text style={styles.title}> Genre</Text>
-        <View style={styles.tagsContainer}>
-          <Tag text={`Produced: ${releaseDate}`} bgColor={"lightpink"} />
-          <Tag text={subOrDub?.toUpperCase()} />
-          <Tag text={status?.toUpperCase()} bgColor={"lightgreen"} />
+        <Text style={styles.title}> Genres</Text>
+        <View style={{ ...styles.tagsContainer, flexWrap: "wrap", gap: 10 }}>
+          {genres?.map((text) => (
+            <Tag
+              text={text}
+              bgColor="transparent"
+              color="#fff"
+              style={{
+                borderWidth: 1,
+                borderColor: "#888",
+                color: "#fff",
+                padding: 6,
+              }}
+            />
+          ))}
         </View>
       </View>
       {episodes?.length > 1 && (
@@ -173,19 +186,15 @@ const VideoDetails = ({
   );
 };
 
-const Tag = ({ text, bgColor, style }) => (
+const Tag = ({ text, bgColor, style, color }) => (
   <View style={[styles.tags(bgColor), style]}>
-    <Text style={styles.tagText}>{text}</Text>
+    <Text style={{ ...styles.tagText, color }}>{text}</Text>
   </View>
 );
 
-const Btn = ({ title, iconName, onPress, isActive }) => (
+const Btn = ({ title, source, onPress, isActive }) => (
   <TouchableOpacity style={styles.btn} onPress={onPress}>
-    <Ionicons
-      name={iconName}
-      size={normalize(25)}
-      color={!isActive ? "#777" : "#ffc0cb"}
-    />
+    <Icon source={source} size={25} color="#ccc" />
     <Text style={[styles.tagText, { color: !isActive ? "#777" : "#ffc0cb" }]}>
       {title}
     </Text>
@@ -201,7 +210,6 @@ const EpisodeCard = React.memo(
     setEpisode,
     currentEpisode,
   }) => {
-    console.log(thumbnail);
 
     const playEpisode = () => {
       if (currentEpisode.id !== movieId)
@@ -216,22 +224,32 @@ const EpisodeCard = React.memo(
             style={{ height: "100%", width: "100%" }}
             resizeMode="stretch"
           />
-          {/* <Ionicons name={'ios-play-circle-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} /> */}
+          <Icon
+            source={require("../../assets/icons/play.png")}
+            size={normalize(30)}
+            color={"#eee"}
+            style={{ position: "absolute" }}
+          />
         </View>
         <View style={styles.episodedetails}>
-          <Text style={{ ...styles.title, fontSize: normalize(15) }}>
-            {episodeNumber}. Episode {title || getEngName(name)}
-          </Text>
-        </View>
-        <View>
-          {/* <Ionicons name={'ios-download-outline'} size={normalize(25)} color={'#eee'} style={{ position: 'absolute' }} /> */}
+          <FormatedDesc
+            description={`${episodeNumber}. Episode ${
+              title || getEngName(name)
+            }`}
+            styles={{ ...styles.title, fontSize: normalize(15) }}
+          />
+          <Icon
+            source={require("../../assets/icons/download.png")}
+            size={normalize(25)}
+            color={"#eee"}
+          />
         </View>
       </TouchableOpacity>
     );
   }
 );
 
-const FormatedDesc = React.memo(({ description }) => {
+const FormatedDesc = React.memo(({ description,styles }) => {
   const [descTextLen, setDescTextLen] = useState(420);
   const [showFullDesc, setShowFullDesc] = useState(false);
 
@@ -241,7 +259,7 @@ const FormatedDesc = React.memo(({ description }) => {
   }, [showFullDesc]);
 
   return (
-    <Text style={{ color: "#ffffff", paddingLeft: 10 }}>
+    <Text style={{ color: "#ffffff", paddingLeft: 10, ...styles }}>
       {description?.slice(0, descTextLen)}
       {description?.length > 420 && (
         <TouchableWithoutFeedback
@@ -335,15 +353,14 @@ const styles = StyleSheet.create({
     width: "95%",
     height: 100,
     padding: 5,
-    marginBottom: 15,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   thumbnail: {
     backgroundColor: "grey",
-    width: "30%",
-    height: "100%",
+    width: "20%",
+    aspectRatio: 1,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -351,6 +368,10 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   episodedetails: {
-    width: "50%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    width: "80%",
+    height: "100%",
   },
 });

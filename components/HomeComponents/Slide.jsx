@@ -7,12 +7,12 @@ import {
   Dimensions,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { normalize } from "../../fontsNormalisation";
 import { deleteWatchList, updateWatchList } from "../../Api/users";
 import { AuthContext } from "../../context/auth";
 import CachedImage from "../CachedImage";
+import { Icon } from "../";
 
 const { width, height } = Dimensions.get("window");
 
@@ -90,7 +90,7 @@ const Slide = ({ src, title, type, movieId }) => {
     >
       <CachedImage
         source={{ uri: src }}
-        height={height*1.05}
+        height={height * 1.05}
         width={width}
         resizeMode="stretch"
       />
@@ -108,13 +108,14 @@ const Slide = ({ src, title, type, movieId }) => {
           <View style={styles.btnWrapper}>
             {!isInWatchList ? (
               <Button
-                iconName="plus"
+                textColor="#000"
+                source={require("../../assets/icons/bookmark.png")}
                 title="My List"
                 onPress={addToWatchList}
               />
             ) : (
               <Button
-                iconName="check"
+                source={require("../../assets/icons/bookmark-fill.png")}
                 title="My List"
                 textColor={"#fff"}
                 style={{ backgroundColor: "green" }}
@@ -122,8 +123,9 @@ const Slide = ({ src, title, type, movieId }) => {
               />
             )}
             <Button
-              iconName="play"
+              source={require("../../assets/icons/play.png")}
               title="Watch Now"
+              textColor="#000"
               style={{ width: 160, backgroundColor: "#FE9F01" }}
               onPress={playNow}
             />
@@ -136,9 +138,9 @@ const Slide = ({ src, title, type, movieId }) => {
 
 export default Slide;
 
-const Button = ({ iconName, title, style, onPress, textColor }) => (
+const Button = ({ source, title, style, onPress, textColor }) => (
   <TouchableOpacity style={{ ...styles.btn, ...style }} onPress={onPress}>
-    <Feather name={iconName} size={30} color={textColor} />
+    <Icon source={source} size={30} color={textColor} />
     <Text
       style={{
         fontSize: normalize(16),
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 5,
-    padding: 10,
+    padding: 15,
     backgroundColor: "#DDDCDD",
     borderRadius: 10,
     elevation: 3,

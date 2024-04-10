@@ -1,12 +1,17 @@
-import { StyleSheet, View, StatusBar, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import React, { useContext } from "react";
-import { COLORS, FONT, defaultProfileImg } from "../constants";
-import { Avatar } from "./";
+import { defaultProfileImg } from "../constants";
+import { Avatar, Icon } from "./";
 import { useNavigation } from "@react-navigation/native";
 import { deleteFromAsyncStorage } from "../asyncStorage";
 import { AuthContext } from "../context/auth";
-import { Feather } from "@expo/vector-icons";
-Feather.loadFont().then();
+
 
 const Header = ({ route }) => {
   const navigation = useNavigation();
@@ -28,7 +33,11 @@ const Header = ({ route }) => {
             navigation.goBack();
           }}
         >
-          <Feather name="arrow-left" size={FONT.base} color={COLORS.white} />
+          <Icon
+            source={require("../assets/icons/arrow-small-left.png")}
+            size={35}
+            color="#ccc"
+          />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
@@ -36,16 +45,16 @@ const Header = ({ route }) => {
             navigation.navigate("Search");
           }}
         >
-          <Feather name="search" size={FONT.base} color={COLORS.white} />
+          <Icon source={require("../assets/icons/search.png")} color="#222" />
         </TouchableOpacity>
       )}
       <View style={styles.leftContainer}>
-        <Feather
+        {/* <Feather
           name="cast"
           size={FONT.base}
           color={COLORS.white}
           onPress={logOut}
-        />
+        /> */}
         <Avatar
           source={{
             uri: state?.user?.profileImgUrl || defaultProfileImg,

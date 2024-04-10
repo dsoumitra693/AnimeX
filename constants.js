@@ -30,7 +30,6 @@ export const FEED_GENRES = [
   { title: "Must See Shounen Anime", id: "Shounen" },
   { title: "Must See Shoujo Anime", id: "Shoujo" },
   { title: "Must See Seinen Anime", id: "Seinen" },
-  { title: "Must See Josei Anime", id: "Josei" },
   { title: "Must See Harem Anime", id: "Harem" },
   { title: "Must See Isekai Anime", id: "Isekai" },
   { title: "Must See Magic Anime", id: "Magic" },

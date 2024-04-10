@@ -13,3 +13,4 @@ export { default as OtpInput } from './LoginComponents/OtpInput'
 export { default as EditModal } from './ProfileComponents/EditModal'
 export { default as VideosList } from './ProfileComponents/VideosList'
 export { default as CachedImage } from './CachedImage'
+export {default as Icon} from "./Icon"

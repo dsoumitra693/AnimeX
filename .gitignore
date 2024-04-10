@@ -42,6 +42,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/
 
 # Android/IntelliJ
 #
@@ -54,6 +55,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+android/
 
 # node.js
 #
