@@ -15,7 +15,7 @@ const MainLayout = () => {
           headerShown: false,
           statusBarTranslucent: true,
           statusBarColor: "transparent",
-          statusBarStyle: "inverted",
+          statusBarStyle: "dark",
           navigationBarColor: "#000",
         }} />
       </PaperProvider>

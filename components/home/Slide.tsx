@@ -5,6 +5,7 @@ import CachedImage from '../CachedImage';
 import { Icon } from 'react-native-paper';
 import { normalize } from '@/utils/fontNormalise';
 import { ISearchMovie } from '@/types';
+import { Link, useRouter } from 'expo-router';
 
 interface SlideProps {
     movie: ISearchMovie
@@ -20,6 +21,7 @@ const { width, height } = Dimensions.get('window');
 const Slide: React.FC<SlideProps> = ({ movie }) => {
     const { image, title, genres, id, color, type, releaseDate, status } = movie;
     const [isInWatchList, setisInWatchList] = useState(false)
+    const router = useRouter()
     return (
         <View
             style={{
@@ -56,14 +58,13 @@ const Slide: React.FC<SlideProps> = ({ movie }) => {
                             title="Add To List"
                             textColor={color}
                             style={{ width: 180 }}
-                        //   onPress={playNow}
                         />
                         <Button
                             iconName='play'
                             title="Watch Now"
                             textColor={color}
                             style={{ width: 160 }}
-                        //   onPress={playNow}
+                            onPress={() => router.push(`/movie/${id}`)}
                         />
                     </View>
                 </LinearGradient>

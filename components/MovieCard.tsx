@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TouchableOpacity, StyleProp, ImageStyle } from 
 import React from "react";
 import CachedImage from "./CachedImage";
 import { normalize } from "@/utils/fontNormalise";
-import { IMovieInfo, ISearchMovie } from "@/types";
+import {  ISearchMovie } from "@/types";
 
 
 interface MovieCardProps {
@@ -11,7 +11,7 @@ interface MovieCardProps {
 }
 
 const MovieCard = ({ movie, size }: MovieCardProps) => {
-    const { image, title, id, color, releaseDate } = movie;
+    const { image, title, color, releaseDate } = movie;
     return (
         <TouchableOpacity
             style={{

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { RequestOptionsBuilder } from "../utils/RequestOptionsBuilder";
 
-const BASE_URL = 'https://consumet-ts-two.vercel.app/meta/anilist/'
+const BASE_URL = 'https://consumet-ts-two.vercel.app/meta/anilist'
 
 
 export class ApiService {
