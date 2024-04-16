@@ -4,7 +4,7 @@ import { ISearchMovie } from '@/types';
 
 const useFetchTrending = () => {
   return useQuery('trendingMovies', async () => {
-    const res: ISearchMovie = await getTrendingMovies();
+    const res: ISearchMovie[] = await getTrendingMovies();
     return res;
   });
 };

@@ -4,7 +4,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Text,
-    Dimensions,
 } from "react-native";
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Slider } from "@miblanchard/react-native-slider";
@@ -12,6 +11,7 @@ import CTRLButton from "./CTRLButton";
 import { AVPlaybackStatusSuccess, Video } from "expo-av";
 import { msToTime, showToast } from "@/utils/time";
 import { normalize } from "@/utils/fontNormalise";
+import { usePlayer } from "../providers/PlayerProvider";
 
 interface ControlsProps {
     status: AVPlaybackStatusSuccess;
@@ -25,9 +25,10 @@ const Controls = ({
     toggleFullscreen,
     isFullscreen
 }: ControlsProps) => {
+    let { setPosition, availableQuality, setVideoQuality, videoQuality } = usePlayer()
     const playFrom = async (ms: number) => {
         if (videoRef?.current) {
-            videoRef.current.playFromPositionAsync(ms);
+            await videoRef.current.playFromPositionAsync(ms)
             await videoRef.current.playAsync();
         }
     };
@@ -35,6 +36,7 @@ const Controls = ({
     const fadeAnim = useRef(new Animated.Value(1)).current;
     const [isShowingControls, setIsShowingControls] = useState(true);
     const [showSettings, setShowSettings] = useState(false);
+
 
     const triggerShowHide = () => {
         setIsShowingControls(true);
@@ -95,6 +97,10 @@ const Controls = ({
         if (status) {
             let { positionMillis: currentPostion, durationMillis: duration } = status;
             let _silderValue = currentPostion / (duration || 1);
+            if (!status.isBuffering) {
+                // console.log(currentPostion)
+                setPosition(currentPostion)
+            }
             if (isShowingControls) {
                 setSliderValue(_silderValue);
             }
@@ -104,7 +110,7 @@ const Controls = ({
     const seekTo = async (value: number) => {
         if (!isShowingControls) return;
         if (videoRef?.current) {
-            value *= status?.durationMillis || 0
+            value *= status?.durationMillis || 0.1
             await playFrom(value);
         }
     };
@@ -227,17 +233,14 @@ const Controls = ({
                             onPress={toggleFullscreen}
                         />
                     )}
-                    {/* {showSettings && (
+                    {showSettings && (
                         <View style={styles.settings}>
-                            {VideoSource.map(({ quality }, id) => {
+                            {availableQuality?.map((quality) => {
                                 return (
                                     <TouchableOpacity
-                                        key={id}
+                                        key={quality}
                                         style={styles.videoQualityWrapper}
-                                        onPress={() => {
-                                            setVideoQuality(quality);
-                                            setCurrentPosition(status?.positionMillis);
-                                        }}
+                                        onPress={() => setVideoQuality(quality)}
                                     >
                                         <Text style={styles.qualityText}>
                                             {videoQuality == quality ? "•" : ""} {quality}
@@ -246,7 +249,7 @@ const Controls = ({
                                 );
                             })}
                         </View>
-                    )} */}
+                    )}
                 </View>
             </View>
         </TouchableOpacity>
@@ -331,6 +334,5 @@ const styles = StyleSheet.create({
     qualityText: {
         color: "#fff",
         fontSize: normalize(14),
-        fontFamily: "CooperHewitt",
     },
 });

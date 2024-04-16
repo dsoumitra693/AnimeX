@@ -4,11 +4,10 @@ import { apiService } from "../services/ApiService";
 
 export const getStreamUrls = async (
     episodeId: string,
-    mediaId: string
 ): Promise<IStreamUrls> => {
-    const url = `api/v1/watch?episodeId=${episodeId}&mediaId=${mediaId}`;
+    const url = `watch/${episodeId}`;
     const response = await apiService.request<IStreamUrls>(url, "GET");
-    return response.data;
+    return response?.data;
 };
 
 export const searchMovie = async (
@@ -27,7 +26,7 @@ export const searchMoviesWithGenre = async (
     return response.data.results;
 };
 
-export const getTrendingMovies = async (): Promise<ISearchMovie> => {
+export const getTrendingMovies = async (): Promise<ISearchMovie[]> => {
     const url = "trending";
     const response = await apiService.request<any>(url, "GET");
     return response.data.results;

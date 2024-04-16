@@ -1,12 +1,13 @@
-import { BackHandler, Dimensions, ImageSourcePropType, StatusBar, StyleSheet, View } from 'react-native'
+import { BackHandler, Dimensions, ImageSourcePropType, StatusBar, StyleSheet, View, ViewStyle } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { Video, ResizeMode, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
 import Controls from './Controls';
 import * as ScreenOrientation from 'expo-screen-orientation'
 import { useFocusEffect, useNavigation } from 'expo-router';
+import { useStreamSource } from '@/hooks';
+import { usePlayer } from '../providers/PlayerProvider';
 
 interface VideoPlayerProps {
-    videoUrl: string;
     thumbnail?: ImageSourcePropType;
 }
 
@@ -14,7 +15,7 @@ type IfullscreenStyle = { width: number; height: number; } | { aspectRatio: numb
 
 
 
-const Player = ({ videoUrl, thumbnail }: VideoPlayerProps) => {
+const Player = ({ thumbnail }: VideoPlayerProps) => {
     const videoRef = useRef<Video>(null);
     const [status, setStatus] = useState<AVPlaybackStatus>();
     const [isFullscreen, setIsFullscreen] = useState(false);
@@ -22,8 +23,7 @@ const Player = ({ videoUrl, thumbnail }: VideoPlayerProps) => {
         width: "100%", aspectRatio: 16 / 9,
         marginTop: StatusBar.currentHeight
     })
-    // Navigation
-    const navigation = useNavigation();
+
     const toggleFullscreen = () => {
         if (isFullscreen) {
             ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
@@ -37,7 +37,6 @@ const Player = ({ videoUrl, thumbnail }: VideoPlayerProps) => {
         React.useCallback(() => {
             const onBackPress = () => {
                 if (isFullscreen) {
-                    console.log("screen is in fullscreen")
                     toggleFullscreen()
                     return true;
                 } else {
@@ -74,18 +73,38 @@ const Player = ({ videoUrl, thumbnail }: VideoPlayerProps) => {
     }, [])
 
 
+    let { data: streamUrls, isLoading, isError } = useStreamSource("hantsu-x-trash-episode-2")
+    let { position, setAvailableQuality, setVideoSource, videoQuality, setPosition, videoSource } = usePlayer()
+
+    useEffect(() => {
+        if (!isLoading && !isError) {
+            let qualities = streamUrls?.sources
+                .filter(source => source.quality !== "backup")
+                .map(source => source.quality)
+            let url = streamUrls?.sources?.find(source => source.quality == videoQuality)?.url
+
+            setAvailableQuality(qualities as string[])
+            setVideoSource(url as string)
+        }
+    }, [streamUrls, videoQuality])
+
+
+
     return (
-        <View style={[styles.playerWrapper, fullscreenStyle]}>
+        <View style={[styles.playerWrapper, fullscreenStyle as ViewStyle]}>
             <Video
                 style={styles.player}
                 ref={videoRef}
-                source={{ uri: videoUrl }}
+                source={{ uri: videoSource }}
                 resizeMode={ResizeMode.CONTAIN}
                 shouldPlay={true}
                 usePoster={true}
                 useNativeControls={false}
                 posterSource={thumbnail}
                 onPlaybackStatusUpdate={setStatus}
+                onLoad={()=> {
+                    videoRef.current?.playFromPositionAsync(position)
+                }}
             />
             <Controls
                 status={status as AVPlaybackStatusSuccess}

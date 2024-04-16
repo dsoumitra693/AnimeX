@@ -9,7 +9,7 @@ const { width, height } = Dimensions.get("window");
 
 const RecentSlides = () => {
   const scrollX = new Animated.Value(0);
-  const flatListRef = useRef<ISearchMovie>(null);
+  const flatListRef = useRef<FlashList<ISearchMovie>>(null);
 
   function infiniteScroll(dataList: string | any[] | ISearchMovie | undefined) {
     const numberOfData = dataList?.length;

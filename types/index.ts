@@ -7,10 +7,7 @@ export interface IStreamUrls {
     quality: string;
     isM3U8: boolean;
   }[];
-  subtitles: {
-    url: string;
-    lang: string;
-  }[];
+  download: string
 }
 
 export interface IMovieInfo {
