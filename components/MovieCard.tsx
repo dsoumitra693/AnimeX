@@ -3,6 +3,7 @@ import React from "react";
 import CachedImage from "./CachedImage";
 import { normalize } from "@/utils/fontNormalise";
 import {  ISearchMovie } from "@/types";
+import { useRouter } from "expo-router";
 
 
 interface MovieCardProps {
@@ -10,8 +11,14 @@ interface MovieCardProps {
     size?: number;
 }
 
+
+
 const MovieCard = ({ movie, size }: MovieCardProps) => {
-    const { image, title, color, releaseDate } = movie;
+    const { image, title, color, releaseDate, id } = movie;
+    const router = useRouter()
+    const playMovie = ()=>{
+        router.push(`/movie/${id}`)
+    }
     return (
         <TouchableOpacity
             style={{
@@ -19,6 +26,7 @@ const MovieCard = ({ movie, size }: MovieCardProps) => {
                 height: size ? 250 : 230,
                 marginTop: size ? 0 : 10,
             }}
+            onPress={playMovie}
         >
             <CachedImage
                 source={{ uri: image }}

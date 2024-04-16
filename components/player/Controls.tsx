@@ -8,7 +8,7 @@ import {
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Slider } from "@miblanchard/react-native-slider";
 import CTRLButton from "./CTRLButton";
-import { AVPlaybackStatusSuccess, Video } from "expo-av";
+import { AVPlaybackStatus, AVPlaybackStatusError, AVPlaybackStatusSuccess, Video } from "expo-av";
 import { msToTime, showToast } from "@/utils/time";
 import { normalize } from "@/utils/fontNormalise";
 import { usePlayer } from "../providers/PlayerProvider";

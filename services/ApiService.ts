@@ -23,7 +23,6 @@ export class ApiService {
   async request<T>(url: string, method: string, headers: Record<string, string> = {}): Promise<AxiosResponse<T>> {
     try {
       const requestOptions = this.requestOptionsBuilder.buildRequestOptions(url, method, headers);
-      console.log(requestOptions)
       const response = await axios.request<T>(requestOptions);
       return response;
     } catch (error:any) {

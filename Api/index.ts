@@ -1,4 +1,4 @@
-import { ISearchMovie, IStreamUrls } from "@/types";
+import { IMovieInfo, ISearchMovie, IStreamUrls } from "@/types";
 import { apiService } from "../services/ApiService";
 
 
@@ -32,10 +32,10 @@ export const getTrendingMovies = async (): Promise<ISearchMovie[]> => {
     return response.data.results;
 };
 
-// export const getMovieInfo = async (
-//     animeId: string
-// ): Promise<IMovieInfo> => {
-//     const url = `info/${animeId}`;
-//     const response = await apiService.request<any>(url, "GET");
-//     return response.data;
-// };
+export const getMovieInfo = async (
+    movieId: string
+): Promise<IMovieInfo> => {
+    const url = `info/${movieId}`;
+    const response = await apiService.request<any>(url, "GET");
+    return response.data;
+};

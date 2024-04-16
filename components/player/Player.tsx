@@ -1,9 +1,9 @@
-import { BackHandler, Dimensions, ImageSourcePropType, StatusBar, StyleSheet, View, ViewStyle } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import { BackHandler, Dimensions, ImageSourcePropType, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
 import { Video, ResizeMode, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useFocusEffect } from 'expo-router';
 import Controls from './Controls';
-import * as ScreenOrientation from 'expo-screen-orientation'
-import { useFocusEffect, useNavigation } from 'expo-router';
 import { useStreamSource } from '@/hooks';
 import { usePlayer } from '../providers/PlayerProvider';
 
@@ -11,100 +11,74 @@ interface VideoPlayerProps {
     thumbnail?: ImageSourcePropType;
 }
 
-type IfullscreenStyle = { width: number; height: number; } | { aspectRatio: number; width: string | number; marginTop: number | undefined; }
-
-
-
 const Player = ({ thumbnail }: VideoPlayerProps) => {
     const videoRef = useRef<Video>(null);
+    const { data: streamUrls, isLoading, isError } = useStreamSource("hantsu-x-trash-episode-2");
+    const { position, setAvailableQuality, setVideoSource, videoSource, videoQuality } = usePlayer();
     const [status, setStatus] = useState<AVPlaybackStatus>();
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [fullscreenStyle, setFullscreenStyle] = useState<IfullscreenStyle>({
-        width: "100%", aspectRatio: 16 / 9,
-        marginTop: StatusBar.currentHeight
-    })
+    const [fullscreenStyle, setFullscreenStyle] = useState<ViewStyle>({
+        width: '100%', aspectRatio: 16 / 9, marginTop: StatusBar.currentHeight
+    });
 
     const toggleFullscreen = () => {
-        if (isFullscreen) {
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
-        } else {
-            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
-        }
-
-    }
+        ScreenOrientation.lockAsync(isFullscreen ? ScreenOrientation.OrientationLock.PORTRAIT : ScreenOrientation.OrientationLock.LANDSCAPE);
+    };
 
     useFocusEffect(
         React.useCallback(() => {
             const onBackPress = () => {
                 if (isFullscreen) {
-                    toggleFullscreen()
+                    toggleFullscreen();
                     return true;
-                } else {
-                    return false;
                 }
+                return false;
             };
 
-            const subscription = BackHandler.addEventListener(
-                'hardwareBackPress',
-                onBackPress
-            );
-
-            return () => subscription.remove();
+            const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            return () => backHandler.remove();
         }, [isFullscreen])
     );
 
     useEffect(() => {
-        ScreenOrientation.addOrientationChangeListener(evt => {
-            const { height, width } = Dimensions.get("window")
-            if (evt.orientationLock == 5) {
-                setIsFullscreen(true);
-                setFullscreenStyle({
-                    width, height, marginTop: 0
-                })
-            } else {
-                setIsFullscreen(false)
-                setFullscreenStyle({
-                    width, aspectRatio: 16 / 9,
-                    marginTop: StatusBar.currentHeight
-                })
-            }
+        const subscription = ScreenOrientation.addOrientationChangeListener(({ orientationLock }) => {
+            const { height, width } = Dimensions.get("window");
+            setIsFullscreen(orientationLock === ScreenOrientation.OrientationLock.LANDSCAPE);
+            setFullscreenStyle({
+                width,
+                height: orientationLock === ScreenOrientation.OrientationLock.LANDSCAPE ? height : undefined,
+                aspectRatio: orientationLock === ScreenOrientation.OrientationLock.LANDSCAPE ? undefined : 16 / 9,
+                marginTop: orientationLock === ScreenOrientation.OrientationLock.LANDSCAPE ? 0 : StatusBar.currentHeight
+            });
+        });
 
-        })
-    }, [])
-
-
-    let { data: streamUrls, isLoading, isError } = useStreamSource("hantsu-x-trash-episode-2")
-    let { position, setAvailableQuality, setVideoSource, videoQuality, setPosition, videoSource } = usePlayer()
+        return () => subscription.remove();
+    }, []);
 
     useEffect(() => {
-        if (!isLoading && !isError) {
-            let qualities = streamUrls?.sources
+        if (!isLoading && !isError && streamUrls) {
+            const qualities = streamUrls.sources
                 .filter(source => source.quality !== "backup")
-                .map(source => source.quality)
-            let url = streamUrls?.sources?.find(source => source.quality == videoQuality)?.url
+                .map(source => source.quality);
+            const url = streamUrls.sources.find(source => source.quality === videoQuality)?.url;
 
-            setAvailableQuality(qualities as string[])
-            setVideoSource(url as string)
+            setAvailableQuality(qualities);
+            setVideoSource(url as string);
         }
-    }, [streamUrls, videoQuality])
-
-
+    }, [streamUrls, videoQuality, isLoading, isError]);
 
     return (
-        <View style={[styles.playerWrapper, fullscreenStyle as ViewStyle]}>
+        <View style={[styles.playerWrapper, fullscreenStyle]}>
             <Video
-                style={styles.player}
                 ref={videoRef}
+                style={StyleSheet.absoluteFill}
                 source={{ uri: videoSource }}
                 resizeMode={ResizeMode.CONTAIN}
-                shouldPlay={true}
-                usePoster={true}
-                useNativeControls={false}
+                shouldPlay
+                usePoster
                 posterSource={thumbnail}
                 onPlaybackStatusUpdate={setStatus}
-                onLoad={()=> {
-                    videoRef.current?.playFromPositionAsync(position)
-                }}
+                onLoad={() => videoRef.current?.playFromPositionAsync(position)}
             />
             <Controls
                 status={status as AVPlaybackStatusSuccess}
@@ -113,21 +87,15 @@ const Player = ({ thumbnail }: VideoPlayerProps) => {
                 isFullscreen={isFullscreen}
             />
         </View>
-    )
-}
+    );
+};
 
-export default Player
 const styles = StyleSheet.create({
     playerWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#000',
-    },
-    player: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-    },
-})
+    }
+});
+
+export default Player;

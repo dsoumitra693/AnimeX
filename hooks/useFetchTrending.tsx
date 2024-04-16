@@ -6,6 +6,8 @@ const useFetchTrending = () => {
   return useQuery('trendingMovies', async () => {
     const res: ISearchMovie[] = await getTrendingMovies();
     return res;
+  }, {
+    staleTime: 60 * 60 * 1000
   });
 };
 
