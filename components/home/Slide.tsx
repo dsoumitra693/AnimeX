@@ -2,10 +2,10 @@ import { Dimensions, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewSt
 import React, { memo, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import CachedImage from '../CachedImage';
-import { Icon } from 'react-native-paper';
 import { normalize } from '@/utils/fontNormalise';
 import { ISearchMovie } from '@/types';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 interface SlideProps {
     movie: ISearchMovie
@@ -77,8 +77,8 @@ export default Slide
 
 const Button = ({ iconName, title, style, onPress, textColor }: buttonProps) => (
     <TouchableOpacity style={[styles.btn, style]} onPress={onPress}>
-        <Icon
-            source={iconName}
+        <Ionicons
+            name={iconName}
             color={textColor}
             size={35}
         />

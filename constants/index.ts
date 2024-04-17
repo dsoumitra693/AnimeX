@@ -22,6 +22,9 @@ export default {
 export const FEED_GENRES = [
   { title: "Popular", id: "Popular" },
   { title: "Ecchi", id: "Ecchi" },
+  { title: "Doreaimon ", id: "Doreaimon" },
+  { title: "Ramayana", id: "Ramayana" },
+  { title: "Dub", id: "Dub" },
   { title: "Harem", id: "Harem" },
   { title: "Adventure", id: "Adventure" },
   { title: "Comedy", id: "Comedy" },

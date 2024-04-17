@@ -1,7 +1,7 @@
 import { TouchableOpacity, GestureResponderEvent, ViewStyle, StyleProp } from 'react-native'
 import React from 'react'
-import { Icon } from 'react-native-paper';
 import { normalize } from '@/utils/fontNormalise';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 interface CTRLButtonProps {
     iconName: string;
@@ -12,7 +12,8 @@ interface CTRLButtonProps {
 
 const CTRLButton: React.FC<CTRLButtonProps> = ({ iconName, size, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={style}>
-        <Icon source={iconName} size={normalize(size)} color="#fff" />
+        
+        <FontAwesome6 name={iconName}  size={normalize(size)} color="#fff" />
     </TouchableOpacity>
 );
 

@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         flex: 1,
         width: width,
-        // paddingBottom:30,
+        minHeight:260
     },
     heading: {
         fontSize: normalize(20),

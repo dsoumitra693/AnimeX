@@ -6,8 +6,6 @@ const useFetchMovieDetails = (movieId: string) => {
     return useQuery(`info-${movieId}`, async () => {
         const res: IMovieInfo = await getMovieInfo(movieId);
         return res;
-    }, {
-        staleTime: 60 * 60 * 1000
     });
 }
 

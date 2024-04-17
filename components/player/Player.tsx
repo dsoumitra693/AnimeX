@@ -4,18 +4,17 @@ import { Video, ResizeMode, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'ex
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from 'expo-router';
 import Controls from './Controls';
-import { useStreamSource } from '@/hooks';
 import { usePlayer } from '../providers/PlayerProvider';
+import { IStreamUrls } from '@/types';
+import { getStreamUrls } from '@/Api';
 
-interface VideoPlayerProps {
-    thumbnail?: ImageSourcePropType;
-}
 
-const Player = ({ thumbnail }: VideoPlayerProps) => {
+
+const Player = () => {
     const videoRef = useRef<Video>(null);
-    const { data: streamUrls, isLoading, isError } = useStreamSource("hantsu-x-trash-episode-2");
-    const { position, setAvailableQuality, setVideoSource, videoSource, videoQuality } = usePlayer();
+    const { videoPoster, position, setAvailableQuality, setVideoSource, videoSource, videoQuality, currentEpisoide } = usePlayer();
     const [status, setStatus] = useState<AVPlaybackStatus>();
+    const [streamUrls, setStreamUrls] = useState<IStreamUrls>()
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [fullscreenStyle, setFullscreenStyle] = useState<ViewStyle>({
         width: '100%', aspectRatio: 16 / 9, marginTop: StatusBar.currentHeight
@@ -56,30 +55,42 @@ const Player = ({ thumbnail }: VideoPlayerProps) => {
     }, []);
 
     useEffect(() => {
-        if (!isLoading && !isError && streamUrls) {
-            const qualities = streamUrls.sources
-                .filter(source => source.quality !== "backup")
-                .map(source => source.quality);
-            const url = streamUrls.sources.find(source => source.quality === videoQuality)?.url;
+        if (currentEpisoide && currentEpisoide.id) {
+            getStreamUrls(currentEpisoide.id)
+                .then(setStreamUrls)
+                .catch(err =>
+                    console.error(err)
+                )
+        }
+    }, [currentEpisoide])
 
-            setAvailableQuality(qualities);
+
+    useEffect(() => {
+        if (streamUrls && streamUrls.sources) {
+            const qualities = streamUrls.sources
+                .filter((source: { quality: string }) => source.quality !== "backup")
+                .map((source: { quality: string }) => source.quality);
+            const url = streamUrls.sources.find((source: { quality: string }) => source.quality === videoQuality)?.url;
+
+            setAvailableQuality(qualities || []);
             setVideoSource(url as string);
         }
-    }, [streamUrls, videoQuality, isLoading, isError]);
+    }, [streamUrls, videoQuality, setAvailableQuality, setVideoSource]);
+
 
     return (
         <View style={[styles.playerWrapper, fullscreenStyle]}>
-            <Video
+            {videoSource && <Video
                 ref={videoRef}
                 style={StyleSheet.absoluteFill}
                 source={{ uri: videoSource }}
                 resizeMode={ResizeMode.CONTAIN}
                 shouldPlay
                 usePoster
-                posterSource={thumbnail}
+                posterSource={{ uri: videoPoster }}
                 onPlaybackStatusUpdate={setStatus}
                 onLoad={() => videoRef.current?.playFromPositionAsync(position)}
-            />
+            />}
             <Controls
                 status={status as AVPlaybackStatusSuccess}
                 videoRef={videoRef}

@@ -1,115 +1,107 @@
+export interface IMovieSource {
+  url: string;
+  quality: string;
+  isM3U8: boolean;
+}
+
+export interface IMovieTitle {
+  romaji?: string;
+  english?: string;
+  native?: string;
+  userPreferred?: string;
+}
+
+export interface ITrailerInfo {
+  id: string;
+  site: string;
+  thumbnail: string
+}
+
+export interface IEpisodeInfo {
+  airDate: number;
+  description: string;
+  id: string;
+  image: string;
+  imageHash: string;
+  number: number;
+  title: string
+}
+
 export interface IStreamUrls {
   headers: {
     Referer: string;
   };
-  sources: {
-    url: string;
-    quality: string;
-    isM3U8: boolean;
-  }[];
+  sources: IMovieSource[];
   download: string
 }
 
 export interface IMovieInfo {
-  id: string,
-  title: {
-    romaji?: string;
-    english?: string;
-    native?: string;
-    userPreferred?: string;
-  };
-  malId: number,
-  trailer: {
-    id: string,
-    site: string,
-    thumbnail: string
-  },
-  image: string,
-  popularity: number,
-  color: string,
-  description: string,
-  status: string,
-  releaseDate: number,
+  id: string;
+  title: IMovieTitle;
+  malId: number;
+  trailer: ITrailerInfo;
+  image: string;
+  popularity: number;
+  color: string;
+  description: string;
+  status: string;
+  releaseDate: number;
   startDate: {
-    year: number,
-    month: number,
+    year: number;
+    month: number;
     day: number
-  },
+  };
   endDate: {
-    year: number,
-    month: number,
+    year: number;
+    month: number;
     day: number
-  },
-  rating: number,
-  genres: string[],
-  season: string,
-  studios: string[],
-  type: string,
+  };
+  rating: number;
+  genres: string[];
+  season: string;
+  studios: string[];
+  type: string;
+  totalEpisodes: number;
+  currentEpisode: number;
   recommendations: {
-    id: string,
-    malId: string,
-    title: {
-      romaji?: string;
-      english?: string;
-      native?: string;
-      userPreferred?: string;
-    };
-    status: string,
-    episodes: number,
-    image: string,
-    cover: string,
-    rating: number,
-    type: string,
-  },
+    id: string;
+    malId: string;
+    title: IMovieTitle;
+    status: string;
+    episodes: number;
+    image: string;
+    cover: string;
+    rating: number;
+    type: string;
+  };
   characters: {
-    id: string,
-    role: string,
-    name: string[],
-    image: string,
-  },
+    id: string;
+    role: string;
+    name: string[];
+    image: string;
+  };
   relations: {
-    id: number,
-    relationType: string,
-    malId: number,
-    title: {
-      romaji?: string;
-      english?: string;
-      native?: string;
-      userPreferred?: string;
-    };
-    status: string,
-    episodes: number,
-    image: string,
-    color: string,
-    type: string,
-    cover: string,
-    rating: number,
-  },
-  episodes: {
-    id: string,
-    title: string,
-    episode: string,
-  }
+    id: number;
+    relationType: string;
+    malId: number;
+    title: IMovieTitle;
+    status: string;
+    episodes: number;
+    image: string;
+    color: string;
+    type: string;
+    cover: string;
+    rating: number;
+  };
+  episodes: IEpisodeInfo[]
 }
 
-export interface IEpisode {
-  id: string;
-  url: string;
-  title: string;
-  number: number;
-  season: number;
-}
 
 export interface ISearchMovie {
   [x: string]: any;
   id: string;
   malId: number;
-  title: {
-    romaji?: string;
-    english?: string;
-    native?: string;
-    userPreferred?: string;
-  };
+  title: IMovieTitle;
   status: "Completed" | "Ongoing";
   image: string
   imageHash: string;
@@ -124,5 +116,4 @@ export interface ISearchMovie {
   currentEpisodeCount: number;
   type: "OVA" | "MOVIE" | "TV";
   releaseDate: number | null;
-
 }

@@ -5,9 +5,12 @@ import { apiService } from "../services/ApiService";
 export const getStreamUrls = async (
     episodeId: string,
 ): Promise<IStreamUrls> => {
-    const url = `watch/${episodeId}`;
-    const response = await apiService.request<IStreamUrls>(url, "GET");
-    return response?.data;
+    if (episodeId) {
+        const url = `watch/${episodeId}`;
+        const response = await apiService.request<IStreamUrls>(url, "GET");
+        return response?.data;
+    }
+    return {} as IStreamUrls
 };
 
 export const searchMovie = async (

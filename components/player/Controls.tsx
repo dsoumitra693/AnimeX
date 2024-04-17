@@ -8,7 +8,7 @@ import {
 import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Slider } from "@miblanchard/react-native-slider";
 import CTRLButton from "./CTRLButton";
-import { AVPlaybackStatus, AVPlaybackStatusError, AVPlaybackStatusSuccess, Video } from "expo-av";
+import { AVPlaybackStatusSuccess, Video } from "expo-av";
 import { msToTime, showToast } from "@/utils/time";
 import { normalize } from "@/utils/fontNormalise";
 import { usePlayer } from "../providers/PlayerProvider";
@@ -92,33 +92,34 @@ const Controls = ({
         }
     };
 
-    const [sliderValue, setSliderValue] = useState(0.0);
+    const [sliderValue, setSliderValue] = useState<number[]>([]);
     useEffect(() => {
         if (status) {
             let { positionMillis: currentPostion, durationMillis: duration } = status;
             let _silderValue = currentPostion / (duration || 1);
             if (!status.isBuffering) {
-                // console.log(currentPostion)
                 setPosition(currentPostion)
             }
             if (isShowingControls) {
-                setSliderValue(_silderValue);
+                setSliderValue([_silderValue]);
             }
         }
     }, [status]);
 
-    const seekTo = async (value: number) => {
+    const seekTo = async (value: number[]) => {
+        let val = value[0]
         if (!isShowingControls) return;
         if (videoRef?.current) {
-            value *= status?.durationMillis || 0.1
-            await playFrom(value);
+            val *= status?.durationMillis || 0.1
+            await playFrom(val);
         }
     };
 
     const skipTo = async (ms: number) => {
         if (!isShowingControls) return;
         if (videoRef?.current) {
-            await playFrom(status?.positionMillis || 0 + ms);
+            playFrom(status?.positionMillis || 0 + ms);
+            setPosition(status?.positionMillis || 0 + ms);
         }
     };
 
@@ -140,14 +141,14 @@ const Controls = ({
         >
             <View style={styles.playPauseWrapper}>
                 <CTRLButton
-                    iconName={"rewind-10"}
+                    iconName={"backward"}
                     size={25}
-                    onPress={() => skipTo(-10000)}
+                    onPress={() => skipTo(-30000)}
                 />
                 {status?.isPlaying ? (
                     <CTRLButton
                         iconName={"pause"}
-                        size={30}
+                        size={25}
                         onPress={togglePlayPause}
                         style={{
                             left: 0,
@@ -156,7 +157,7 @@ const Controls = ({
                 ) : (
                     <CTRLButton
                         iconName={"play"}
-                        size={30}
+                        size={25}
                         onPress={togglePlayPause}
                         style={{
                             left: 2,
@@ -164,7 +165,7 @@ const Controls = ({
                     />
                 )}
                 <CTRLButton
-                    iconName={"fast-forward-10"}
+                    iconName={"forward"}
                     size={25}
                     onPress={() => skipTo(10000)}
                 />
@@ -179,7 +180,7 @@ const Controls = ({
                 </Text>
             </View>
             <Slider
-                animateTransitions
+    animateTransitions
                 containerStyle={styles.sliderContainer}
                 minimumTrackTintColor="#FE9F01"
                 maximumTrackTintColor="#FFF"
@@ -190,13 +191,13 @@ const Controls = ({
                 }}
                 trackStyle={styles.track}
                 value={sliderValue}
-                onValueChange={(value) => setSliderValue(value[0])}
-                onSlidingComplete={(value) => seekTo(value[0])}
+                onValueChange={(value) => setSliderValue(value)} // Change this line
+                onSlidingComplete={(value) => seekTo(value)}
             />
             <View style={styles.bottomCtrls}>
                 {status?.isMuted ? (
                     <CTRLButton
-                        iconName={"volume-variant-off"}
+                        iconName={"volume-xmark"}
                         size={25}
                         onPress={toggleMute}
                     />
@@ -216,19 +217,19 @@ const Controls = ({
                     }}
                 >
                     <CTRLButton
-                        iconName="cog-outline"
+                        iconName="gear"
                         size={25}
                         onPress={toggleShowingSettings}
                     />
                     {isFullscreen ? (
                         <CTRLButton
-                            iconName="arrow-collapse"
+                            iconName="compress"
                             size={25}
                             onPress={toggleFullscreen}
                         />
                     ) : (
                         <CTRLButton
-                            iconName="arrow-expand"
+                            iconName="expand"
                             size={25}
                             onPress={toggleFullscreen}
                         />
