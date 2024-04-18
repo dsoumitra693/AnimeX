@@ -53,12 +53,12 @@ const Slide: React.FC<SlideProps> = ({ movie }) => {
                         <Text style={styles.title}> {title?.userPreferred?.slice(0, 15)} </Text>
                     </View>
                     <View style={styles.btnWrapper}>
-                        <Button
+                        {/* <Button
                             iconName='bookmark-outline'
                             title="Add To List"
                             textColor={color}
                             style={{ width: 180 }}
-                        />
+                        /> */}
                         <Button
                             iconName='play'
                             title="Watch Now"
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         margin: 5,
-        padding: 15,
+        padding: 10,
         backgroundColor: "rgba(0,0,0, 0.1)",
         borderColor: "rgba(51, 51, 51, 0.5)",
         borderWidth: 3,
