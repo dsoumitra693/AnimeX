@@ -27,12 +27,36 @@ export interface IEpisodeInfo {
   title: string
 }
 
+export interface ICharacter {
+  id: string;
+  role: string;
+  name: {
+    full: string;
+    native: string;
+    userPreferred: string;
+    first: string;
+  };
+  image: string;
+}
+
 export interface IStreamUrls {
   headers: {
     Referer: string;
   };
   sources: IMovieSource[];
   download: string
+}
+
+export interface IMovieRecomendtaion {
+  id: string;
+  malId: string;
+  title: IMovieTitle;
+  status: string;
+  episodes: number;
+  image: string;
+  cover: string;
+  rating: number;
+  type: string;
 }
 
 export interface IMovieInfo {
@@ -63,23 +87,8 @@ export interface IMovieInfo {
   type: string;
   totalEpisodes: number;
   currentEpisode: number;
-  recommendations: {
-    id: string;
-    malId: string;
-    title: IMovieTitle;
-    status: string;
-    episodes: number;
-    image: string;
-    cover: string;
-    rating: number;
-    type: string;
-  };
-  characters: {
-    id: string;
-    role: string;
-    name: string[];
-    image: string;
-  };
+  recommendations: IMovieRecomendtaion[];
+  characters: ICharacter[];
   relations: {
     id: number;
     relationType: string;
