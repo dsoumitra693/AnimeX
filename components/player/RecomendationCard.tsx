@@ -1,7 +1,8 @@
-import { ImageStyle, StyleProp, StyleSheet, Text, View } from 'react-native'
+import { ImageStyle, StyleProp, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CachedImage from '../CachedImage'
 import { IMovieRecomendtaion } from '@/types'
+import { useRouter } from 'expo-router';
 
 interface RecomendationCardProps {
     movie: IMovieRecomendtaion;
@@ -9,17 +10,22 @@ interface RecomendationCardProps {
 }
 
 const RecomendationCard = ({ movie, color }: RecomendationCardProps) => {
+
+    const router = useRouter()
+    const playMovie = ()=>{
+        router.replace(`/movie/${movie.id}`)
+    }
     return (
-        <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.wrapper} onPress={playMovie}>
             <CachedImage source={{ uri: movie.cover }}
                 style={styles.image as StyleProp<ImageStyle>}
                 resizeMode='cover' />
-            <View style={styles.info}>
+            <View style={{ ...styles.info, backgroundColor: color}}>
                 <Text style={{ ...styles.secondary, color: "#eee" }}>{movie.type}</Text>
             </View>
             <Text style={styles.title}>{movie.title.english}</Text>
             <Text style={styles.secondary}>{movie.title.native}</Text>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -27,9 +33,10 @@ export default RecomendationCard
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 200,
+        width: 230,
         margin: 10,
         height: 150,
+        borderRadius:10,
     },
     title: {
         color: "#fff",
@@ -53,6 +60,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "100%",
-        height: "100%"
+        height: "100%",
+        borderRadius:10
     },
 })

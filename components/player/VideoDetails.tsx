@@ -2,14 +2,13 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useFetchMovieDetails } from '@/hooks';
 import { usePlayer } from '../providers/PlayerProvider';
-import { ICharacter, IEpisodeInfo } from '@/types';
+import { IEpisodeInfo } from '@/types';
 import { formatRelativeDate } from '@/utils/relativeDateFormat';
 import { filterString } from '@/utils/filterString';
 import { FlashList } from '@shopify/flash-list';
 import EpisoideCard from './EpisoideCard';
 import { formatLikes } from '@/utils/formatLikes';
 import CharacterCard from './CharacterCard';
-import MovieCard from '../MovieCard';
 import RecomendationCard from './RecomendationCard';
 
 interface VideoDetailsProps {
@@ -36,7 +35,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                 <Text style={{ color: movieInfo.color, fontSize: 16, paddingLeft: 10 }}>
                     {formatLikes(movieInfo.popularity)} Likes  • {formatLikes(movieInfo.rating)} Ratings
                 </Text>
-                <Text style={styles.title}>{currentEpisoide.title || `EP${currentEpisoide.number}`} • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.season}</Text>
+                <Text style={styles.title}>{currentEpisoide.title || `EP${currentEpisoide.number}`} • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.genres[0]}</Text>
                 <Text style={styles.desc}>
                     {filterString(movieInfo.description).slice(0, 575)}
                 </Text>
@@ -46,9 +45,11 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <EpisoideCard
-                                episode={item}
-                                isPlaying={item.id === currentEpisoide.id} />
+                                episode={item} />
                         )}
+                        keyExtractor={(item) => {
+                            return item.id
+                        }}
                         data={availableEpisoide}
                         horizontal
                     />
@@ -64,6 +65,9 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         )}
                         data={movieInfo.characters}
                         horizontal
+                        keyExtractor={(item) => {
+                            return item.id
+                        }}
                     />
                 </View>}
                 {movieInfo.recommendations && <View style={{ ...styles.episoideWrapper, height: 250, marginBottom: 80 }}>
@@ -76,6 +80,9 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                                 color={movieInfo.color}
                             />
                         )}
+                        keyExtractor={(item) => {
+                            return item.id;
+                        }}
                         data={movieInfo.recommendations}
                         horizontal
                     />

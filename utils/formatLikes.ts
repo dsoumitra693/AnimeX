@@ -6,6 +6,6 @@ export function formatLikes(likes: number): string {
     } else if (likes >= 1000) {
         return (likes / 1000).toFixed(1) + 'k';
     } else {
-        return likes.toString();
+        return likes?.toString();
     }
 }

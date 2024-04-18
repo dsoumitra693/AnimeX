@@ -1,22 +1,30 @@
-import { ImageStyle, StyleProp, StyleSheet, Text, View } from 'react-native'
+import { ImageStyle, StyleProp, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import CachedImage from '../CachedImage'
 import { IEpisodeInfo } from '@/types'
 import LottieView from 'lottie-react-native';
+import { usePlayer } from '../providers/PlayerProvider';
 
 interface EpisoideCardProps {
     episode: IEpisodeInfo;
-    isPlaying: boolean;
 }
 
-const EpisoideCard = ({ episode, isPlaying }: EpisoideCardProps) => {
+const EpisoideCard = ({ episode }: EpisoideCardProps) => {
+    const { currentEpisoide, setCurrentEpisoide, setPosition } = usePlayer()
+
+    const playEpisode = () => {
+        if (currentEpisoide.id !== episode.id) {
+            setCurrentEpisoide(episode)
+            setPosition(0)
+        }
+    }
     return (
-        <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.wrapper} onPress={playEpisode}>
             <CachedImage source={{ uri: episode.image }}
                 style={styles.image as StyleProp<ImageStyle>}
                 resizeMode='cover' />
             <Text style={styles.title}>{episode.title || `EP${episode.number}`}</Text>
-            {isPlaying && <View style={styles.playIndicator} >
+            {(currentEpisoide.id === episode.id) && <View style={styles.playIndicator} >
                 <Text style={{ ...styles.title, fontSize: 14 }}>Now Playing</Text>
                 <LottieView
                     autoPlay
@@ -41,7 +49,7 @@ const EpisoideCard = ({ episode, isPlaying }: EpisoideCardProps) => {
                     source={require("@/assets/animations/playing.json")}
                 />
             </View>}
-        </View>
+        </TouchableOpacity>
     )
 }
 

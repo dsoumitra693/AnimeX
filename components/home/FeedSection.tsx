@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, FlatList, } from "react-native";
 import React, { useEffect } from "react";
 import MovieCard from "../MovieCard";
-import { FlashList } from "@shopify/flash-list";
 import { normalize } from "@/utils/fontNormalise";
 import { useFetchGenre } from "@/hooks";
 import { ISearchMovie } from "@/types";
