@@ -15,6 +15,7 @@ A powerfull react native app for watching popular japanese animation.
 ![7a937f5c-a28f-4a51-a69d-5b5ba70fb36d](https://github.com/dsoumitra693/AnimeX/assets/73629855/ef42c460-1ac0-4ce6-a056-840c7bbc30ef)
 ![4a0a3b78-9774-4e94-a888-905354ab9841](https://github.com/dsoumitra693/AnimeX/assets/73629855/1443af03-b411-4d9c-a5ae-70cc81efb819)
 ![e47385cc-e774-46d5-a9a0-04c841750dae](https://github.com/dsoumitra693/AnimeX/assets/73629855/a4014c17-0b71-4fa8-93a6-85ae4a70bffd)
+<a href="url"><img src="[http://url.to/image.png](https://github.com/dsoumitra693/AnimeX/assets/73629855/a4014c17-0b71-4fa8-93a6-85ae4a70bffd)" align="left" height="auto" width="120" ></a>
 
 
 
