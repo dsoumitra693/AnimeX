@@ -7,10 +7,10 @@ import { formatRelativeDate } from '@/utils/relativeDateFormat';
 import { filterString } from '@/utils/filterString';
 import { FlashList } from '@shopify/flash-list';
 import EpisoideCard from './EpisoideCard';
-import { formatLikes } from '@/utils/formatLikes';
 import CharacterCard from './CharacterCard';
 import RecomendationCard from './RecomendationCard';
 import { normalize } from '@/utils/fontNormalise';
+import { formatNumber } from '@/utils/formatNumber';
 
 interface VideoDetailsProps {
     movieId: string;
@@ -22,7 +22,6 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
 
     useEffect(() => {
         if (movieInfo && movieInfo.episodes) {
-            console.log(movieInfo.title)
             setVideoPoster(movieInfo.trailer?.thumbnail || movieInfo.image)
             setAvailableEpisoide(movieInfo.episodes as IEpisodeInfo[])
             setCurrentEpisoide(movieInfo.episodes[0])
@@ -35,19 +34,21 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                     {movieInfo?.title.english || movieInfo?.title.romaji}
                 </Text>
                 <Text style={{ color: movieInfo.color, fontSize: normalize(14), paddingLeft: 10 }}>
-                    {formatLikes(movieInfo.popularity)} Likes  • {formatLikes(movieInfo.rating)} Ratings
+                    {formatNumber(movieInfo.popularity)} Likes  • {formatNumber(movieInfo.rating)} Ratings
                 </Text>
-                <Text style={styles.title}>{currentEpisoide.title || `EP${currentEpisoide.number}`} • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.genres[0]}</Text>
-                <Text style={styles.desc}>
+                <Text style={styles.title}>{
+                    !!currentEpisoide ? currentEpisoide.title || `EP${currentEpisoide.number}` : movieInfo.status
+                } • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.genres[0]}</Text>
+                {movieInfo.description && <Text style={styles.desc}>
                     {filterString(movieInfo.description).slice(0, 575)}
-                </Text>
-                {movieInfo.episodes && <View style={styles.episoideWrapper}>
+                </Text>}
+                {!!movieInfo.episodes.length && <View style={styles.episoideWrapper}>
                     <Text style={styles.title}>Episoide ({movieInfo.currentEpisode})</Text>
                     <FlashList
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <EpisoideCard
-                                episode={item}key={item.id} />
+                                episode={item} key={item.id} />
                         )}
                         keyExtractor={(item) => {
                             return item.id
@@ -56,13 +57,13 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         horizontal
                     />
                 </View>}
-                {movieInfo.characters && <View style={{ ...styles.episoideWrapper, marginBottom: 20 }}>
+                {!!movieInfo.characters.length && <View style={{ ...styles.episoideWrapper, marginBottom: 20 }}>
                     <Text style={styles.title}>Characters ({movieInfo.characters.length})</Text>
                     <FlashList
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <CharacterCard
-                                character={item}key={item.id}
+                                character={item} key={item.id}
                             />
                         )}
                         data={movieInfo.characters}
@@ -72,14 +73,14 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         }}
                     />
                 </View>}
-                {movieInfo.recommendations && <View style={{ ...styles.episoideWrapper, height: 250, marginBottom: 80 }}>
+                {!!movieInfo.recommendations.length && <View style={{ ...styles.episoideWrapper, height: 250, marginBottom: 80 }}>
                     <Text style={styles.title}>Recommendations ({movieInfo.recommendations.length})</Text>
                     <FlashList
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <RecomendationCard
                                 movie={item}
-                                color={movieInfo.color}key={item.id}
+                                color={movieInfo.color} key={item.id}
                             />
                         )}
                         keyExtractor={(item) => {
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "#fff",
-        fontSize: normalize(18),
+        fontSize: normalize(17),
         paddingLeft: 10,
     },
     desc: {

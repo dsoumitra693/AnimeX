@@ -10,7 +10,6 @@ interface CharacterCardProps {
 }
 
 const CharacterCard = ({ character }: CharacterCardProps) => {
-    console.log(`${character.image} -> ${character.name.first}`)
     return (
         <View style={styles.wrapper}>
             <CachedImage source={{ uri: character.image || DEFAULT_IMAGE }}

@@ -20,7 +20,6 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
         }
         searchTimeout.current = setTimeout(async () => {
             const _amines = await searchMovie(searchText);
-            console.log(_amines)
             setAmines(_amines);
         }, 800); // Delay the API call by 500 milliseconds
 
