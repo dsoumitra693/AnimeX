@@ -1,74 +1,62 @@
+---
 
 # AnimeX
 
-A powerfull react native app for watching popular japanese animation.
-
+AnimeX is a powerful React Native application designed for streaming popular Japanese animations. Enjoy a vast library of anime series directly on your mobile device with a user-friendly interface.
 
 ## Acknowledgements
 
- - [Consumet Anime Provider](https://github.com/consumet/api.consumet.org)
-
-
+- [Consumet Anime Provider](https://github.com/consumet/api.consumet.org)
 
 ## Screenshots
-
-![7a937f5c-a28f-4a51-a69d-5b5ba70fb36d](https://github.com/dsoumitra693/AnimeX/assets/73629855/ef42c460-1ac0-4ce6-a056-840c7bbc30ef)
-![4a0a3b78-9774-4e94-a888-905354ab9841](https://github.com/dsoumitra693/AnimeX/assets/73629855/1443af03-b411-4d9c-a5ae-70cc81efb819)
-![e47385cc-e774-46d5-a9a0-04c841750dae](https://github.com/dsoumitra693/AnimeX/assets/73629855/a4014c17-0b71-4fa8-93a6-85ae4a70bffd)
-<a href="url"><img src="[http://url.to/image.png](https://github.com/dsoumitra693/AnimeX/assets/73629855/a4014c17-0b71-4fa8-93a6-85ae4a70bffd)" align="left" height="auto" width="120" ></a>
-
-
-
+<img src="https://github.com/dsoumitra693/AnimeX/assets/73629855/ef42c460-1ac0-4ce6-a056-840c7bbc30ef" width="180">
+<img src="https://github.com/dsoumitra693/AnimeX/assets/73629855/1443af03-b411-4d9c-a5ae-70cc81efb819" width="180">
+<img src="https://github.com/dsoumitra693/AnimeX/assets/73629855/a4014c17-0b71-4fa8-93a6-85ae4a70bffd" width="180">
 
 ## Tech Stack
 
-**Client:** React Native(Expo), Cnntext API,Lottie
-
-**Server:** Node, Express
-
+- **Client:** React Native (Expo), Context API, Lottie
+- **Server:** Node.js, Express
 
 ## Run Locally
 
-Clone the project
+Follow these steps to get your development environment running:
 
-```bash
-  git clone https://github.com/dsoumitra693/AnimeX.git
-```
+1. **Clone the project**
+   ```bash
+   git clone https://github.com/dsoumitra693/AnimeX.git
+   ```
 
-Go to the project directory
+2. **Go to the project directory**
+   ```bash
+   cd AnimeX
+   ```
 
-```bash
-  cd AnimeX
-```
+3. **Install dependencies**
+   ```bash
+   yarn  # or npm install
+   ```
 
-Install dependencies
+4. **Start the server**
+   ```bash
+   yarn start  # or npm start
+   ```
 
-```bash
-  yarn 
-  or npm install
-```
+5. **Scan the QR Code**
+   - Use the Expo Go app on Android or the Camera app on iOS to scan the QR code displayed in your terminal.
 
-Start the server
-
-```bash
-  yarn start 
-  Or npm start
-```
-
-Use Expo Go app and (Android) or use camera app(IOS) to scan the QR on your terminal and test the app on your phone
-
-- [Use app directly](https://github.com/dsoumitra693/AnimeX/releases)
-
+6. **Direct Installation**
+   - If you prefer, you can also [download the app directly](https://github.com/dsoumitra693/AnimeX/releases) from the GitHub releases page.
 
 ## Features
 
-- Search and watch popular animes for free
-- Beautiful minimal UI
-- Fullscreen mode
-- Cross platform
-
+- Search and watch popular anime series for free
+- Beautiful, minimalistic user interface
+- Fullscreen viewing mode available
+- Cross-platform functionality (iOS and Android)
 
 ## Authors
 
-- [@Soumitra Das](https://www.github.com/dsoumitra693)
+- [Soumitra Das](https://www.github.com/dsoumitra693)
 
+---
