@@ -35,10 +35,10 @@ export default FeedSection;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 30,
+        marginTop: 10,
         flex: 1,
         width: width,
-        minHeight:260
+        minHeight:230
     },
     heading: {
         fontSize: normalize(20),

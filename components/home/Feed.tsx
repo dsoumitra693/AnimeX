@@ -9,7 +9,7 @@ const Feed = () => {
       {FEED_GENRES.map((genre, id) => (
         <FeedSection genre={genre} key={id} />
       ))}
-      {/* <View style={{
+      <View style={{
         flex:1,
         justifyContent:"center",
         alignItems:"center",
@@ -17,7 +17,7 @@ const Feed = () => {
         <Text style={{
           color:"#999"
         }}>— — Nothing else — —</Text>
-      </View> */}
+      </View>
     </View>
   );
 };
@@ -26,7 +26,7 @@ export default Feed;
 
 const styles = StyleSheet.create({
   container: {
-    // flex:1,
-    paddingBottom: 10,
+    paddingBottom: 40,
+    top:20,
   },
 });

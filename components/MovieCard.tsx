@@ -22,8 +22,8 @@ const MovieCard = ({ movie, size }: MovieCardProps) => {
     return (
         <TouchableOpacity
             style={{
-                ...styles.card, width: size || 150,
-                height: size ? 250 : 230,
+                ...styles.card, width: size || 130,
+                height: size ? 220 : 200,
                 marginTop: size ? 0 : 10,
             }}
             onPress={playMovie}
