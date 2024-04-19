@@ -40,3 +40,5 @@ export const FEED_GENRES = [
   { title: "Isekai", id: "Isekai" },
   { title: "School", id: "School" },
 ];
+
+export const DEFAULT_IMAGE="https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"

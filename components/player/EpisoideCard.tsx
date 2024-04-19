@@ -4,6 +4,7 @@ import CachedImage from '../CachedImage'
 import { IEpisodeInfo } from '@/types'
 import LottieView from 'lottie-react-native';
 import { usePlayer } from '../providers/PlayerProvider';
+import { normalize } from '@/utils/fontNormalise';
 
 interface EpisoideCardProps {
     episode: IEpisodeInfo;
@@ -25,7 +26,7 @@ const EpisoideCard = ({ episode }: EpisoideCardProps) => {
                 resizeMode='cover' />
             <Text style={styles.title}>{episode.title || `EP${episode.number}`}</Text>
             {(currentEpisoide.id === episode.id) && <View style={styles.playIndicator} >
-                <Text style={{ ...styles.title, fontSize: 14 }}>Now Playing</Text>
+                <Text style={{ ...styles.title, fontSize: normalize(14) }}>Now Playing</Text>
                 <LottieView
                     autoPlay
                     style={{

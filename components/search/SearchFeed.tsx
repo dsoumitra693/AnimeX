@@ -4,6 +4,7 @@ import { searchMovie } from '@/Api';
 import { FlashList } from '@shopify/flash-list';
 import MovieCard from '../MovieCard';
 import { ISearchMovie } from "@/types"
+import { normalize } from '@/utils/fontNormalise';
 
 
 interface SearchFeedProps {
@@ -59,6 +60,6 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "#fff",
-        fontSize: 20,
+        fontSize: normalize(20),
     },
 })

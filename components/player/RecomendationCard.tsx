@@ -3,6 +3,7 @@ import React from 'react'
 import CachedImage from '../CachedImage'
 import { IMovieRecomendtaion } from '@/types'
 import { useRouter } from 'expo-router';
+import { normalize } from '@/utils/fontNormalise';
 
 interface RecomendationCardProps {
     movie: IMovieRecomendtaion;
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "#fff",
-        fontSize: 14,
+        fontSize: normalize(14),
         textAlign: "justify",
     },
     info: {
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     },
     secondary: {
         color: "#aaa",
-        fontSize: 12,
+        fontSize: normalize(12),
         textAlign: "left"
     },
     image: {

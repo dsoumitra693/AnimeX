@@ -1,13 +1,14 @@
 import { Image, ImageProps, ImageSourcePropType } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Caching } from '@/utils/Caching'
+import { DEFAULT_IMAGE } from '@/constants'
 
-interface CachedImageProps extends ImageProps{
-    source:{uri:string}
+interface CachedImageProps extends ImageProps {
+    source: { uri: string }
 }
 
 
-const CachedImage = ({ source, ...props }:CachedImageProps) => {
+const CachedImage = ({ source, ...props }: CachedImageProps) => {
     const [url, setUrl] = useState<string>()
     const { uri } = source
 
@@ -20,7 +21,7 @@ const CachedImage = ({ source, ...props }:CachedImageProps) => {
         cached()
     }, [])
     return (
-        <Image source={{ uri: url }} {...props} />
+        <Image source={{ uri: url || DEFAULT_IMAGE }} {...props} />
     )
 }
 

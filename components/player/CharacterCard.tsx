@@ -2,15 +2,18 @@ import { ImageStyle, StyleProp, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import CachedImage from '../CachedImage'
 import { ICharacter } from '@/types'
+import { normalize } from '@/utils/fontNormalise';
+import { DEFAULT_IMAGE } from '@/constants';
 
 interface CharacterCardProps {
     character: ICharacter;
 }
 
 const CharacterCard = ({ character }: CharacterCardProps) => {
+    console.log(`${character.image} -> ${character.name.first}`)
     return (
         <View style={styles.wrapper}>
-            <CachedImage source={{ uri: character.image }}
+            <CachedImage source={{ uri: character.image || DEFAULT_IMAGE }}
                 style={styles.image as StyleProp<ImageStyle>}
                 resizeMode='cover' />
             <Text style={styles.title}>{character.name.first}</Text>
@@ -23,17 +26,17 @@ export default CharacterCard
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 65,
+        width: 75,
         margin: 10,
     },
     title: {
         color: "#fff",
-        fontSize: 14,
+        fontSize: normalize(14),
         textAlign: "center"
     },
     secondary:{
         color: "#aaa",
-        fontSize: 10,
+        fontSize: normalize(10),
         textAlign: "center"
     },
     image: {

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         borderRadius: 2,
     },
     text: {
-        fontSize: normalize(12),
+        fontSize: normalize(10),
         fontWeight: "700",
         color: "#fff",
         padding: 5,

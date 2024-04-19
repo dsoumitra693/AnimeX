@@ -10,6 +10,7 @@ import EpisoideCard from './EpisoideCard';
 import { formatLikes } from '@/utils/formatLikes';
 import CharacterCard from './CharacterCard';
 import RecomendationCard from './RecomendationCard';
+import { normalize } from '@/utils/fontNormalise';
 
 interface VideoDetailsProps {
     movieId: string;
@@ -33,7 +34,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                 <Text style={styles.title}>
                     {movieInfo?.title.english || movieInfo?.title.romaji}
                 </Text>
-                <Text style={{ color: movieInfo.color, fontSize: 14, paddingLeft: 10 }}>
+                <Text style={{ color: movieInfo.color, fontSize: normalize(14), paddingLeft: 10 }}>
                     {formatLikes(movieInfo.popularity)} Likes  • {formatLikes(movieInfo.rating)} Ratings
                 </Text>
                 <Text style={styles.title}>{currentEpisoide.title || `EP${currentEpisoide.number}`} • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.genres[0]}</Text>
@@ -103,13 +104,13 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "#fff",
-        fontSize: 18,
+        fontSize: normalize(18),
         paddingLeft: 10,
     },
     desc: {
         padding: 10,
         color: "#fff",
-        fontSize: 14,
+        fontSize: normalize(14),
     },
     episoideWrapper: {
         paddingTop: 10,

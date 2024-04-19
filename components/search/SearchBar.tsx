@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons'
+import { normalize } from '@/utils/fontNormalise'
 
 interface SearchBarProps {
   searchText: string, setSearchText: (text: string) => void
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "100%",
     padding: 20,
-    fontSize: 18,
+    fontSize: normalize(18),
     color: "#fff"
   }
 })
