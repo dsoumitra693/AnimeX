@@ -63,7 +63,7 @@ const RecentSlides = () => {
         />
       )}
       renderItem={({ item }) => {
-        return <Slide movie={item} />;
+        return <Slide movie={item} key={item.id}/>;
       }}
       estimatedItemSize={400}
       onScroll={Animated.event(

@@ -23,7 +23,7 @@ const RecomendationCard = ({ movie, color }: RecomendationCardProps) => {
             <View style={{ ...styles.info, backgroundColor: color}}>
                 <Text style={{ ...styles.secondary, color: "#eee" }}>{movie.type}</Text>
             </View>
-            <Text style={styles.title}>{movie.title.english}</Text>
+            <Text style={styles.title}>{movie.title.english || movie.title.romaji}</Text>
             <Text style={styles.secondary}>{movie.title.native}</Text>
         </TouchableOpacity>
     )
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "#fff",
-        fontSize: 16,
+        fontSize: 14,
         textAlign: "justify",
     },
     info: {

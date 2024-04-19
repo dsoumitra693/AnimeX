@@ -118,8 +118,7 @@ const Controls = ({
     const skipTo = async (ms: number) => {
         if (!isShowingControls) return;
         if (videoRef?.current) {
-            playFrom(status?.positionMillis || 0 + ms);
-            setPosition(status?.positionMillis || 0 + ms);
+            playFrom(status?.positionMillis + ms);
         }
     };
 
@@ -180,7 +179,7 @@ const Controls = ({
                 </Text>
             </View>
             <Slider
-    animateTransitions
+                animateTransitions
                 containerStyle={styles.sliderContainer}
                 minimumTrackTintColor="#FE9F01"
                 maximumTrackTintColor="#FFF"
@@ -198,13 +197,13 @@ const Controls = ({
                 {status?.isMuted ? (
                     <CTRLButton
                         iconName={"volume-xmark"}
-                        size={25}
+                        size={20}
                         onPress={toggleMute}
                     />
                 ) : (
                     <CTRLButton
                         iconName={"volume-high"}
-                        size={25}
+                        size={20}
                         onPress={toggleMute}
                     />
                 )}
@@ -213,24 +212,24 @@ const Controls = ({
                         justifyContent: "space-between",
                         flexDirection: "row",
                         position: "relative",
-                        width: "20%",
+                        width: 80,
                     }}
                 >
                     <CTRLButton
                         iconName="gear"
-                        size={25}
+                        size={20}
                         onPress={toggleShowingSettings}
                     />
                     {isFullscreen ? (
                         <CTRLButton
                             iconName="compress"
-                            size={25}
+                            size={20}
                             onPress={toggleFullscreen}
                         />
                     ) : (
                         <CTRLButton
                             iconName="expand"
-                            size={25}
+                            size={20}
                             onPress={toggleFullscreen}
                         />
                     )}
@@ -296,7 +295,7 @@ const styles = StyleSheet.create({
     },
     bottomCtrls: {
         width: "100%",
-        bottom: 5,
+        bottom: 10,
         position: "absolute",
         justifyContent: "space-between",
         flexDirection: "row",

@@ -21,6 +21,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
 
     useEffect(() => {
         if (movieInfo && movieInfo.episodes) {
+            console.log(movieInfo.title)
             setVideoPoster(movieInfo.trailer?.thumbnail || movieInfo.image)
             setAvailableEpisoide(movieInfo.episodes as IEpisodeInfo[])
             setCurrentEpisoide(movieInfo.episodes[0])
@@ -32,7 +33,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                 <Text style={styles.title}>
                     {movieInfo?.title.english || movieInfo?.title.romaji}
                 </Text>
-                <Text style={{ color: movieInfo.color, fontSize: 16, paddingLeft: 10 }}>
+                <Text style={{ color: movieInfo.color, fontSize: 14, paddingLeft: 10 }}>
                     {formatLikes(movieInfo.popularity)} Likes  • {formatLikes(movieInfo.rating)} Ratings
                 </Text>
                 <Text style={styles.title}>{currentEpisoide.title || `EP${currentEpisoide.number}`} • {formatRelativeDate(movieInfo.startDate)} • {movieInfo.genres[0]}</Text>
@@ -45,7 +46,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <EpisoideCard
-                                episode={item} />
+                                episode={item}key={item.id} />
                         )}
                         keyExtractor={(item) => {
                             return item.id
@@ -60,7 +61,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         estimatedItemSize={150}
                         renderItem={({ item }) => (
                             <CharacterCard
-                                character={item}
+                                character={item}key={item.id}
                             />
                         )}
                         data={movieInfo.characters}
@@ -77,7 +78,7 @@ const VideoDetails = ({ movieId }: VideoDetailsProps) => {
                         renderItem={({ item }) => (
                             <RecomendationCard
                                 movie={item}
-                                color={movieInfo.color}
+                                color={movieInfo.color}key={item.id}
                             />
                         )}
                         keyExtractor={(item) => {
@@ -98,12 +99,11 @@ export default VideoDetails
 const styles = StyleSheet.create({
     wrapper: {
         paddingTop: 10,
-        // padding: 20,
         flex: 1,
     },
     title: {
         color: "#fff",
-        fontSize: 20,
+        fontSize: 18,
         paddingLeft: 10,
     },
     desc: {

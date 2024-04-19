@@ -23,17 +23,17 @@ export default CharacterCard
 
 const styles = StyleSheet.create({
     wrapper: {
-        width: 90,
+        width: 65,
         margin: 10,
     },
     title: {
         color: "#fff",
-        fontSize: 16,
+        fontSize: 14,
         textAlign: "center"
     },
     secondary:{
         color: "#aaa",
-        fontSize: 12,
+        fontSize: 10,
         textAlign: "center"
     },
     image: {

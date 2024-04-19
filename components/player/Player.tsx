@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BackHandler, Dimensions, ImageSourcePropType, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
+import { BackHandler, Dimensions, StatusBar, StyleSheet, View, ViewStyle } from 'react-native';
 import { Video, ResizeMode, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from 'expo-router';
