@@ -15,7 +15,7 @@ export const getStreamUrls = async (
 
 export const searchMovie = async (
     searchQuery: string
-): Promise<ISearchMovie> => {
+): Promise<ISearchMovie[]> => {
     const url = `${searchQuery}`;
     const response = await apiService.request<ISearchMovie>(url, "GET");
     return response.data.results;
@@ -23,7 +23,7 @@ export const searchMovie = async (
 
 export const searchMoviesWithGenre = async (
     genre: string
-): Promise<ISearchMovie> => {
+): Promise<ISearchMovie[]> => {
     const url = `${genre}`;
     const response = await apiService.request<ISearchMovie>(url, "GET");
     return response.data.results;
