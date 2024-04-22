@@ -23,8 +23,6 @@ const MovieCard = ({ movie, size }: MovieCardProps) => {
         <TouchableOpacity
             style={{
                 ...styles.card, width: size || 130,
-                height: size ? 220 : 200,
-                marginTop: size ? 0 : 10,
             }}
             onPress={playMovie}
         >
@@ -39,7 +37,7 @@ const MovieCard = ({ movie, size }: MovieCardProps) => {
                         ...styles.textWrapper,
                         top: 5,
                         right: 5,
-                        width: "25%",
+                        width: 30,
                         height: 25,
                         backgroundColor: color || "#000",
                         borderRadius: 5,
@@ -60,8 +58,9 @@ export default MovieCard;
 const styles = StyleSheet.create({
     card: {
         overflow: "hidden",
-        margin: 10,
-        backgroundColor: '#222'
+        margin: 5,
+        backgroundColor: '#222',
+        aspectRatio:9/16
     },
     image: {
         height: "100%",
@@ -74,12 +73,12 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 40,
         alignItems: "center",
+        justifyContent:"center",
         borderRadius: 2,
     },
     text: {
         fontSize: normalize(10),
         fontWeight: "700",
         color: "#fff",
-        padding: 5,
     },
 });

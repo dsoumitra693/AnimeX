@@ -84,7 +84,7 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
                         estimatedItemSize={300}
                         renderItem={({ item }) => (
                             <MovieCard
-                                size={100}
+                                size={110}
                                 movie={item}
                                 key={item.id} />
                         )}
