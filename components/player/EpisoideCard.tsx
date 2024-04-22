@@ -3,7 +3,7 @@ import React from 'react'
 import CachedImage from '../CachedImage'
 import { IEpisodeInfo } from '@/types'
 import LottieView from 'lottie-react-native';
-import { usePlayer } from '../providers/PlayerProvider';
+import { usePlayer } from '../../providers/PlayerProvider';
 import { normalize } from '@/utils/fontNormalise';
 
 interface EpisoideCardProps {

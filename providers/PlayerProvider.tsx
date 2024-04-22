@@ -15,6 +15,8 @@ interface IPlayerContext {
     setCurrentEpisoide: (episodes: IEpisodeInfo) => void
     availableEpisoide: IEpisodeInfo[]
     setAvailableEpisoide: (episodesArr: IEpisodeInfo[]) => void;
+    color:string;
+    setColor:(color:string)=>void
 }
 
 interface PlayerProviderProps {
@@ -33,6 +35,7 @@ const PlayerContext = React.createContext<IPlayerContext | null>(null);
 
 const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const [position, setPosition] = useState<number>(0)
+    const [color, setColor] = useState("#000")
     const [videoSource, setVideoSource] = useState<string>("")
     const [videoPoster, setVideoPoster] = useState<string>("")
     const [videoQuality, setVideoQuality] = useState<string>("default")
@@ -49,7 +52,7 @@ const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const [availableEpisoide, setAvailableEpisoide] = useState<IEpisodeInfo[]>([])
 
     return (
-        <PlayerContext.Provider value={{ videoPoster, setVideoPoster,currentEpisoide, setCurrentEpisoide, availableEpisoide, setAvailableEpisoide, availableQuality, position, setAvailableQuality, setPosition, setVideoQuality, setVideoSource, videoQuality, videoSource }}>
+        <PlayerContext.Provider value={{ color, setColor, videoPoster, setVideoPoster,currentEpisoide, setCurrentEpisoide, availableEpisoide, setAvailableEpisoide, availableQuality, position, setAvailableQuality, setPosition, setVideoQuality, setVideoSource, videoQuality, videoSource }}>
             {children}
         </PlayerContext.Provider>
     )

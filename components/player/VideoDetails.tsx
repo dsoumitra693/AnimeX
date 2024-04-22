@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useFetchMovieDetails } from '@/hooks';
-import { usePlayer } from '../providers/PlayerProvider';
+import { usePlayer } from '../../providers/PlayerProvider';
 import { IEpisodeInfo } from '@/types';
 import { formatRelativeDate } from '@/utils/relativeDateFormat';
 import { filterString } from '@/utils/filterString';
@@ -18,13 +18,14 @@ interface VideoDetailsProps {
 
 const VideoDetails = ({ movieId }: VideoDetailsProps) => {
     const { data: movieInfo } = useFetchMovieDetails(movieId)
-    const { setVideoPoster, availableEpisoide, setAvailableEpisoide, currentEpisoide, setCurrentEpisoide } = usePlayer()
+    const { setColor, setVideoPoster, availableEpisoide, setAvailableEpisoide, currentEpisoide, setCurrentEpisoide } = usePlayer()
 
     useEffect(() => {
         if (movieInfo && movieInfo.episodes) {
             setVideoPoster(movieInfo.trailer?.thumbnail || movieInfo.image)
             setAvailableEpisoide(movieInfo.episodes as IEpisodeInfo[])
             setCurrentEpisoide(movieInfo.episodes[0])
+            setColor(movieInfo?.color || "#000")
         }
     }, [movieInfo])
     if (movieInfo)

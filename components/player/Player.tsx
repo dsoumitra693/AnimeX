@@ -4,7 +4,7 @@ import { Video, ResizeMode, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'ex
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from 'expo-router';
 import Controls from './Controls';
-import { usePlayer } from '../providers/PlayerProvider';
+import { usePlayer } from '../../providers/PlayerProvider';
 import { IStreamUrls } from '@/types';
 import { getStreamUrls } from '@/Api';
 

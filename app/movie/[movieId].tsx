@@ -1,6 +1,6 @@
 import Player from '@/components/player/Player';
 import VideoDetails from '@/components/player/VideoDetails';
-import { PlayerProvider } from '@/components/providers';
+import { PlayerProvider } from '@/providers';
 import { useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
 

@@ -11,21 +11,21 @@ import CTRLButton from "./CTRLButton";
 import { AVPlaybackStatusSuccess, Video } from "expo-av";
 import { msToTime, showToast } from "@/utils/time";
 import { normalize } from "@/utils/fontNormalise";
-import { usePlayer } from "../providers/PlayerProvider";
+import { usePlayer } from "../../providers/PlayerProvider";
 
 interface ControlsProps {
     status: AVPlaybackStatusSuccess;
     videoRef: RefObject<Video> | null;
     toggleFullscreen: () => void;
-    isFullscreen: boolean
+    isFullscreen: boolean;
 }
 const Controls = ({
     videoRef,
     status,
     toggleFullscreen,
-    isFullscreen
+    isFullscreen,
 }: ControlsProps) => {
-    let { setPosition, availableQuality, setVideoQuality, videoQuality } = usePlayer()
+    let { color,setPosition, availableQuality, setVideoQuality, videoQuality } = usePlayer()
     const playFrom = async (ms: number) => {
         if (videoRef?.current) {
             await videoRef.current.playFromPositionAsync(ms)
@@ -140,9 +140,14 @@ const Controls = ({
         >
             <View style={styles.playPauseWrapper}>
                 <CTRLButton
-                    iconName={"backward"}
+                    iconName={"play-skip-back"}
                     size={25}
-                    onPress={() => skipTo(-30000)}
+                    onPress={() => skipTo(-10000)}
+                />
+                <CTRLButton
+                    iconName={"play-back"}
+                    size={25}
+                    onPress={() => skipTo(-10000)}
                 />
                 {status?.isPlaying ? (
                     <CTRLButton
@@ -164,9 +169,14 @@ const Controls = ({
                     />
                 )}
                 <CTRLButton
-                    iconName={"forward"}
+                    iconName={"play-forward"}
                     size={25}
                     onPress={() => skipTo(10000)}
+                />
+                <CTRLButton
+                    iconName={"play-skip-forward"}
+                    size={25}
+                    onPress={() => skipTo(-10000)}
                 />
             </View>
 
@@ -181,22 +191,26 @@ const Controls = ({
             <Slider
                 animateTransitions
                 containerStyle={styles.sliderContainer}
-                minimumTrackTintColor="#FE9F01"
+                minimumTrackTintColor={color}
                 maximumTrackTintColor="#FFF"
-                thumbStyle={styles.thumb}
+                thumbStyle={{
+                    ...styles.thumb,
+                    shadowColor: color,
+                    backgroundColor: color,
+                }}
                 thumbTouchSize={{
                     width: 50,
                     height: 40,
                 }}
                 trackStyle={styles.track}
                 value={sliderValue}
-                onValueChange={(value) => setSliderValue(value)} // Change this line
-                onSlidingComplete={(value) => seekTo(value)}
+                onValueChange={setSliderValue}
+                onSlidingComplete={seekTo}
             />
             <View style={styles.bottomCtrls}>
                 {status?.isMuted ? (
                     <CTRLButton
-                        iconName={"volume-xmark"}
+                        iconName={"volume-mute"}
                         size={20}
                         onPress={toggleMute}
                     />
@@ -216,13 +230,13 @@ const Controls = ({
                     }}
                 >
                     <CTRLButton
-                        iconName="gear"
+                        iconName="settings-outline"
                         size={20}
                         onPress={toggleShowingSettings}
                     />
                     {isFullscreen ? (
                         <CTRLButton
-                            iconName="compress"
+                            iconName="contract"
                             size={20}
                             onPress={toggleFullscreen}
                         />
@@ -302,10 +316,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
     },
     thumb: {
-        backgroundColor: "#FE9F01",
         borderRadius: 10 / 2,
         height: 10,
-        shadowColor: "#FE9F01",
         shadowOffset: {
             width: 0,
             height: 0,
@@ -315,7 +327,7 @@ const styles = StyleSheet.create({
         width: 10,
     },
     track: {
-        backgroundColor: "#575454",
+        backgroundColor: "#aaa",
         height: 2,
         width: "100%",
     },
