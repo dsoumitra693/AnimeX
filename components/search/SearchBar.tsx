@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { FontAwesome } from '@expo/vector-icons'
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { normalize } from '@/utils/fontNormalise'
 
 interface SearchBarProps {
@@ -21,8 +21,8 @@ const SearchBar = ({ searchText, setSearchText }: SearchBarProps) => {
         returnKeyType="search"
       />
       <TouchableOpacity disabled={searchText == ""} onPress={()=>setSearchText("")}>
-        <FontAwesome
-          name='remove'
+        <Ionicons
+          name='close'
           size={25}
           color={searchText == "" ? "#888" : "#ccc"}
         />
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   input: {
     width: "90%",
     height: "100%",
-    padding: 20,
+    padding: 15,
     fontSize: normalize(18),
     color: "#fff"
   }

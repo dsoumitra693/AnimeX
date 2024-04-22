@@ -5,7 +5,7 @@ import { FlashList } from '@shopify/flash-list';
 import MovieCard from '../MovieCard';
 import { ISearchMovie } from "@/types"
 import { normalize } from '@/utils/fontNormalise';
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 
 
@@ -37,6 +37,16 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
             <View style={styles.wrapper}>
                 <LottieView
                     autoPlay
+                    style={{
+                        height: 200,
+                        aspectRatio: 1,
+                    }}
+                    colorFilters={[
+                        {
+                            keypath: "hover-spin",
+                            color: "#888",
+                        },
+                    ]}
                     source={require("@/assets/animations/searching.json")}
                 />
                 <Text style={styles.secondary}>Searching For {searchText} </Text>
@@ -46,19 +56,35 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
     if (searchText && !animes?.length)
         return (
             <View style={styles.wrapper}>
+                <LottieView
+                    autoPlay
+                    loop={false}
+                    style={{
+                        height: 200,
+                        aspectRatio: 1,
+                    }}
+                    colorFilters={[
+                        {
+                            keypath: "hover-enlarge",
+                            color: "#888",
+                        },
+                    ]}
+                    source={require("@/assets/animations/error.json")}
+                />
                 <Text style={styles.secondary}>No Results For {searchText} </Text>
             </View>
         )
 
     if (searchText && !!animes?.length && !isLoading)
         return (
-            <View style={{...styles.wrapper, alignItems:"stretch"}}>
+            <View style={{ ...styles.wrapper, alignItems: "stretch" }}>
                 <Text style={styles.title}>Results For {searchText} </Text>
                 <View style={{ flex: 1 }}>
                     <FlashList<ISearchMovie>
                         estimatedItemSize={300}
                         renderItem={({ item }) => (
                             <MovieCard
+                                size={100}
                                 movie={item}
                                 key={item.id} />
                         )}
@@ -66,7 +92,7 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
                             return item.id
                         }}
                         data={animes}
-                        numColumns={2}
+                        numColumns={3}
 
                     />
                 </View>
@@ -74,7 +100,7 @@ const SearchFeed = ({ searchText }: SearchFeedProps) => {
         )
     return (
         <View style={styles.wrapper}>
-            <FontAwesome name="search" size={200} color={"#888"} />
+            <Ionicons name="search-outline" size={200} color={"#888"} />
             <Text style={styles.secondary}>Search for your favorite anime movies and shows</Text>
         </View>)
 }
@@ -88,7 +114,6 @@ const styles = StyleSheet.create({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:"#ff0"
     },
     title: {
         color: "#fff",
@@ -97,6 +122,8 @@ const styles = StyleSheet.create({
     secondary: {
         fontSize: normalize(20),
         fontWeight: "400",
-        color: "#888"
+        color: "#888",
+        textAlign: "center"
+
     }
 })

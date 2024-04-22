@@ -9,7 +9,7 @@ interface CachedImageProps extends ImageProps {
 
 
 const CachedImage = ({ source, ...props }: CachedImageProps) => {
-    const [url, setUrl] = useState<string>()
+    const [url, setUrl] = useState<string>(DEFAULT_IMAGE)
     const { uri } = source
 
     const cached = async () => {
@@ -21,7 +21,7 @@ const CachedImage = ({ source, ...props }: CachedImageProps) => {
         cached()
     }, [])
     return (
-        <Image source={{ uri: url || DEFAULT_IMAGE }} {...props} />
+        <Image source={{ uri: url }} {...props} />
     )
 }
 
