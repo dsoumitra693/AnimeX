@@ -1,6 +1,6 @@
 import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
             router.push("/search/")
         }}>
             <View style={styles.left}>
-                <FontAwesome name="search" size={30} color={"#fff"} />
+                <Ionicons name="search" size={30} color={"#fff"} />
             </View>
         </TouchableOpacity>
     )

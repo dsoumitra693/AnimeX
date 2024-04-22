@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { normalize } from '@/utils/fontNormalise'
 
 interface SearchBarProps {

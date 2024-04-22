@@ -5,7 +5,7 @@ import { FlashList } from '@shopify/flash-list';
 import MovieCard from '../MovieCard';
 import { ISearchMovie } from "@/types"
 import { normalize } from '@/utils/fontNormalise';
-import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 
 
