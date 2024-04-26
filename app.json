@@ -9,8 +9,11 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
+    },
+    "androidStatusBar": {
+      "hidden": true
     },
     "androidNavigationBar": {
       "visible": "sticky-immersive"
